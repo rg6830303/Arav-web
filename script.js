@@ -66,7 +66,7 @@
   var form = document.getElementById("contactForm");
   if (form) {
     var statusEl = document.getElementById("formStatus");
-    var submitBtn = document.getElementById("formSubmit");
+    var submitBtn = document.getElementById("plannerSubmit") || document.getElementById("formSubmit");
     var label = submitBtn ? submitBtn.querySelector(".btn-label") : null;
     var keyField = form.querySelector('input[name="access_key"]');
     var MAILTO = "team@aravosh.com";
@@ -77,14 +77,39 @@
       statusEl.innerHTML = html;
     };
 
+    // Inline, field-level validation so errors are clearly communicated
+    var setFieldError = function (input, on) {
+      var field = input.closest(".field");
+      var err = document.getElementById("err-" + input.id);
+      if (field) field.classList.toggle("invalid", on);
+      if (err) err.classList.toggle("show", on);
+      input.setAttribute("aria-invalid", on ? "true" : "false");
+    };
+    var validateField = function (input) {
+      var ok = input.checkValidity() && input.value.trim() !== "";
+      setFieldError(input, !ok);
+      return ok;
+    };
+    var requiredFields = Array.prototype.slice.call(form.querySelectorAll("[required]"));
+    requiredFields.forEach(function (input) {
+      input.addEventListener("input", function () {
+        if (input.getAttribute("aria-invalid") === "true") validateField(input);
+      });
+    });
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
 
       // Honeypot — silently ignore bots
       if (form.botcheck && form.botcheck.checked) return;
 
-      if (!form.checkValidity()) {
-        form.reportValidity();
+      var firstBad = null;
+      requiredFields.forEach(function (input) {
+        if (!validateField(input) && !firstBad) firstBad = input;
+      });
+      if (firstBad) {
+        setStatus("error", "Please fix the highlighted fields and try again.");
+        firstBad.focus();
         return;
       }
 

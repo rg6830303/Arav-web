@@ -206,15 +206,18 @@
                         
                         <div class="field">
                           <label for="name">Name <span class="req" aria-hidden="true">*</span></label>
-                          <input id="name" name="name" type="text" autocomplete="name" required placeholder="Jane Doe" />
+                          <input id="name" name="name" type="text" autocomplete="name" required aria-required="true" aria-describedby="err-name" placeholder="Jane Doe" />
+                          <p class="field-error" id="err-name">Please enter your name.</p>
                         </div>
                         <div class="field">
                           <label for="email">Email <span class="req" aria-hidden="true">*</span></label>
-                          <input id="email" name="email" type="email" autocomplete="email" required placeholder="jane@company.com" />
+                          <input id="email" name="email" type="email" autocomplete="email" required aria-required="true" aria-describedby="err-email" placeholder="jane@company.com" />
+                          <p class="field-error" id="err-email">Please enter a valid email address.</p>
                         </div>
                         <div class="field">
                           <label for="message">Anything else we should know? <span class="req" aria-hidden="true">*</span></label>
-                          <textarea id="message" name="message" rows="3" required placeholder="Add any details, questions, or notes here."></textarea>
+                          <textarea id="message" name="message" rows="3" required aria-required="true" aria-describedby="err-message" placeholder="Add any details, questions, or notes here."></textarea>
+                          <p class="field-error" id="err-message">Please add a short note about your project.</p>
                         </div>
                         <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
                       </form>

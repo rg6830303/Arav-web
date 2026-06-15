@@ -251,7 +251,7 @@ const ctaBand = (heading, text) => `<section class="section">
             <span class="eyebrow"><span class="eyebrow-dot"></span> Let's talk</span>
             <h2>${heading}</h2>
             <p>${text}</p>
-            <a href="/contact" class="btn btn-primary btn-lg">Start a project
+            <a href="/contact" class="btn btn-primary btn-cta">Start a project
               <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${I.arrow}</svg></a>
           </div>
         </section>`;
@@ -276,7 +276,7 @@ const home = `        <section class="hero">
               <h1 data-reveal>We build technology that <span class="text-grad">moves your business forward.</span></h1>
               <p class="hero-sub" data-reveal>Aravosh partners with ambitious teams to design, build and scale modern digital products — from strategy and branding to software that performs.</p>
               <div class="hero-actions" data-reveal>
-                <a href="/contact" class="btn btn-primary" data-magnetic>Start a project <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${I.arrow}</svg></a>
+                <a href="/contact" class="btn btn-primary btn-cta" data-magnetic>Start a project <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${I.arrow}</svg></a>
                 <a href="/services" class="btn btn-ghost" data-magnetic>Explore services</a>
               </div>
               <dl class="hero-stats" data-reveal>
@@ -312,7 +312,11 @@ const home = `        <section class="hero">
               <h2>Everything you need under one roof</h2>
               <p>From first concept to launch and beyond — a single partner across the whole journey.</p>
             </header>
-            ${servicesGrid().replace("grid grid-3", "grid grid-3")}
+            <div class="grid grid-3">
+              ${card(SERVICE_ICONS.dev, "Software Development", "Reliable web and mobile applications built on a modern, scalable stack designed to grow with you.")}
+              ${card(SERVICE_ICONS.design, "Product Design &amp; UX", "Intuitive interfaces and thoughtful journeys that turn first-time visitors into loyal customers.")}
+              ${card(SERVICE_ICONS.cloud, "Cloud &amp; DevOps", "Resilient infrastructure and automated pipelines so your team can ship with confidence.")}
+            </div>
             <div class="center-row" data-reveal>
               <a href="/services" class="btn btn-ghost">See all services <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${I.arrow}</svg></a>
             </div>
@@ -707,15 +711,18 @@ const contact = `        <div class="page container">
                         
                         <div class="field">
                           <label for="name">Name <span class="req" aria-hidden="true">*</span></label>
-                          <input id="name" name="name" type="text" autocomplete="name" required placeholder="Jane Doe" />
+                          <input id="name" name="name" type="text" autocomplete="name" required aria-required="true" aria-describedby="err-name" placeholder="Jane Doe" />
+                          <p class="field-error" id="err-name">Please enter your name.</p>
                         </div>
                         <div class="field">
                           <label for="email">Email <span class="req" aria-hidden="true">*</span></label>
-                          <input id="email" name="email" type="email" autocomplete="email" required placeholder="jane@company.com" />
+                          <input id="email" name="email" type="email" autocomplete="email" required aria-required="true" aria-describedby="err-email" placeholder="jane@company.com" />
+                          <p class="field-error" id="err-email">Please enter a valid email address.</p>
                         </div>
                         <div class="field">
                           <label for="message">Anything else we should know? <span class="req" aria-hidden="true">*</span></label>
-                          <textarea id="message" name="message" rows="3" required placeholder="Add any details, questions, or notes here."></textarea>
+                          <textarea id="message" name="message" rows="3" required aria-required="true" aria-describedby="err-message" placeholder="Add any details, questions, or notes here."></textarea>
+                          <p class="field-error" id="err-message">Please add a short note about your project.</p>
                         </div>
                         <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
                       </form>
