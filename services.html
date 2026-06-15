@@ -136,6 +136,98 @@
             <p>Clear roadmaps and technical guidance to help you make the right decisions at every stage.</p>
           </article>
         </div>
+          
+          <div class="tech-matrix" data-reveal>
+            <header class="section-head">
+              <span class="eyebrow"><span class="eyebrow-dot"></span> Technologies</span>
+              <h2>Our Tech Stack</h2>
+              <p>We build with modern, production-grade tools and frameworks optimized for speed, scale, and maintainability.</p>
+            </header>
+            <div class="tech-tabs">
+              <button class="tech-tab active" data-category="all">All Tech</button>
+              <button class="tech-tab" data-category="frontend">Frontend</button>
+              <button class="tech-tab" data-category="backend">Backend & DB</button>
+              <button class="tech-tab" data-category="cloud">Cloud & DevOps</button>
+            </div>
+            <div class="tech-grid">
+              <!-- Frontend -->
+              <div class="tech-card" data-category="frontend">
+                <div class="tech-icon-wrap">
+                  <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                </div>
+                <h4>Next.js / React</h4>
+                <div class="tech-tooltip">High performance, SEO-friendly server-rendered UI architectures.</div>
+              </div>
+              <div class="tech-card" data-category="frontend">
+                <div class="tech-icon-wrap">
+                  <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <h4>TypeScript</h4>
+                <div class="tech-tooltip">Type safety and robust structuring for complex applications.</div>
+              </div>
+              <div class="tech-card" data-category="frontend">
+                <div class="tech-icon-wrap">
+                  <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z"/></svg>
+                </div>
+                <h4>Tailwind CSS</h4>
+                <div class="tech-tooltip">Utility-first responsive designs built with high visual precision.</div>
+              </div>
+              
+              <!-- Backend & DB -->
+              <div class="tech-card" data-category="backend">
+                <div class="tech-icon-wrap">
+                  <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                </div>
+                <h4>Node.js / Express</h4>
+                <div class="tech-tooltip">Efficient, event-driven API endpoints and microservices.</div>
+              </div>
+              <div class="tech-card" data-category="backend">
+                <div class="tech-icon-wrap">
+                  <svg viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 6v12M6 12h12"/></svg>
+                </div>
+                <h4>Python / FastAPI</h4>
+                <div class="tech-tooltip">High-speed REST APIs and background tasks with type annotations.</div>
+              </div>
+              <div class="tech-card" data-category="backend">
+                <div class="tech-icon-wrap">
+                  <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                </div>
+                <h4>PostgreSQL</h4>
+                <div class="tech-tooltip">Enterprise-grade relational database design and complex queries.</div>
+              </div>
+              
+              <!-- Cloud & DevOps -->
+              <div class="tech-card" data-category="cloud">
+                <div class="tech-icon-wrap">
+                  <svg viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z"/></svg>
+                </div>
+                <h4>Amazon Web Services</h4>
+                <div class="tech-tooltip">Highly available multi-region serverless architectures.</div>
+              </div>
+              <div class="tech-card" data-category="cloud">
+                <div class="tech-icon-wrap">
+                  <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                </div>
+                <h4>Docker & Kubernetes</h4>
+                <div class="tech-tooltip">Containerized applications managed with scalable orchestration.</div>
+              </div>
+              <div class="tech-card" data-category="cloud">
+                <div class="tech-icon-wrap">
+                  <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <h4>GitHub Actions / CI</h4>
+                <div class="tech-tooltip">Fully automated deployment pipelines to compile and deploy with zero downtime.</div>
+              </div>
+              <div class="tech-card" data-category="cloud">
+                <div class="tech-icon-wrap">
+                  <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                </div>
+                <h4>Terraform</h4>
+                <div class="tech-tooltip">Infrastructure as Code for predictable, reproducible cloud topologies.</div>
+              </div>
+            </div>
+          </div>
+
           <section class="section">
           <div class="cta" data-reveal>
             <div class="cta-glow" aria-hidden="true"></div>

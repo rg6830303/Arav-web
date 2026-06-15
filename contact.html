@@ -102,13 +102,13 @@
           <header class="page-head" data-reveal>
           <span class="eyebrow"><span class="eyebrow-dot"></span> Let's talk</span>
           <h1>Tell us about your project</h1>
-          <p>Fill in the form and we'll get back to you within one business day.</p>
+          <p>Fill in our project discovery tool to estimate budget ranges and get in touch with our team.</p>
         </header>
           <div class="contact-grid">
             <aside class="contact-info" data-reveal>
               <div class="info-card">
                 <h3>Get in touch</h3>
-                <p>Prefer email? Reach our team directly and we'll reply within one business day.</p>
+                <p>Prefer direct email? Reach our team and we'll reply within one business day.</p>
                 <a href="mailto:team@aravosh.com" class="email-link">team@aravosh.com</a>
               </div>
               <ul class="info-list">
@@ -117,51 +117,148 @@
                 <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> No obligation, no hard sell</li>
               </ul>
             </aside>
+            
             <div class="contact-form-wrap" data-reveal>
-              <form id="contactForm" class="form" action="https://api.web3forms.com/submit" method="POST" novalidate>
-                <input type="hidden" name="access_key" value="WEB3FORMS_ACCESS_KEY" />
-                <input type="hidden" name="subject" value="New enquiry from the Aravosh website" />
-                <input type="hidden" name="from_name" value="Aravosh Website" />
-                <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
-                <div class="form-row">
-                  <div class="field">
-                    <label for="name">Name <span class="req" aria-hidden="true">*</span></label>
-                    <input id="name" name="name" type="text" autocomplete="name" required placeholder="Jane Doe" />
-                  </div>
-                  <div class="field">
-                    <label for="email">Email <span class="req" aria-hidden="true">*</span></label>
-                    <input id="email" name="email" type="email" autocomplete="email" required placeholder="jane@company.com" />
+              <!-- Interactive Planner Stepper -->
+              <div class="planner-card" id="projectPlanner">
+                <div class="planner-header">
+                  <h3>Project Discovery Tool</h3>
+                  <div class="planner-steps">
+                    <div class="planner-step-dot active" data-dot="1"></div>
+                    <div class="planner-step-dot" data-dot="2"></div>
+                    <div class="planner-step-dot" data-dot="3"></div>
+                    <div class="planner-step-dot" data-dot="4"></div>
                   </div>
                 </div>
-                <div class="form-row">
-                  <div class="field">
-                    <label for="company">Company</label>
-                    <input id="company" name="company" type="text" autocomplete="organization" placeholder="Company Inc." />
+                
+                <div class="planner-body">
+                  <div class="planner-panels">
+                    <!-- Step 1 -->
+                    <div class="planner-panel active" data-step="1">
+                      <h4>What type of project are we building?</h4>
+                      <div class="planner-options">
+                        <button type="button" class="planner-option-btn" data-value="dev">
+                          <span>Software Development</span>
+                          <small>Web apps, mobile apps, SaaS systems</small>
+                        </button>
+                        <button type="button" class="planner-option-btn" data-value="design">
+                          <span>Product Design &amp; UX</span>
+                          <small>Wireframing, high-res UI design, prototyping</small>
+                        </button>
+                        <button type="button" class="planner-option-btn" data-value="cloud">
+                          <span>Cloud &amp; DevOps</span>
+                          <small>CI/CD pipelines, AWS infra setup, migrations</small>
+                        </button>
+                        <button type="button" class="planner-option-btn" data-value="strategy">
+                          <span>Consulting &amp; Strategy</span>
+                          <small>Tech guidance, roadmapping, scoping</small>
+                        </button>
+                      </div>
+                    </div>
+                    
+                    <!-- Step 2 -->
+                    <div class="planner-panel" data-step="2">
+                      <h4>What is the scale of the engagement?</h4>
+                      <div class="planner-options">
+                        <button type="button" class="planner-option-btn" data-value="mvp">
+                          <span>MVP / Small Scale</span>
+                          <small>Basic launch, single platform, essential features</small>
+                        </button>
+                        <button type="button" class="planner-option-btn" data-value="medium">
+                          <span>Growth / Medium Scale</span>
+                          <small>Multiple integrations, customized dashboards</small>
+                        </button>
+                        <button type="button" class="planner-option-btn" data-value="enterprise">
+                          <span>Enterprise / Full Stack</span>
+                          <small>Scalable systems, high security, advanced workflows</small>
+                        </button>
+                      </div>
+                    </div>
+                    
+                    <!-- Step 3 -->
+                    <div class="planner-panel" data-step="3">
+                      <h4>What is your target timeline?</h4>
+                      <div class="planner-options">
+                        <button type="button" class="planner-option-btn" data-value="fast">
+                          <span>Fast-Track</span>
+                          <small>Urgent launch, less than 1 month</small>
+                        </button>
+                        <button type="button" class="planner-option-btn" data-value="standard">
+                          <span>Standard Delivery</span>
+                          <small>Typical cycle, 2-3 months</small>
+                        </button>
+                        <button type="button" class="planner-option-btn" data-value="flexible">
+                          <span>Flexible</span>
+                          <small>Ongoing engagement, adaptive phases</small>
+                        </button>
+                      </div>
+                    </div>
+                    
+                    <!-- Step 4 -->
+                    <div class="planner-panel" data-step="4">
+                      <h4>Let's wrap up your request</h4>
+                      <form id="contactForm" class="form" action="https://api.web3forms.com/submit" method="POST" novalidate>
+                        <input type="hidden" name="access_key" value="WEB3FORMS_ACCESS_KEY" />
+                        <input type="hidden" name="subject" value="New enquiry from the Aravosh website" />
+                        <input type="hidden" name="from_name" value="Aravosh Website" />
+                        <input type="hidden" id="plannerDetails" name="planner_details" value="" />
+                        <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+                        
+                        <div class="field">
+                          <label for="name">Name <span class="req" aria-hidden="true">*</span></label>
+                          <input id="name" name="name" type="text" autocomplete="name" required placeholder="Jane Doe" />
+                        </div>
+                        <div class="field">
+                          <label for="email">Email <span class="req" aria-hidden="true">*</span></label>
+                          <input id="email" name="email" type="email" autocomplete="email" required placeholder="jane@company.com" />
+                        </div>
+                        <div class="field">
+                          <label for="message">Anything else we should know? <span class="req" aria-hidden="true">*</span></label>
+                          <textarea id="message" name="message" rows="3" required placeholder="Add any details, questions, or notes here."></textarea>
+                        </div>
+                        <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
+                      </form>
+                    </div>
                   </div>
-                  <div class="field">
-                    <label for="budget">Project type</label>
-                    <select id="budget" name="project_type">
-                      <option value="">Select one…</option>
-                      <option>Software development</option>
-                      <option>Product design / UX</option>
-                      <option>Brand &amp; identity</option>
-                      <option>Growth &amp; marketing</option>
-                      <option>Cloud &amp; DevOps</option>
-                      <option>Something else</option>
-                    </select>
+                  
+                  <!-- Summary Sidebar Widget -->
+                  <div class="planner-summary-panel">
+                    <div class="summary-widget">
+                      <h4>Planner Summary</h4>
+                      <div class="summary-list">
+                        <div class="summary-item">
+                          <span>Project:</span>
+                          <strong id="sumService">Select...</strong>
+                        </div>
+                        <div class="summary-item">
+                          <span>Scale:</span>
+                          <strong id="sumScale">Select...</strong>
+                        </div>
+                        <div class="summary-item">
+                          <span>Timeline:</span>
+                          <strong id="sumTimeline">Select...</strong>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="summary-price-box">
+                      <span>Estimated Range</span>
+                      <div class="summary-price" id="sumPrice">$0</div>
+                    </div>
                   </div>
                 </div>
-                <div class="field">
-                  <label for="message">Project details <span class="req" aria-hidden="true">*</span></label>
-                  <textarea id="message" name="message" rows="5" required placeholder="Tell us a little about what you're building, your goals and timeline."></textarea>
+                
+                <div class="planner-footer">
+                  <button type="button" class="btn btn-ghost" id="plannerBack">Back</button>
+                  <div class="planner-nav">
+                    <button type="button" class="btn btn-primary" id="plannerNext">Next Step <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+                    <button type="submit" form="contactForm" class="btn btn-primary" id="plannerSubmit" style="display:none">
+                      <span class="btn-label">Submit Inquiry</span>
+                      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                    </button>
+                  </div>
                 </div>
-                <button type="submit" class="btn btn-primary btn-lg btn-block" id="formSubmit">
-                  <span class="btn-label">Send message</span>
-                  <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-                </button>
-                <p class="form-note">By submitting you agree to our <a href="/privacy">Privacy Policy</a>.</p>
-                <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
-              </form>
+              </div>
             </div>
           </div>
         </div>

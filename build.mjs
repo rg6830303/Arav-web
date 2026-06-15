@@ -326,8 +326,100 @@ const home = `        <section class="hero">
 const services = `        <div class="page container">
           ${pageHead("What we do", "Services built around your goals", "End-to-end capabilities to take your idea from concept to a product people love.")}
           ${servicesGrid()}
+          
+          <div class="tech-matrix" data-reveal>
+            <header class="section-head">
+              <span class="eyebrow"><span class="eyebrow-dot"></span> Technologies</span>
+              <h2>Our Tech Stack</h2>
+              <p>We build with modern, production-grade tools and frameworks optimized for speed, scale, and maintainability.</p>
+            </header>
+            <div class="tech-tabs">
+              <button class="tech-tab active" data-category="all">All Tech</button>
+              <button class="tech-tab" data-category="frontend">Frontend</button>
+              <button class="tech-tab" data-category="backend">Backend & DB</button>
+              <button class="tech-tab" data-category="cloud">Cloud & DevOps</button>
+            </div>
+            <div class="tech-grid">
+              <!-- Frontend -->
+              <div class="tech-card" data-category="frontend">
+                <div class="tech-icon-wrap">
+                  <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                </div>
+                <h4>Next.js / React</h4>
+                <div class="tech-tooltip">High performance, SEO-friendly server-rendered UI architectures.</div>
+              </div>
+              <div class="tech-card" data-category="frontend">
+                <div class="tech-icon-wrap">
+                  <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <h4>TypeScript</h4>
+                <div class="tech-tooltip">Type safety and robust structuring for complex applications.</div>
+              </div>
+              <div class="tech-card" data-category="frontend">
+                <div class="tech-icon-wrap">
+                  <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z"/></svg>
+                </div>
+                <h4>Tailwind CSS</h4>
+                <div class="tech-tooltip">Utility-first responsive designs built with high visual precision.</div>
+              </div>
+              
+              <!-- Backend & DB -->
+              <div class="tech-card" data-category="backend">
+                <div class="tech-icon-wrap">
+                  <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                </div>
+                <h4>Node.js / Express</h4>
+                <div class="tech-tooltip">Efficient, event-driven API endpoints and microservices.</div>
+              </div>
+              <div class="tech-card" data-category="backend">
+                <div class="tech-icon-wrap">
+                  <svg viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 6v12M6 12h12"/></svg>
+                </div>
+                <h4>Python / FastAPI</h4>
+                <div class="tech-tooltip">High-speed REST APIs and background tasks with type annotations.</div>
+              </div>
+              <div class="tech-card" data-category="backend">
+                <div class="tech-icon-wrap">
+                  <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                </div>
+                <h4>PostgreSQL</h4>
+                <div class="tech-tooltip">Enterprise-grade relational database design and complex queries.</div>
+              </div>
+              
+              <!-- Cloud & DevOps -->
+              <div class="tech-card" data-category="cloud">
+                <div class="tech-icon-wrap">
+                  <svg viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z"/></svg>
+                </div>
+                <h4>Amazon Web Services</h4>
+                <div class="tech-tooltip">Highly available multi-region serverless architectures.</div>
+              </div>
+              <div class="tech-card" data-category="cloud">
+                <div class="tech-icon-wrap">
+                  <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                </div>
+                <h4>Docker & Kubernetes</h4>
+                <div class="tech-tooltip">Containerized applications managed with scalable orchestration.</div>
+              </div>
+              <div class="tech-card" data-category="cloud">
+                <div class="tech-icon-wrap">
+                  <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <h4>GitHub Actions / CI</h4>
+                <div class="tech-tooltip">Fully automated deployment pipelines to compile and deploy with zero downtime.</div>
+              </div>
+              <div class="tech-card" data-category="cloud">
+                <div class="tech-icon-wrap">
+                  <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                </div>
+                <h4>Terraform</h4>
+                <div class="tech-tooltip">Infrastructure as Code for predictable, reproducible cloud topologies.</div>
+              </div>
+            </div>
+          </div>
+
           ${ctaBand("Have a project in mind?", "Let's talk about how we can help you build it.")}
-        </div>`;
+        </div>`
 
 /* ---- About ---- */
 const about = `        <div class="page container">
@@ -358,15 +450,60 @@ const about = `        <div class="page container">
         </div>`;
 
 /* ---- Why ---- */
-const feat = (n, t, b) => `<article class="feature" data-reveal data-tilt data-spot><span class="feature-num">${n}</span><h3>${t}</h3><p>${b}</p></article>`;
 const why = `        <div class="page container">
           ${pageHead("Why Aravosh", "Built on principles that deliver", "The reasons clients choose us — and stay with us.")}
-          <div class="grid grid-4">
-            ${feat("01", "Quality first", "Rigorous standards and testing baked into everything we ship.")}
-            ${feat("02", "On time, on budget", "Predictable delivery with no surprises along the way.")}
-            ${feat("03", "Dedicated support", "Responsive help whenever you need it, before and after launch.")}
-            ${feat("04", "Future-ready", "Solutions architected to adapt as your business evolves.")}
+          
+          <div class="timeline-container" data-reveal>
+            <div class="timeline-line">
+              <div class="timeline-line-filled"></div>
+            </div>
+            
+            <div class="timeline-item">
+              <div class="timeline-badge"></div>
+              <div class="timeline-content">
+                <span class="timeline-num">Phase 01</span>
+                <h3>Discovery & Strategy</h3>
+                <p>We work closely with your team to detail features, establish requirements, map architecture, and set business objectives.</p>
+              </div>
+            </div>
+            
+            <div class="timeline-item">
+              <div class="timeline-badge"></div>
+              <div class="timeline-content">
+                <span class="timeline-num">Phase 02</span>
+                <h3>UX/UI Design</h3>
+                <p>Crafting intuitive customer journeys, high-fidelity mockups, and interactive prototypes that validate user flows before coding.</p>
+              </div>
+            </div>
+            
+            <div class="timeline-item">
+              <div class="timeline-badge"></div>
+              <div class="timeline-content">
+                <span class="timeline-num">Phase 03</span>
+                <h3>Product Development</h3>
+                <p>Our engineering team builds clean, highly performant solutions using clean code standards and scalable, future-ready architectures.</p>
+              </div>
+            </div>
+            
+            <div class="timeline-item">
+              <div class="timeline-badge"></div>
+              <div class="timeline-content">
+                <span class="timeline-num">Phase 04</span>
+                <h3>Quality Assurance</h3>
+                <p>Conducting comprehensive automated testing, load verification, and security audits to guarantee flawless production deployments.</p>
+              </div>
+            </div>
+            
+            <div class="timeline-item">
+              <div class="timeline-badge"></div>
+              <div class="timeline-content">
+                <span class="timeline-num">Phase 05</span>
+                <h3>DevOps, Launch & Scale</h3>
+                <p>Automating CI/CD pipelines, deploying to robust cloud systems, and setting up ongoing observability dashboards to support growth.</p>
+              </div>
+            </div>
           </div>
+
           ${ctaBand("See the difference for yourself", "Start a conversation with our team today.")}
         </div>`;
 
@@ -377,11 +514,89 @@ const quote = (init, body, name, role) => `<figure class="quote" data-reveal dat
             <figcaption><span class="avatar" aria-hidden="true">${init}</span><span><strong>${name}</strong><span>${role}</span></span></figcaption>
           </figure>`;
 const work = `        <div class="page container">
-          ${pageHead("What clients say", "Results that speak for themselves")}
-          <div class="grid grid-3">
-            ${quote("MP", "Aravosh rebuilt our platform end to end and our conversions doubled within a quarter. A genuinely exceptional team.", "Maya Patel", "CEO, Northwind")}
-            ${quote("JO", "They understood our vision instantly and delivered ahead of schedule. Communication was flawless throughout.", "James Okoro", "Founder, Vertex")}
-            ${quote("SL", "The design work transformed how customers perceive our brand. We couldn't be happier with the partnership.", "Sofia Lindqvist", "CMO, Lumen")}
+          ${pageHead("Case Studies", "Our Featured Work", "Real results and client success stories from teams who partnered with Aravosh.")}
+          
+          <div class="case-grid">
+            <!-- Case 1 -->
+            <article class="case-card" data-reveal>
+              <div class="case-img-placeholder"></div>
+              <div class="case-info">
+                <div class="case-meta">
+                  <span class="case-tag">Next.js</span>
+                  <span class="case-tag">Go</span>
+                  <span class="case-tag">AWS</span>
+                </div>
+                <h3>Northwind SaaS Platform</h3>
+                <p>Rebuilding a legacy enterprise logistics portal into a high-performance web app with real-time tracking.</p>
+                <div class="case-metrics">
+                  <div class="metric-item">
+                    <span class="metric-val">+112%</span>
+                    <span class="metric-lbl">Conversion Rate</span>
+                  </div>
+                  <div class="metric-item">
+                    <span class="metric-val">-45%</span>
+                    <span class="metric-lbl">Page Load Time</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- Case 2 -->
+            <article class="case-card" data-reveal>
+              <div class="case-img-placeholder"></div>
+              <div class="case-info">
+                <div class="case-meta">
+                  <span class="case-tag">React Native</span>
+                  <span class="case-tag">Node.js</span>
+                  <span class="case-tag">Redis</span>
+                </div>
+                <h3>Vertex Mobile App</h3>
+                <p>A cross-platform mobile fintech app enabling rapid cross-border remittances with low fees.</p>
+                <div class="case-metrics">
+                  <div class="metric-item">
+                    <span class="metric-val">100k+</span>
+                    <span class="metric-lbl">Active Users</span>
+                  </div>
+                  <div class="metric-item">
+                    <span class="metric-val">4.9 ★</span>
+                    <span class="metric-lbl">App Store Rating</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- Case 3 -->
+            <article class="case-card" data-reveal>
+              <div class="case-img-placeholder"></div>
+              <div class="case-info">
+                <div class="case-meta">
+                  <span class="case-tag">Figma</span>
+                  <span class="case-tag">Design System</span>
+                  <span class="case-tag">Growth</span>
+                </div>
+                <h3>Lumen Brand System</h3>
+                <p>Complete visual rebranding and design system modernization, driving traffic and conversions.</p>
+                <div class="case-metrics">
+                  <div class="metric-item">
+                    <span class="metric-val">3x</span>
+                    <span class="metric-lbl">Traffic Growth</span>
+                  </div>
+                  <div class="metric-item">
+                    <span class="metric-val">+50%</span>
+                    <span class="metric-lbl">Brand Recall</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <div style="margin-top: 80px;">
+            ${pageHead("Client Feedback", "What clients say")}
+            <div class="grid grid-3">
+              ${quote("MP", "Aravosh rebuilt our platform end to end and our conversions doubled within a quarter. A genuinely exceptional team.", "Maya Patel", "CEO, Northwind")}
+              ${quote("JO", "They understood our vision instantly and delivered ahead of schedule. Communication was flawless throughout.", "James Okoro", "Founder, Vertex")}
+              ${quote("SL", "The design work transformed how customers perceive our brand. We couldn't be happier with the partnership.", "Sofia Lindqvist", "CMO, Lumen")}
+            </div>
           </div>
           ${trusted()}
           ${ctaBand("Become our next success story", "Tell us what you're building — we'd love to help.")}
@@ -389,12 +604,12 @@ const work = `        <div class="page container">
 
 /* ---- Contact (with form) ---- */
 const contact = `        <div class="page container">
-          ${pageHead("Let's talk", "Tell us about your project", "Fill in the form and we'll get back to you within one business day.")}
+          ${pageHead("Let's talk", "Tell us about your project", "Fill in our project discovery tool to estimate budget ranges and get in touch with our team.")}
           <div class="contact-grid">
             <aside class="contact-info" data-reveal>
               <div class="info-card">
                 <h3>Get in touch</h3>
-                <p>Prefer email? Reach our team directly and we'll reply within one business day.</p>
+                <p>Prefer direct email? Reach our team and we'll reply within one business day.</p>
                 <a href="mailto:${EMAIL}" class="email-link">${EMAIL}</a>
               </div>
               <ul class="info-list">
@@ -403,51 +618,148 @@ const contact = `        <div class="page container">
                 <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> No obligation, no hard sell</li>
               </ul>
             </aside>
+            
             <div class="contact-form-wrap" data-reveal>
-              <form id="contactForm" class="form" action="https://api.web3forms.com/submit" method="POST" novalidate>
-                <input type="hidden" name="access_key" value="WEB3FORMS_ACCESS_KEY" />
-                <input type="hidden" name="subject" value="New enquiry from the Aravosh website" />
-                <input type="hidden" name="from_name" value="Aravosh Website" />
-                <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
-                <div class="form-row">
-                  <div class="field">
-                    <label for="name">Name <span class="req" aria-hidden="true">*</span></label>
-                    <input id="name" name="name" type="text" autocomplete="name" required placeholder="Jane Doe" />
-                  </div>
-                  <div class="field">
-                    <label for="email">Email <span class="req" aria-hidden="true">*</span></label>
-                    <input id="email" name="email" type="email" autocomplete="email" required placeholder="jane@company.com" />
+              <!-- Interactive Planner Stepper -->
+              <div class="planner-card" id="projectPlanner">
+                <div class="planner-header">
+                  <h3>Project Discovery Tool</h3>
+                  <div class="planner-steps">
+                    <div class="planner-step-dot active" data-dot="1"></div>
+                    <div class="planner-step-dot" data-dot="2"></div>
+                    <div class="planner-step-dot" data-dot="3"></div>
+                    <div class="planner-step-dot" data-dot="4"></div>
                   </div>
                 </div>
-                <div class="form-row">
-                  <div class="field">
-                    <label for="company">Company</label>
-                    <input id="company" name="company" type="text" autocomplete="organization" placeholder="Company Inc." />
+                
+                <div class="planner-body">
+                  <div class="planner-panels">
+                    <!-- Step 1 -->
+                    <div class="planner-panel active" data-step="1">
+                      <h4>What type of project are we building?</h4>
+                      <div class="planner-options">
+                        <button type="button" class="planner-option-btn" data-value="dev">
+                          <span>Software Development</span>
+                          <small>Web apps, mobile apps, SaaS systems</small>
+                        </button>
+                        <button type="button" class="planner-option-btn" data-value="design">
+                          <span>Product Design &amp; UX</span>
+                          <small>Wireframing, high-res UI design, prototyping</small>
+                        </button>
+                        <button type="button" class="planner-option-btn" data-value="cloud">
+                          <span>Cloud &amp; DevOps</span>
+                          <small>CI/CD pipelines, AWS infra setup, migrations</small>
+                        </button>
+                        <button type="button" class="planner-option-btn" data-value="strategy">
+                          <span>Consulting &amp; Strategy</span>
+                          <small>Tech guidance, roadmapping, scoping</small>
+                        </button>
+                      </div>
+                    </div>
+                    
+                    <!-- Step 2 -->
+                    <div class="planner-panel" data-step="2">
+                      <h4>What is the scale of the engagement?</h4>
+                      <div class="planner-options">
+                        <button type="button" class="planner-option-btn" data-value="mvp">
+                          <span>MVP / Small Scale</span>
+                          <small>Basic launch, single platform, essential features</small>
+                        </button>
+                        <button type="button" class="planner-option-btn" data-value="medium">
+                          <span>Growth / Medium Scale</span>
+                          <small>Multiple integrations, customized dashboards</small>
+                        </button>
+                        <button type="button" class="planner-option-btn" data-value="enterprise">
+                          <span>Enterprise / Full Stack</span>
+                          <small>Scalable systems, high security, advanced workflows</small>
+                        </button>
+                      </div>
+                    </div>
+                    
+                    <!-- Step 3 -->
+                    <div class="planner-panel" data-step="3">
+                      <h4>What is your target timeline?</h4>
+                      <div class="planner-options">
+                        <button type="button" class="planner-option-btn" data-value="fast">
+                          <span>Fast-Track</span>
+                          <small>Urgent launch, less than 1 month</small>
+                        </button>
+                        <button type="button" class="planner-option-btn" data-value="standard">
+                          <span>Standard Delivery</span>
+                          <small>Typical cycle, 2-3 months</small>
+                        </button>
+                        <button type="button" class="planner-option-btn" data-value="flexible">
+                          <span>Flexible</span>
+                          <small>Ongoing engagement, adaptive phases</small>
+                        </button>
+                      </div>
+                    </div>
+                    
+                    <!-- Step 4 -->
+                    <div class="planner-panel" data-step="4">
+                      <h4>Let's wrap up your request</h4>
+                      <form id="contactForm" class="form" action="https://api.web3forms.com/submit" method="POST" novalidate>
+                        <input type="hidden" name="access_key" value="WEB3FORMS_ACCESS_KEY" />
+                        <input type="hidden" name="subject" value="New enquiry from the Aravosh website" />
+                        <input type="hidden" name="from_name" value="Aravosh Website" />
+                        <input type="hidden" id="plannerDetails" name="planner_details" value="" />
+                        <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+                        
+                        <div class="field">
+                          <label for="name">Name <span class="req" aria-hidden="true">*</span></label>
+                          <input id="name" name="name" type="text" autocomplete="name" required placeholder="Jane Doe" />
+                        </div>
+                        <div class="field">
+                          <label for="email">Email <span class="req" aria-hidden="true">*</span></label>
+                          <input id="email" name="email" type="email" autocomplete="email" required placeholder="jane@company.com" />
+                        </div>
+                        <div class="field">
+                          <label for="message">Anything else we should know? <span class="req" aria-hidden="true">*</span></label>
+                          <textarea id="message" name="message" rows="3" required placeholder="Add any details, questions, or notes here."></textarea>
+                        </div>
+                        <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
+                      </form>
+                    </div>
                   </div>
-                  <div class="field">
-                    <label for="budget">Project type</label>
-                    <select id="budget" name="project_type">
-                      <option value="">Select one…</option>
-                      <option>Software development</option>
-                      <option>Product design / UX</option>
-                      <option>Brand &amp; identity</option>
-                      <option>Growth &amp; marketing</option>
-                      <option>Cloud &amp; DevOps</option>
-                      <option>Something else</option>
-                    </select>
+                  
+                  <!-- Summary Sidebar Widget -->
+                  <div class="planner-summary-panel">
+                    <div class="summary-widget">
+                      <h4>Planner Summary</h4>
+                      <div class="summary-list">
+                        <div class="summary-item">
+                          <span>Project:</span>
+                          <strong id="sumService">Select...</strong>
+                        </div>
+                        <div class="summary-item">
+                          <span>Scale:</span>
+                          <strong id="sumScale">Select...</strong>
+                        </div>
+                        <div class="summary-item">
+                          <span>Timeline:</span>
+                          <strong id="sumTimeline">Select...</strong>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="summary-price-box">
+                      <span>Estimated Range</span>
+                      <div class="summary-price" id="sumPrice">$0</div>
+                    </div>
                   </div>
                 </div>
-                <div class="field">
-                  <label for="message">Project details <span class="req" aria-hidden="true">*</span></label>
-                  <textarea id="message" name="message" rows="5" required placeholder="Tell us a little about what you're building, your goals and timeline."></textarea>
+                
+                <div class="planner-footer">
+                  <button type="button" class="btn btn-ghost" id="plannerBack">Back</button>
+                  <div class="planner-nav">
+                    <button type="button" class="btn btn-primary" id="plannerNext">Next Step <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${I.arrow}</svg></button>
+                    <button type="submit" form="contactForm" class="btn btn-primary" id="plannerSubmit" style="display:none">
+                      <span class="btn-label">Submit Inquiry</span>
+                      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${I.arrow}</svg>
+                    </button>
+                  </div>
                 </div>
-                <button type="submit" class="btn btn-primary btn-lg btn-block" id="formSubmit">
-                  <span class="btn-label">Send message</span>
-                  <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${I.arrow}</svg>
-                </button>
-                <p class="form-note">By submitting you agree to our <a href="/privacy">Privacy Policy</a>.</p>
-                <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
-              </form>
+              </div>
             </div>
           </div>
         </div>`;

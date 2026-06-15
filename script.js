@@ -321,4 +321,257 @@
   /* ---- Footer year ---- */
   var yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+
+  /* ---- Tech Stack Filter ---- */
+  var techTabs = document.querySelectorAll(".tech-tab");
+  var techCards = document.querySelectorAll(".tech-card");
+  if (techTabs.length && techCards.length) {
+    techTabs.forEach(function (tab) {
+      tab.addEventListener("click", function () {
+        var cat = tab.getAttribute("data-category");
+        techTabs.forEach(function (t) { t.classList.remove("active"); });
+        tab.classList.add("active");
+
+        techCards.forEach(function (card) {
+          var cardCats = card.getAttribute("data-category").split(" ");
+          if (cat === "all" || cardCats.indexOf(cat) !== -1) {
+            card.classList.remove("hidden");
+          } else {
+            card.classList.add("hidden");
+          }
+        });
+      });
+    });
+  }
+
+  /* ---- Process Scroll-Triggered Timeline ---- */
+  var timelineContainer = document.querySelector(".timeline-container");
+  var timelineItems = document.querySelectorAll(".timeline-item");
+  var timelineLineFilled = document.querySelector(".timeline-line-filled");
+  if (timelineContainer && timelineItems.length && timelineLineFilled) {
+    var updateTimeline = function () {
+      var containerRect = timelineContainer.getBoundingClientRect();
+      var viewportHeight = window.innerHeight;
+      
+      // Calculate how far down the timeline container we have scrolled (relative to center of screen)
+      var triggerPoint = viewportHeight * 0.65;
+      var relativeScroll = triggerPoint - containerRect.top;
+      var progressPercent = (relativeScroll / containerRect.height) * 100;
+      progressPercent = Math.max(0, Math.min(100, progressPercent));
+      timelineLineFilled.style.height = progressPercent + "%";
+
+      // Activate nodes as they cross the trigger line
+      timelineItems.forEach(function (item) {
+        var itemRect = item.getBoundingClientRect();
+        if (itemRect.top < triggerPoint) {
+          item.classList.add("active");
+        } else {
+          item.classList.remove("active");
+        }
+      });
+    };
+    updateTimeline();
+    window.addEventListener("scroll", updateTimeline, { passive: true });
+    window.addEventListener("resize", updateTimeline, { passive: true });
+  }
+
+  /* ---- Interactive Project Planner & Cost Estimator ---- */
+  var planner = document.getElementById("projectPlanner");
+  if (planner) {
+    var currentStep = 1;
+    var totalSteps = 4;
+    
+    // Selections
+    var selectedService = "";
+    var selectedScale = "";
+    var selectedTimeline = "";
+    
+    // UI elements
+    var panels = planner.querySelectorAll(".planner-panel");
+    var dots = planner.querySelectorAll(".planner-step-dot");
+    
+    var btnBack = document.getElementById("plannerBack");
+    var btnNext = document.getElementById("plannerNext");
+    var btnSubmit = document.getElementById("plannerSubmit");
+    
+    // Summary values
+    var sumService = document.getElementById("sumService");
+    var sumScale = document.getElementById("sumScale");
+    var sumTimeline = document.getElementById("sumTimeline");
+    var sumPrice = document.getElementById("sumPrice");
+    
+    // Form pre-fill input
+    var plannerDetailsInput = document.getElementById("plannerDetails");
+    var contactMessageInput = document.getElementById("message");
+
+    // Option cards selection
+    var optionButtons = planner.querySelectorAll(".planner-option-btn");
+    optionButtons.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var step = btn.parentElement.parentElement.getAttribute("data-step");
+        var value = btn.getAttribute("data-value");
+        var display = btn.querySelector("span").textContent;
+
+        // Deselect others in this step panel
+        var siblingButtons = btn.parentElement.querySelectorAll(".planner-option-btn");
+        siblingButtons.forEach(function (b) { b.classList.remove("selected"); });
+        btn.classList.add("selected");
+
+        if (step === "1") {
+          selectedService = value;
+          sumService.textContent = display;
+        } else if (step === "2") {
+          selectedScale = value;
+          sumScale.textContent = display;
+        } else if (step === "3") {
+          selectedTimeline = value;
+          sumTimeline.textContent = display;
+        }
+        
+        calculateBudget();
+      });
+    });
+
+    var calculateBudget = function () {
+      if (!selectedService) {
+        sumPrice.textContent = "$0";
+        return;
+      }
+
+      // Base budgets
+      var baseRates = {
+        "dev": 15000,
+        "design": 8000,
+        "brand": 5000,
+        "growth": 6000,
+        "cloud": 10000,
+        "strategy": 7000
+      };
+
+      var scaleMultipliers = {
+        "mvp": 1.0,
+        "medium": 1.7,
+        "enterprise": 3.0
+      };
+
+      var timelineMultipliers = {
+        "fast": 1.25,
+        "standard": 1.0,
+        "flexible": 0.85
+      };
+
+      var base = baseRates[selectedService] || 10000;
+      var scaleMult = scaleMultipliers[selectedScale] || 1.0;
+      var timeMult = timelineMultipliers[selectedTimeline] || 1.0;
+
+      var total = base * scaleMult * timeMult;
+      
+      // Calculate a range: +/- 10%
+      var minVal = Math.round((total * 0.9) / 500) * 500;
+      var maxVal = Math.round((total * 1.1) / 500) * 500;
+
+      // Formatting currency
+      var formatCurr = function (num) {
+        return "$" + num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      };
+
+      sumPrice.textContent = formatCurr(minVal) + " - " + formatCurr(maxVal);
+
+      // Save choices to hidden form input for Web3Forms payload
+      if (plannerDetailsInput) {
+        var serviceNameText = sumService.textContent;
+        var scaleText = sumScale.textContent;
+        var timelineText = sumTimeline.textContent;
+        var detailsText = "Planner Summary:\n" +
+          "- Service: " + serviceNameText + "\n" +
+          "- Scale: " + scaleText + "\n" +
+          "- Timeline: " + timelineText + "\n" +
+          "- Budget Estimate: " + sumPrice.textContent;
+        plannerDetailsInput.value = detailsText;
+      }
+    };
+
+    var updateStepUI = function () {
+      // Toggle panels
+      panels.forEach(function (panel) {
+        var stepNum = parseInt(panel.getAttribute("data-step"));
+        if (stepNum === currentStep) {
+          panel.classList.add("active");
+        } else {
+          panel.classList.remove("active");
+        }
+      });
+
+      // Update dots
+      dots.forEach(function (dot) {
+        var dotNum = parseInt(dot.getAttribute("data-dot"));
+        dot.className = "planner-step-dot";
+        if (dotNum === currentStep) {
+          dot.classList.add("active");
+        } else if (dotNum < currentStep) {
+          dot.classList.add("completed");
+        }
+      });
+
+      // Show/hide navigation buttons
+      if (currentStep === 1) {
+        btnBack.style.visibility = "hidden";
+      } else {
+        btnBack.style.visibility = "visible";
+      }
+
+      if (currentStep === totalSteps) {
+        btnNext.style.display = "none";
+        btnSubmit.style.display = "inline-flex";
+      } else {
+        btnNext.style.display = "inline-flex";
+        btnSubmit.style.display = "none";
+      }
+    };
+
+    var validateStep = function () {
+      if (currentStep === 1 && !selectedService) {
+        alert("Please select a project type to continue.");
+        return false;
+      }
+      if (currentStep === 2 && !selectedScale) {
+        alert("Please select the scale of your project.");
+        return false;
+      }
+      if (currentStep === 3 && !selectedTimeline) {
+        alert("Please select your project timeline.");
+        return false;
+      }
+      return true;
+    };
+
+    btnNext.addEventListener("click", function () {
+      if (validateStep()) {
+        currentStep++;
+        updateStepUI();
+      }
+    });
+
+    btnBack.addEventListener("click", function () {
+      if (currentStep > 1) {
+        currentStep--;
+        updateStepUI();
+      }
+    });
+
+    // Sync planner details into message box when contact page submit occurs
+    var contactForm = document.getElementById("contactForm");
+    if (contactForm && contactMessageInput && plannerDetailsInput) {
+      contactForm.addEventListener("submit", function () {
+        // Append planner details to the user's message
+        if (plannerDetailsInput.value) {
+          var origMsg = contactMessageInput.value;
+          var divider = "\n\n=================================\n";
+          contactMessageInput.value = origMsg + divider + plannerDetailsInput.value;
+        }
+      });
+    }
+
+    updateStepUI();
+  }
 })();
