@@ -1146,3 +1146,46 @@ ul { list-style: none; }
   .page-head h1 { font-size: clamp(2rem, 8vw, 2.5rem); }
   .section-head { margin-bottom: 44px; }
 }
+
+/* =========================================================
+   Contact — magnified, no-cost planner/form
+   ========================================================= */
+.contact-grid { grid-template-columns: 0.68fr 1.32fr; gap: 48px; }
+.planner-header { padding: 30px 36px 22px; }
+.planner-header h3 { font-size: 1.45rem; }
+.planner-body { grid-template-columns: 1.3fr 0.7fr; }
+.planner-panels { padding: 40px; min-height: 392px; }
+.planner-panel h4 { font-size: 1.35rem; margin-bottom: 24px; }
+.planner-options { gap: 16px; }
+.planner-option-btn { padding: 20px; gap: 6px; }
+.planner-option-btn span { font-size: 1.02rem; }
+.planner-option-btn small { font-size: 0.84rem; }
+
+/* larger, clearer form inside the planner */
+.planner-card .field { gap: 9px; }
+.planner-card .field label { font-size: 0.98rem; }
+.planner-card .field input,
+.planner-card .field textarea {
+  font-size: 1.02rem; padding: 15px 16px; border-radius: var(--r-sm);
+}
+.planner-card .field textarea { min-height: 124px; }
+.planner-footer { padding: 24px 36px; }
+.planner-footer .btn { padding: 14px 30px; font-size: 1rem; }
+
+/* summary panel after price removal */
+.planner-summary-panel { justify-content: flex-start; gap: 22px; padding: 40px 32px; }
+.summary-item { font-size: 1rem; }
+.summary-note {
+  margin-top: 4px; font-size: 0.9rem; line-height: 1.6; color: var(--muted);
+  padding-top: 18px; border-top: 1px solid var(--border-soft);
+}
+
+@media (max-width: 900px) {
+  .planner-body { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .planner-panels { padding: 24px; min-height: 0; }
+  .planner-panel h4 { font-size: 1.2rem; margin-bottom: 18px; }
+  .planner-options { grid-template-columns: 1fr !important; }
+  .planner-card .field input, .planner-card .field textarea { font-size: 1rem; }
+}

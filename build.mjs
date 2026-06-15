@@ -608,7 +608,7 @@ const work = `        <div class="page container">
 
 /* ---- Contact (with form) ---- */
 const contact = `        <div class="page container">
-          ${pageHead("Let's talk", "Tell us about your project", "Fill in our project discovery tool to estimate budget ranges and get in touch with our team.")}
+          ${pageHead("Let's talk", "Tell us about your project", "Walk through our quick project discovery tool and get in touch with our team.")}
           <div class="contact-grid">
             <aside class="contact-info" data-reveal>
               <div class="info-card">
@@ -748,11 +748,7 @@ const contact = `        <div class="page container">
                         </div>
                       </div>
                     </div>
-                    
-                    <div class="summary-price-box">
-                      <span>Estimated Range</span>
-                      <div class="summary-price" id="sumPrice">$0</div>
-                    </div>
+                    <p class="summary-note">We'll review your answers and email a tailored proposal within one business day.</p>
                   </div>
                 </div>
                 

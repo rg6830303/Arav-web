@@ -423,8 +423,7 @@
     var sumService = document.getElementById("sumService");
     var sumScale = document.getElementById("sumScale");
     var sumTimeline = document.getElementById("sumTimeline");
-    var sumPrice = document.getElementById("sumPrice");
-    
+
     // Form pre-fill input
     var plannerDetailsInput = document.getElementById("plannerDetails");
     var contactMessageInput = document.getElementById("message");
@@ -458,61 +457,13 @@
     });
 
     var calculateBudget = function () {
-      if (!selectedService) {
-        sumPrice.textContent = "$0";
-        return;
-      }
-
-      // Base budgets
-      var baseRates = {
-        "dev": 15000,
-        "design": 8000,
-        "brand": 5000,
-        "growth": 6000,
-        "cloud": 10000,
-        "strategy": 7000
-      };
-
-      var scaleMultipliers = {
-        "mvp": 1.0,
-        "medium": 1.7,
-        "enterprise": 3.0
-      };
-
-      var timelineMultipliers = {
-        "fast": 1.25,
-        "standard": 1.0,
-        "flexible": 0.85
-      };
-
-      var base = baseRates[selectedService] || 10000;
-      var scaleMult = scaleMultipliers[selectedScale] || 1.0;
-      var timeMult = timelineMultipliers[selectedTimeline] || 1.0;
-
-      var total = base * scaleMult * timeMult;
-      
-      // Calculate a range: +/- 10%
-      var minVal = Math.round((total * 0.9) / 500) * 500;
-      var maxVal = Math.round((total * 1.1) / 500) * 500;
-
-      // Formatting currency
-      var formatCurr = function (num) {
-        return "$" + num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-      };
-
-      sumPrice.textContent = formatCurr(minVal) + " - " + formatCurr(maxVal);
-
-      // Save choices to hidden form input for Web3Forms payload
+      // Save planner choices into the hidden form input for the Web3Forms payload
       if (plannerDetailsInput) {
-        var serviceNameText = sumService.textContent;
-        var scaleText = sumScale.textContent;
-        var timelineText = sumTimeline.textContent;
-        var detailsText = "Planner Summary:\n" +
-          "- Service: " + serviceNameText + "\n" +
-          "- Scale: " + scaleText + "\n" +
-          "- Timeline: " + timelineText + "\n" +
-          "- Budget Estimate: " + sumPrice.textContent;
-        plannerDetailsInput.value = detailsText;
+        plannerDetailsInput.value =
+          "Planner Summary:\n" +
+          "- Service: " + sumService.textContent + "\n" +
+          "- Scale: " + sumScale.textContent + "\n" +
+          "- Timeline: " + sumTimeline.textContent;
       }
     };
 
