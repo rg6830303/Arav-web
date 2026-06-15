@@ -7,6 +7,23 @@ import { writeFileSync } from "node:fs";
 const SITE = "https://aravosh.com";
 const EMAIL = "team@aravosh.com";
 
+/* Replace these with your real profiles (or remove) — used for Google sameAs. */
+const SOCIAL = [
+  "https://www.linkedin.com/company/aravosh",
+  "https://x.com/aravosh",
+  "https://www.instagram.com/aravosh",
+];
+const SERVICE_NAMES = [
+  "Software Development",
+  "Product Design & UX",
+  "Brand & Identity",
+  "Growth & Marketing",
+  "Cloud & DevOps",
+  "Consulting & Strategy",
+];
+/* Paste your Search Console token to verify the domain (Settings → Ownership). */
+const GSC_VERIFY = "GOOGLE_SITE_VERIFICATION_TOKEN";
+
 /* ---- shared icon set (stroke, 20px) ---- */
 const I = {
   home: '<path d="M3 11l9-8 9 8M5 10v10h14V10"/>',
@@ -71,9 +88,64 @@ const footer = () => `
         </nav>
       </footer>`;
 
+const jsonLd = (slug, fullTitle, desc, url) => {
+  const org = {
+    "@type": ["Organization", "ProfessionalService"],
+    "@id": SITE + "/#org",
+    name: "Aravosh",
+    alternateName: "Aravosh Technologies",
+    url: SITE + "/",
+    logo: { "@type": "ImageObject", url: SITE + "/assets/logo.png" },
+    image: SITE + "/assets/og-image.png",
+    description: "Aravosh is a technology and digital solutions company offering software development, product design, cloud, branding and growth services for ambitious businesses.",
+    slogan: "We build technology that moves your business forward.",
+    email: EMAIL,
+    foundingDate: "2017",
+    areaServed: "Worldwide",
+    knowsAbout: ["Software Development", "Web Development", "Product Design", "UX", "Cloud", "DevOps", "Branding", "Digital Marketing", "SEO"],
+    sameAs: SOCIAL,
+    contactPoint: { "@type": "ContactPoint", email: EMAIL, contactType: "customer service", availableLanguage: "English" },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Technology services",
+      itemListElement: SERVICE_NAMES.map((n) => ({ "@type": "Offer", itemOffered: { "@type": "Service", name: n } })),
+    },
+  };
+  const website = {
+    "@type": "WebSite",
+    "@id": SITE + "/#website",
+    url: SITE + "/",
+    name: "Aravosh",
+    description: "Technology and digital solutions for ambitious businesses.",
+    publisher: { "@id": SITE + "/#org" },
+    inLanguage: "en",
+  };
+  const webpage = {
+    "@type": "WebPage",
+    "@id": url + "#webpage",
+    url: url,
+    name: fullTitle,
+    description: desc,
+    isPartOf: { "@id": SITE + "/#website" },
+    about: { "@id": SITE + "/#org" },
+    inLanguage: "en",
+  };
+  const graph = [org, website, webpage];
+  if (slug !== "index" && slug !== "404") {
+    graph.push({
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: SITE + "/" },
+        { "@type": "ListItem", position: 2, name: fullTitle.replace(" — Aravosh", ""), item: url },
+      ],
+    });
+  }
+  return JSON.stringify({ "@context": "https://schema.org", "@graph": graph });
+};
+
 const page = ({ slug, active, title, desc, main, robots }) => {
   const url = SITE + (slug === "index" ? "/" : "/" + slug);
-  const fullTitle = title + " — Aravosh";
+  const fullTitle = slug === "index" ? "Aravosh — Technology & Digital Solutions Company" : title + " — Aravosh";
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -81,9 +153,11 @@ const page = ({ slug, active, title, desc, main, robots }) => {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${fullTitle}</title>
   <meta name="description" content="${desc}" />
-  ${robots ? '<meta name="robots" content="' + robots + '" />\n  ' : ""}<link rel="canonical" href="${url}" />
+  ${robots ? '<meta name="robots" content="' + robots + '" />' : '<meta name="robots" content="index, follow, max-image-preview:large" />'}
+  <link rel="canonical" href="${url}" />
   <meta name="theme-color" content="#0a0e17" />
   <meta name="color-scheme" content="dark" />
+  <meta name="google-site-verification" content="${GSC_VERIFY}" />
 
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png" />
@@ -92,10 +166,12 @@ const page = ({ slug, active, title, desc, main, robots }) => {
 
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Aravosh" />
+  <meta property="og:locale" content="en_US" />
   <meta property="og:title" content="${fullTitle}" />
   <meta property="og:description" content="${desc}" />
   <meta property="og:url" content="${url}" />
   <meta property="og:image" content="${SITE}/assets/og-image.png" />
+  <meta property="og:image:alt" content="Aravosh — technology and digital solutions" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -109,10 +185,12 @@ const page = ({ slug, active, title, desc, main, robots }) => {
   <link rel="stylesheet" href="/styles.css" />
 
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"Organization","name":"Aravosh","url":"${SITE}/","logo":"${SITE}/assets/logo.png","description":"Technology and digital solutions for ambitious businesses.","email":"${EMAIL}","contactPoint":{"@type":"ContactPoint","email":"${EMAIL}","contactType":"customer service"}}
+  ${jsonLd(slug, fullTitle, desc, url)}
   </script>
 </head>
 <body>
+  <div class="scroll-progress" id="progress" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
   <a href="#main" class="skip-link">Skip to content</a>
   <div class="app">
 ${sidebar(active)}
@@ -188,9 +266,9 @@ const pageHead = (eyebrow, h1, sub) => `<header class="page-head" data-reveal>
 const home = `        <section class="hero">
           <div class="hero-bg" aria-hidden="true">
             <div class="aurora"></div>
-            <div class="hero-grid"></div>
-            <div class="hero-glow" data-parallax="0.04"></div>
-            <canvas class="hero-canvas" id="heroCanvas"></canvas>
+            <div class="hero-grid" data-parallax="0.02"></div>
+            <div class="hero-glow" data-parallax="0.05"></div>
+            <div class="hero-spotlight" id="heroSpot"></div>
           </div>
           <div class="container hero-inner hero-split">
             <div class="hero-copy">
@@ -210,19 +288,15 @@ const home = `        <section class="hero">
             </div>
             <div class="hero-visual" data-reveal aria-hidden="true">
               <div class="scene" id="scene">
+                <canvas class="orb-canvas" id="orbCanvas"></canvas>
+                <div class="orb-glow"></div>
                 <div class="scene-3d">
-                  <div class="orbit orbit-1"></div>
-                  <div class="orbit orbit-2"></div>
                   <div class="glass-card glass-main">
                     <span class="glass-logo">A</span>
                     <span class="glass-bars"><i></i><i></i><i></i></span>
                   </div>
                   <div class="glass-card glass-chip chip-a"><svg viewBox="0 0 24 24">${SERVICE_ICONS.dev}</svg></div>
-                  <div class="glass-card glass-chip chip-b"><svg viewBox="0 0 24 24">${SERVICE_ICONS.growth}</svg></div>
                   <div class="glass-card glass-chip chip-c"><svg viewBox="0 0 24 24">${SERVICE_ICONS.cloud}</svg></div>
-                  <span class="spark spark-1"></span>
-                  <span class="spark spark-2"></span>
-                  <span class="spark spark-3"></span>
                 </div>
               </div>
             </div>

@@ -52,7 +52,7 @@ body {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 h1, h2, h3, h4, .stat dt, .feature-num {
@@ -749,4 +749,131 @@ ul { list-style: none; }
 }
 @media (max-width: 540px) {
   .hero-visual { display: none; }
+}
+
+/* =========================================================
+   Peak styling — premium polish
+   ========================================================= */
+@property --angle { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+
+/* Scroll progress bar */
+.scroll-progress {
+  position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  background: var(--grad); z-index: 200; border-radius: 0 3px 3px 0;
+  box-shadow: 0 0 12px rgba(23, 214, 198, 0.6); transition: width 0.1s linear;
+}
+
+/* Subtle film grain for depth */
+.grain {
+  position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Cursor spotlight over the hero */
+.hero-spotlight {
+  position: absolute; inset: 0; pointer-events: none; opacity: 0;
+  background: radial-gradient(420px circle at var(--cx, 50%) var(--cy, 30%), rgba(23, 214, 198, 0.10), transparent 60%);
+  transition: opacity 0.4s var(--ease);
+}
+.hero:hover .hero-spotlight { opacity: 1; }
+
+/* Headline gradient shimmer */
+.text-grad {
+  background: linear-gradient(100deg, #17d6c6, #4bb6ef, #9b8bff, #17d6c6);
+  background-size: 250% 100%;
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+  animation: shimmer 7s linear infinite;
+}
+@keyframes shimmer { to { background-position: 250% 0; } }
+
+/* Button shine sweep */
+.btn { position: relative; overflow: hidden; }
+.btn-primary::after {
+  content: ""; position: absolute; top: 0; left: -120%; width: 60%; height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: skewX(-18deg); transition: left 0.6s var(--ease);
+}
+.btn-primary:hover::after { left: 140%; }
+
+/* ---- 3D orb canvas ---- */
+.orb-canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
+.orb-glow {
+  position: absolute; inset: 14%; border-radius: 50%; z-index: 0;
+  background: radial-gradient(closest-side, rgba(23, 214, 198, 0.22), rgba(108, 139, 255, 0.12) 60%, transparent 72%);
+  filter: blur(12px); animation: pulse 5s ease-in-out infinite;
+}
+@keyframes pulse { 0%, 100% { transform: scale(0.94); opacity: 0.8; } 50% { transform: scale(1.06); opacity: 1; } }
+.scene-3d { z-index: 2; }
+.glass-main {
+  width: 46%; height: 46%; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+}
+/* animated conic ring on the floating brand card */
+.glass-main::before {
+  content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1.5px;
+  background: conic-gradient(from var(--angle), transparent 20%, var(--accent), transparent 55%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  animation: rotate-border 4s linear infinite;
+}
+@keyframes rotate-border { to { --angle: 360deg; } }
+
+/* ---- Premium animated card borders ---- */
+.card::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px;
+  background: conic-gradient(from var(--angle), transparent 25%, rgba(23, 214, 198, 0.9), rgba(108, 139, 255, 0.9), transparent 55%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  opacity: 0; transition: opacity 0.35s var(--ease); z-index: 0;
+}
+.card:hover::before { opacity: 1; animation: rotate-border 4s linear infinite; }
+
+/* Reveal — add a touch of scale + depth */
+[data-reveal] { opacity: 0; transform: translateY(26px) scale(0.985); }
+[data-reveal].is-visible { opacity: 1; transform: none; }
+
+/* ---- Reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  .text-grad, .orb-glow, .glass-main::before, .card:hover::before { animation: none !important; }
+  .orb-canvas { display: none; }
+  .scroll-progress { transition: none; }
+}
+
+/* =========================================================
+   Layout hardening — desktop & mobile
+   ========================================================= */
+.content { max-width: 100%; }
+.page { padding-inline: 0; }
+
+/* Larger, more breathable desktop rhythm */
+@media (min-width: 1280px) {
+  .section { padding: 116px 0; }
+  .page { padding: 68px 0 96px; }
+}
+
+@media (max-width: 980px) {
+  .scene { width: min(360px, 78%); }
+}
+@media (max-width: 640px) {
+  :root { --gutter: 18px; }
+  .hero { padding: 84px 0 60px; }
+  .hero h1 { font-size: clamp(2.1rem, 8vw, 3rem); }
+  .hero-sub { font-size: 1.06rem; }
+  .section { padding: 64px 0; }
+  .page { padding: 40px 0 64px; }
+  .page-head { margin-bottom: 36px; }
+  .page-head h1 { font-size: clamp(1.9rem, 7.5vw, 2.4rem); }
+  .hero-stats { gap: 22px 16px; margin-top: 40px; padding-top: 30px; }
+  .stat dt { font-size: 1.7rem; }
+  .btn { padding: 13px 22px; }
+  .topbar-cta { display: inline-flex; padding: 9px 16px; font-size: 0.9rem; }
+}
+@media (max-width: 540px) {
+  /* keep the 3D orb on mobile — it's the centrepiece — just smaller */
+  .hero-visual { display: grid; }
+  .scene { width: min(300px, 84%); margin: 8px auto 0; }
+  .hero-inner.hero-split { gap: 10px; }
+}
+@media (max-width: 380px) {
+  .hero-stats { grid-template-columns: repeat(2, 1fr); }
 }

@@ -169,6 +169,18 @@
     }
   }
 
+  /* ---- Scroll progress bar ---- */
+  var progress = document.getElementById("progress");
+  if (progress) {
+    var updateProgress = function () {
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      progress.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + "%";
+    };
+    updateProgress();
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress, { passive: true });
+  }
+
   if (!reduceMotion) {
     /* ---- 3D pointer tilt ---- */
     document.querySelectorAll("[data-tilt]").forEach(function (el) {
@@ -188,26 +200,29 @@
       el.addEventListener("pointerleave", function () { el.style.transform = ""; });
     });
 
-    /* ---- 3D scene + glow parallax ---- */
+    /* ---- 3D scene + glow parallax + hero spotlight ---- */
     var scene = document.getElementById("scene");
     var parallax = document.querySelectorAll("[data-parallax]");
-    if (scene || parallax.length) {
-      window.addEventListener("pointermove", function (e) {
-        var nx = e.clientX / window.innerWidth - 0.5;
-        var ny = e.clientY / window.innerHeight - 0.5;
-        if (scene) {
-          var s3d = scene.querySelector(".scene-3d");
-          if (s3d) {
-            s3d.style.setProperty("--rx", nx * 18 + "deg");
-            s3d.style.setProperty("--ry", -ny * 18 + "deg");
-          }
-        }
-        parallax.forEach(function (p) {
-          var d = parseFloat(p.getAttribute("data-parallax")) || 0.03;
-          p.style.transform = "translate(" + nx * d * 100 + "px," + ny * d * 100 + "px)";
-        });
-      }, { passive: true });
-    }
+    var heroEl = document.querySelector(".hero");
+    var heroSpot = document.getElementById("heroSpot");
+    var s3d = scene ? scene.querySelector(".scene-3d") : null;
+    window.addEventListener("pointermove", function (e) {
+      var nx = e.clientX / window.innerWidth - 0.5;
+      var ny = e.clientY / window.innerHeight - 0.5;
+      if (s3d) {
+        s3d.style.setProperty("--rx", nx * 16 + "deg");
+        s3d.style.setProperty("--ry", -ny * 16 + "deg");
+      }
+      parallax.forEach(function (p) {
+        var d = parseFloat(p.getAttribute("data-parallax")) || 0.03;
+        p.style.transform = "translate(" + nx * d * 100 + "px," + ny * d * 100 + "px)";
+      });
+      if (heroEl && heroSpot) {
+        var r = heroEl.getBoundingClientRect();
+        heroSpot.style.setProperty("--cx", e.clientX - r.left + "px");
+        heroSpot.style.setProperty("--cy", e.clientY - r.top + "px");
+      }
+    }, { passive: true });
 
     /* ---- Magnetic buttons ---- */
     document.querySelectorAll("[data-magnetic]").forEach(function (el) {
@@ -219,53 +234,86 @@
       el.addEventListener("pointerleave", function () { el.style.transform = ""; });
     });
 
-    /* ---- Hero constellation canvas ---- */
-    var canvas = document.getElementById("heroCanvas");
-    if (canvas && canvas.getContext) {
-      var ctx = canvas.getContext("2d");
-      var w, hgt, pts = [], raf = null;
+    /* ---- 3D particle sphere ---- */
+    var orb = document.getElementById("orbCanvas");
+    if (orb && orb.getContext) {
+      var octx = orb.getContext("2d");
       var DPR = Math.min(window.devicePixelRatio || 1, 2);
-      var resize = function () {
-        var host = canvas.parentElement;
-        w = host.offsetWidth; hgt = host.offsetHeight;
-        canvas.width = w * DPR; canvas.height = hgt * DPR;
-        canvas.style.width = w + "px"; canvas.style.height = hgt + "px";
-        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-        var count = Math.min(64, Math.round(w / 22));
-        pts = [];
-        for (var i = 0; i < count; i++) {
-          pts.push({ x: Math.random() * w, y: Math.random() * hgt,
-            vx: (Math.random() - 0.5) * 0.28, vy: (Math.random() - 0.5) * 0.28 });
+      var ow, oh, R, N = 320, sph = [], raf = null, t = 0, tgX = 0, tgY = 0, rotX = -0.35, rotY = 0;
+
+      var build = function () {
+        var host = orb.parentElement;
+        ow = host.offsetWidth; oh = host.offsetHeight;
+        orb.width = ow * DPR; orb.height = oh * DPR;
+        orb.style.width = ow + "px"; orb.style.height = oh + "px";
+        octx.setTransform(DPR, 0, 0, DPR, 0, 0);
+        R = Math.min(ow, oh) * 0.40;
+        sph = [];
+        var golden = Math.PI * (3 - Math.sqrt(5));
+        for (var i = 0; i < N; i++) {
+          var y = 1 - (i / (N - 1)) * 2;
+          var rad = Math.sqrt(1 - y * y);
+          var th = golden * i;
+          sph.push({ x: Math.cos(th) * rad, y: y, z: Math.sin(th) * rad });
         }
       };
+
+      // mouse influence on rotation target
+      orb.parentElement.addEventListener("pointermove", function (e) {
+        var r = orb.getBoundingClientRect();
+        tgY = ((e.clientX - r.left) / r.width - 0.5) * 1.2;
+        tgX = ((e.clientY - r.top) / r.height - 0.5) * -1.0;
+      });
+
       var draw = function () {
-        ctx.clearRect(0, 0, w, hgt);
-        for (var i = 0; i < pts.length; i++) {
-          var p = pts[i];
-          p.x += p.vx; p.y += p.vy;
-          if (p.x < 0 || p.x > w) p.vx *= -1;
-          if (p.y < 0 || p.y > hgt) p.vy *= -1;
-          for (var j = i + 1; j < pts.length; j++) {
-            var q = pts[j], dx = p.x - q.x, dy = p.y - q.y, dist = dx * dx + dy * dy;
-            if (dist < 13000) {
-              ctx.strokeStyle = "rgba(23,214,198," + (1 - dist / 13000) * 0.16 + ")";
-              ctx.lineWidth = 1;
-              ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y); ctx.stroke();
+        t += 0.0022;
+        rotY += (tgY - rotY) * 0.05 + 0.004;
+        rotX += (tgX - 0.35 - rotX) * 0.05;
+        octx.clearRect(0, 0, ow, oh);
+        var cx = ow / 2, cy = oh / 2;
+        var cosY = Math.cos(rotY), sinY = Math.sin(rotY), cosX = Math.cos(rotX), sinX = Math.sin(rotX);
+        var proj = [];
+        for (var i = 0; i < sph.length; i++) {
+          var p = sph[i];
+          var x1 = p.x * cosY - p.z * sinY;
+          var z1 = p.x * sinY + p.z * cosY;
+          var y1 = p.y * cosX - z1 * sinX;
+          var z2 = p.y * sinX + z1 * cosX;
+          var depth = (z2 + 1) / 2; // 0..1
+          proj.push({ sx: cx + x1 * R, sy: cy + y1 * R, d: depth });
+        }
+        // connections (subtle), only near + front
+        for (var a = 0; a < proj.length; a += 1) {
+          for (var bn = a + 1; bn < a + 5 && bn < proj.length; bn++) {
+            var pa = proj[a], pb = proj[bn];
+            var dx = pa.sx - pb.sx, dy = pa.sy - pb.sy;
+            if (dx * dx + dy * dy < 1600) {
+              octx.strokeStyle = "rgba(23,214,198," + 0.10 * ((pa.d + pb.d) / 2) + ")";
+              octx.lineWidth = 1;
+              octx.beginPath(); octx.moveTo(pa.sx, pa.sy); octx.lineTo(pb.sx, pb.sy); octx.stroke();
             }
           }
-          ctx.fillStyle = "rgba(108,139,255,0.55)";
-          ctx.beginPath(); ctx.arc(p.x, p.y, 1.6, 0, Math.PI * 2); ctx.fill();
+        }
+        // points, painter's order
+        proj.sort(function (m, n) { return m.d - n.d; });
+        for (var k = 0; k < proj.length; k++) {
+          var q = proj[k];
+          var rr = 0.6 + q.d * 2.2;
+          var mix = q.d;
+          var col = "rgba(" + Math.round(23 + mix * 85) + "," + Math.round(214 - mix * 75) + "," + Math.round(198 + mix * 57) + "," + (0.25 + q.d * 0.75) + ")";
+          octx.fillStyle = col;
+          octx.beginPath(); octx.arc(q.sx, q.sy, rr, 0, Math.PI * 2); octx.fill();
         }
         raf = requestAnimationFrame(draw);
       };
-      resize(); draw();
-      window.addEventListener("resize", resize);
-      // Pause when scrolled away to save battery
+
+      build(); draw();
+      window.addEventListener("resize", build);
       if ("IntersectionObserver" in window) {
         new IntersectionObserver(function (e) {
           if (e[0].isIntersecting) { if (!raf) draw(); }
           else if (raf) { cancelAnimationFrame(raf); raf = null; }
-        }).observe(canvas);
+        }).observe(orb);
       }
     }
   }
