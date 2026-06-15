@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://aravosh.com/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://aravosh.com/privacy</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://aravosh.com/terms</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
+  <url><loc>https://aravosh.vercel.app/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://aravosh.vercel.app/services</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://aravosh.vercel.app/about</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aravosh.vercel.app/why</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aravosh.vercel.app/work</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aravosh.vercel.app/contact</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://aravosh.vercel.app/privacy</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://aravosh.vercel.app/terms</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
 </urlset>

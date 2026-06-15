@@ -1,50 +1,69 @@
 # Aravosh — Company Website
 
-A modern, dark-themed single-page company website for **Aravosh**, a technology and
-digital solutions company. Built as a fast, dependency-free static site.
+A modern, dark-themed **multi-page** company website for **Aravosh**, a technology and
+digital solutions company. Fast, dependency-free static site with a sidebar layout.
 
 ## Stack
 
-- Static `index.html` + `styles.css` + `script.js`
-- No build step — deploys instantly on any static host
+- Static HTML + `styles.css` + `script.js` — no runtime framework
+- Pages assembled by a small generator (`build.mjs`) so the shared sidebar,
+  head/meta and footer stay consistent across every page
 - Optimised for [Vercel](https://vercel.com)
 
-## Structure
+## Pages
 
-| Section   | Purpose                                   |
-| --------- | ----------------------------------------- |
-| Hero      | Headline, value proposition, key stats    |
-| Services  | Six core service offerings                |
-| About     | Company story and differentiators         |
-| Why Us    | Guiding principles                        |
-| Work      | Client testimonials                       |
-| Contact   | Direct email call-to-action               |
+| Route | File | Purpose |
+| ----- | ---- | ------- |
+| `/` | `index.html` | Home — hero, stats, highlights |
+| `/services` | `services.html` | Six core service offerings |
+| `/about` | `about.html` | Company story and differentiators |
+| `/why` | `why.html` | Guiding principles |
+| `/work` | `work.html` | Client testimonials |
+| `/contact` | `contact.html` | Contact form + direct email |
+| `/privacy` | `privacy.html` | Privacy Policy |
+| `/terms` | `terms.html` | Terms of Service |
+| `404` | `404.html` | Branded not-found page |
+
+All pages share a fixed **sidebar** (off-canvas drawer on mobile) with the active
+page highlighted.
+
+## Editing content
+
+Page content lives in `build.mjs`. After editing, regenerate the HTML:
+
+```bash
+node build.mjs
+```
+
+The generated `.html` files are committed to the repo, so **no build step runs on
+Vercel** — it just serves the static output.
+
+## Contact form & email alerts (Web3Forms)
+
+The contact form posts to [Web3Forms](https://web3forms.com), which emails you on
+**every** submission — no backend required.
+
+**One required step to receive alerts:**
+
+1. Go to <https://web3forms.com>, enter `team@aravosh.com`, and copy the free
+   **Access Key** (it is emailed to that address).
+2. In `build.mjs`, replace `WEB3FORMS_ACCESS_KEY` with your key.
+3. Run `node build.mjs` and commit/push.
+
+Until the key is set, the form shows a friendly fallback asking visitors to email
+`team@aravosh.com` directly (so nothing looks broken).
 
 ## Production essentials
 
-| File | Purpose |
-| ---- | ------- |
-| `404.html` | Branded custom not-found page (Vercel serves it automatically) |
-| `privacy.html` → `/privacy` | Privacy Policy |
-| `terms.html` → `/terms` | Terms of Service |
-| `robots.txt` | Search-engine crawl rules |
-| `sitemap.xml` | Sitemap for search engines |
-| `assets/og-image.png` | Social share / link-preview image |
-| `assets/site.webmanifest` | PWA manifest + icons |
-| `vercel.json` | Clean URLs, security headers, long-lived asset caching |
+`robots.txt`, `sitemap.xml`, security headers + immutable asset caching
+(`vercel.json`), Open Graph / Twitter share image, favicon set and PWA manifest
+are all included.
 
-> Replace the placeholder copy in the Privacy/Terms pages and the
-> `https://aravosh.com` URLs (in the meta tags, sitemap and robots) with your
-> production domain once it is set in Vercel.
-
-## Contact
-
-All enquiries open the visitor's email app via a `mailto:` link to
-**[team@aravosh.com](mailto:team@aravosh.com)**.
+> URLs in the meta tags, sitemap, robots and structured data point at
+> `https://aravosh.vercel.app`. Update them to your custom domain once it is
+> connected in Vercel, then `node build.mjs` and push.
 
 ## Local preview
-
-Open `index.html` directly in a browser, or serve the folder:
 
 ```bash
 npx serve .
@@ -52,32 +71,15 @@ npx serve .
 
 ## Deployment to Vercel (production)
 
-This is a zero-config static site, so Vercel needs no build settings.
+Zero-config static site — no build settings needed.
 
-### One-time setup (via the Vercel dashboard)
+1. Go to <https://vercel.com/new> and **Import** `rg6830303/Arav-web`.
+2. Framework Preset **Other**, no build command, output = repo root.
+3. Set **Production Branch** to `main` (Settings → Git).
+4. **Deploy.** Every push to `main` then auto-deploys to production.
 
-1. Go to <https://vercel.com/new>.
-2. **Import** the GitHub repository `rg6830303/Arav-web`
-   (authorise the Vercel GitHub app for this repo if prompted).
-3. Framework Preset: **Other** · Build Command: _none_ ·
-   Output Directory: leave as the repo root.
-4. Set **Production Branch** to `main`
-   (Project → Settings → Git → Production Branch).
-5. Click **Deploy**. The first deploy is your production deployment.
+The deployment lives at <https://aravosh.vercel.app/>.
 
-### Ongoing
-
-Every push to `main` triggers an automatic **production** deployment.
-
-### CLI alternative
-
-From a machine with outbound access to Vercel and a logged-in CLI:
-
-```bash
-npm i -g vercel
-vercel --prod
-```
-
-> Note: the Claude Code remote sandbox that generated this site cannot reach
-> `vercel.com` (network policy) and has no Vercel token, so the deploy must be
-> triggered from the dashboard or a machine with Vercel access.
+> Note: the remote sandbox that generated this site cannot reach `vercel.com`
+> (network policy) and has no Vercel token, so the deploy is triggered from the
+> Vercel dashboard or a machine with Vercel access.
