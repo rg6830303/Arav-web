@@ -20,6 +20,23 @@ digital solutions company. Built as a fast, dependency-free static site.
 | Work      | Client testimonials                       |
 | Contact   | Direct email call-to-action               |
 
+## Production essentials
+
+| File | Purpose |
+| ---- | ------- |
+| `404.html` | Branded custom not-found page (Vercel serves it automatically) |
+| `privacy.html` → `/privacy` | Privacy Policy |
+| `terms.html` → `/terms` | Terms of Service |
+| `robots.txt` | Search-engine crawl rules |
+| `sitemap.xml` | Sitemap for search engines |
+| `assets/og-image.png` | Social share / link-preview image |
+| `assets/site.webmanifest` | PWA manifest + icons |
+| `vercel.json` | Clean URLs, security headers, long-lived asset caching |
+
+> Replace the placeholder copy in the Privacy/Terms pages and the
+> `https://aravosh.com` URLs (in the meta tags, sitemap and robots) with your
+> production domain once it is set in Vercel.
+
 ## Contact
 
 All enquiries open the visitor's email app via a `mailto:` link to
