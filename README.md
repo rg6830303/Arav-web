@@ -60,8 +60,9 @@ Until the key is set, the form shows a friendly fallback asking visitors to emai
 are all included.
 
 > URLs in the meta tags, sitemap, robots and structured data point at
-> `https://aravosh.vercel.app`. Update them to your custom domain once it is
-> connected in Vercel, then `node build.mjs` and push.
+> `https://aravosh.com` (the connected production domain). If the domain
+> changes, update the `SITE` constant in `build.mjs`, run `node build.mjs`,
+> and update `robots.txt` / `sitemap.xml`.
 
 ## Local preview
 
@@ -78,7 +79,7 @@ Zero-config static site — no build settings needed.
 3. Set **Production Branch** to `main` (Settings → Git).
 4. **Deploy.** Every push to `main` then auto-deploys to production.
 
-The deployment lives at <https://aravosh.vercel.app/>.
+The production site is live at <https://aravosh.com/>.
 
 > Note: the remote sandbox that generated this site cannot reach `vercel.com`
 > (network policy) and has no Vercel token, so the deploy is triggered from the

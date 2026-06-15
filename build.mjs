@@ -4,7 +4,7 @@
    Run:  node build.mjs   */
 import { writeFileSync } from "node:fs";
 
-const SITE = "https://aravosh.vercel.app";
+const SITE = "https://aravosh.com";
 const EMAIL = "team@aravosh.com";
 
 /* ---- shared icon set (stroke, 20px) ---- */
@@ -133,7 +133,7 @@ ${footer()}
 
 /* ===================== page content ===================== */
 
-const card = (icon, title, body) => `<article class="card" data-reveal>
+const card = (icon, title, body) => `<article class="card" data-reveal data-tilt data-spot>
             <span class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true">${icon}</svg></span>
             <h3>${title}</h3>
             <p>${body}</p>
@@ -157,11 +157,14 @@ const servicesGrid = () => `<div class="grid grid-3">
           ${card(SERVICE_ICONS.strategy, "Consulting &amp; Strategy", "Clear roadmaps and technical guidance to help you make the right decisions at every stage.")}
         </div>`;
 
+const LOGOS = ["Northwind", "Vertex", "Lumen", "Quanta", "Helios", "Aerolux", "Cobalt"];
 const trusted = () => `<section class="trusted" aria-label="Clients">
           <p class="trusted-label">Trusted by forward-thinking teams</p>
-          <ul class="trusted-logos">
-            <li>Northwind</li><li>Vertex</li><li>Lumen</li><li>Quanta</li><li>Helios</li>
-          </ul>
+          <div class="marquee" aria-hidden="true">
+            <ul class="marquee-track">
+              ${LOGOS.concat(LOGOS).map((l) => `<li>${l}</li>`).join("")}
+            </ul>
+          </div>
         </section>`;
 
 const ctaBand = (heading, text) => `<section class="section">
@@ -183,21 +186,46 @@ const pageHead = (eyebrow, h1, sub) => `<header class="page-head" data-reveal>
 
 /* ---- Home ---- */
 const home = `        <section class="hero">
-          <div class="hero-bg" aria-hidden="true"><div class="hero-grid"></div><div class="hero-glow"></div></div>
-          <div class="container hero-inner">
-            <span class="eyebrow" data-reveal><span class="eyebrow-dot"></span> Digital solutions, engineered with care</span>
-            <h1 data-reveal>We build technology that <span class="text-grad">moves your business forward.</span></h1>
-            <p class="hero-sub" data-reveal>Aravosh partners with ambitious teams to design, build and scale modern digital products — from strategy and branding to software that performs.</p>
-            <div class="hero-actions" data-reveal>
-              <a href="/contact" class="btn btn-primary">Start a project <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${I.arrow}</svg></a>
-              <a href="/services" class="btn btn-ghost">Explore services</a>
+          <div class="hero-bg" aria-hidden="true">
+            <div class="aurora"></div>
+            <div class="hero-grid"></div>
+            <div class="hero-glow" data-parallax="0.04"></div>
+            <canvas class="hero-canvas" id="heroCanvas"></canvas>
+          </div>
+          <div class="container hero-inner hero-split">
+            <div class="hero-copy">
+              <span class="eyebrow" data-reveal><span class="eyebrow-dot"></span> <span id="greeting">Digital solutions, engineered with care</span></span>
+              <h1 data-reveal>We build technology that <span class="text-grad">moves your business forward.</span></h1>
+              <p class="hero-sub" data-reveal>Aravosh partners with ambitious teams to design, build and scale modern digital products — from strategy and branding to software that performs.</p>
+              <div class="hero-actions" data-reveal>
+                <a href="/contact" class="btn btn-primary" data-magnetic>Start a project <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${I.arrow}</svg></a>
+                <a href="/services" class="btn btn-ghost" data-magnetic>Explore services</a>
+              </div>
+              <dl class="hero-stats" data-reveal>
+                <div class="stat"><dt data-count="120" data-suffix="+">0</dt><dd>Projects delivered</dd></div>
+                <div class="stat"><dt data-count="40" data-suffix="+">0</dt><dd>Clients worldwide</dd></div>
+                <div class="stat"><dt data-count="9" data-suffix=" yrs">0</dt><dd>Industry experience</dd></div>
+                <div class="stat"><dt data-count="98" data-suffix="%">0</dt><dd>Client retention</dd></div>
+              </dl>
             </div>
-            <dl class="hero-stats" data-reveal>
-              <div class="stat"><dt>120+</dt><dd>Projects delivered</dd></div>
-              <div class="stat"><dt>40+</dt><dd>Clients worldwide</dd></div>
-              <div class="stat"><dt>9 yrs</dt><dd>Industry experience</dd></div>
-              <div class="stat"><dt>98%</dt><dd>Client retention</dd></div>
-            </dl>
+            <div class="hero-visual" data-reveal aria-hidden="true">
+              <div class="scene" id="scene">
+                <div class="scene-3d">
+                  <div class="orbit orbit-1"></div>
+                  <div class="orbit orbit-2"></div>
+                  <div class="glass-card glass-main">
+                    <span class="glass-logo">A</span>
+                    <span class="glass-bars"><i></i><i></i><i></i></span>
+                  </div>
+                  <div class="glass-card glass-chip chip-a"><svg viewBox="0 0 24 24">${SERVICE_ICONS.dev}</svg></div>
+                  <div class="glass-card glass-chip chip-b"><svg viewBox="0 0 24 24">${SERVICE_ICONS.growth}</svg></div>
+                  <div class="glass-card glass-chip chip-c"><svg viewBox="0 0 24 24">${SERVICE_ICONS.cloud}</svg></div>
+                  <span class="spark spark-1"></span>
+                  <span class="spark spark-2"></span>
+                  <span class="spark spark-3"></span>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
         <div class="container">
@@ -256,7 +284,7 @@ const about = `        <div class="page container">
         </div>`;
 
 /* ---- Why ---- */
-const feat = (n, t, b) => `<article class="feature" data-reveal><span class="feature-num">${n}</span><h3>${t}</h3><p>${b}</p></article>`;
+const feat = (n, t, b) => `<article class="feature" data-reveal data-tilt data-spot><span class="feature-num">${n}</span><h3>${t}</h3><p>${b}</p></article>`;
 const why = `        <div class="page container">
           ${pageHead("Why Aravosh", "Built on principles that deliver", "The reasons clients choose us — and stay with us.")}
           <div class="grid grid-4">
@@ -269,7 +297,7 @@ const why = `        <div class="page container">
         </div>`;
 
 /* ---- Work ---- */
-const quote = (init, body, name, role) => `<figure class="quote" data-reveal>
+const quote = (init, body, name, role) => `<figure class="quote" data-reveal data-tilt data-spot>
             <div class="quote-mark" aria-hidden="true">&ldquo;</div>
             <blockquote>${body}</blockquote>
             <figcaption><span class="avatar" aria-hidden="true">${init}</span><span><strong>${name}</strong><span>${role}</span></span></figcaption>
