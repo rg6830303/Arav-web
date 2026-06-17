@@ -47,7 +47,7 @@ const sidebar = (active) => `
     <aside class="sidebar" id="sidebar" aria-label="Primary">
       <div class="sidebar-head">
         <a href="/" class="brand" aria-label="Aravosh — home">
-          <img src="/assets/logo.png" alt="Aravosh" class="brand-logo" width="1500" height="390" />
+          <img src="/assets/light-logo.jpeg" alt="Aravosh" class="brand-logo" width="1500" height="390" />
         </a>
       </div>
       <nav class="side-nav" aria-label="Pages">
@@ -71,7 +71,7 @@ const topbar = () => `
           <span></span><span></span><span></span>
         </button>
         <a href="/" class="brand brand-mobile" aria-label="Aravosh — home">
-          <img src="/assets/logo.png" alt="Aravosh" class="brand-logo" width="1500" height="390" />
+          <img src="/assets/light-logo.jpeg" alt="Aravosh" class="brand-logo" width="1500" height="390" />
         </a>
         <a href="/contact" class="btn btn-primary topbar-cta">Get in touch</a>
       </header>`;
@@ -93,7 +93,7 @@ const jsonLd = (slug, fullTitle, desc, url) => {
     name: "Aravosh",
     alternateName: "Aravosh Technologies",
     url: SITE + "/",
-    logo: { "@type": "ImageObject", url: SITE + "/assets/logo.png" },
+    logo: { "@type": "ImageObject", url: SITE + "/assets/light-logo.jpeg" },
     image: SITE + "/assets/og-image.png",
     description: "Aravosh is a technology partner for practical software, product design, cloud delivery and technical strategy.",
     slogan: "Practical software, designed and shipped with care.",
