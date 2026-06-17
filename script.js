@@ -139,7 +139,7 @@
         .then(function (r) {
           if (r.ok && r.j.success) {
             form.reset();
-            setStatus("success", "Thanks for reaching out — we’ve received your message and will reply within one business day.");
+            setStatus("success", "Thanks for reaching out. We received your message and will follow up with a practical next step.");
           } else {
             throw new Error(r.j && r.j.message ? r.j.message : "Request failed");
           }
@@ -153,7 +153,7 @@
         })
         .finally(function () {
           if (submitBtn) submitBtn.disabled = false;
-          if (label) label.textContent = "Send message";
+          if (label) label.textContent = "Submit Inquiry";
         });
     });
   }
@@ -354,8 +354,12 @@
     techTabs.forEach(function (tab) {
       tab.addEventListener("click", function () {
         var cat = tab.getAttribute("data-category");
-        techTabs.forEach(function (t) { t.classList.remove("active"); });
+        techTabs.forEach(function (t) {
+          t.classList.remove("active");
+          t.setAttribute("aria-pressed", "false");
+        });
         tab.classList.add("active");
+        tab.setAttribute("aria-pressed", "true");
 
         techCards.forEach(function (card) {
           var cardCats = card.getAttribute("data-category").split(" ");
@@ -438,8 +442,12 @@
 
         // Deselect others in this step panel
         var siblingButtons = btn.parentElement.querySelectorAll(".planner-option-btn");
-        siblingButtons.forEach(function (b) { b.classList.remove("selected"); });
+        siblingButtons.forEach(function (b) {
+          b.classList.remove("selected");
+          b.setAttribute("aria-pressed", "false");
+        });
         btn.classList.add("selected");
+        btn.setAttribute("aria-pressed", "true");
 
         if (step === "1") {
           selectedService = value;

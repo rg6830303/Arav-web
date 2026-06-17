@@ -16,8 +16,6 @@ const SOCIAL = [
 const SERVICE_NAMES = [
   "Software Development",
   "Product Design & UX",
-  "Brand & Identity",
-  "Growth & Marketing",
   "Cloud & DevOps",
   "Consulting & Strategy",
 ];
@@ -97,12 +95,12 @@ const jsonLd = (slug, fullTitle, desc, url) => {
     url: SITE + "/",
     logo: { "@type": "ImageObject", url: SITE + "/assets/logo.png" },
     image: SITE + "/assets/og-image.png",
-    description: "Aravosh is a technology and digital solutions company offering software development, product design, cloud, branding and growth services for ambitious businesses.",
-    slogan: "We build technology that moves your business forward.",
+    description: "Aravosh is a technology partner for practical software, product design, cloud delivery and technical strategy.",
+    slogan: "Practical software, designed and shipped with care.",
     email: EMAIL,
     foundingDate: "2017",
     areaServed: "Worldwide",
-    knowsAbout: ["Software Development", "Web Development", "Product Design", "UX", "Cloud", "DevOps", "Branding", "Digital Marketing", "SEO"],
+    knowsAbout: ["Software Development", "Web Development", "Product Design", "UX", "Cloud", "DevOps", "Technical Strategy"],
     sameAs: SOCIAL,
     contactPoint: { "@type": "ContactPoint", email: EMAIL, contactType: "customer service", availableLanguage: "English" },
     hasOfferCatalog: {
@@ -155,8 +153,8 @@ const page = ({ slug, active, title, desc, main, robots }) => {
   <meta name="description" content="${desc}" />
   ${robots ? '<meta name="robots" content="' + robots + '" />' : '<meta name="robots" content="index, follow, max-image-preview:large" />'}
   <link rel="canonical" href="${url}" />
-  <meta name="theme-color" content="#0a0e17" />
-  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#f7fbff" />
+  <meta name="color-scheme" content="light" />
   <meta name="google-site-verification" content="${GSC_VERIFY}" />
 
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
@@ -227,23 +225,11 @@ const SERVICE_ICONS = {
 };
 
 const servicesGrid = () => `<div class="grid grid-3">
-          ${card(SERVICE_ICONS.dev, "Software Development", "Reliable web and mobile applications built on a modern, scalable stack designed to grow with you.")}
-          ${card(SERVICE_ICONS.design, "Product Design &amp; UX", "Intuitive interfaces and thoughtful user journeys that turn first-time visitors into loyal customers.")}
-          ${card(SERVICE_ICONS.brand, "Brand &amp; Identity", "Distinctive visual identities and messaging that make your business memorable across every channel.")}
-          ${card(SERVICE_ICONS.growth, "Growth &amp; Marketing", "Data-driven campaigns and SEO that put your product in front of the right audience at the right time.")}
-          ${card(SERVICE_ICONS.cloud, "Cloud &amp; DevOps", "Resilient infrastructure, automated pipelines and monitoring so your team can ship with confidence.")}
-          ${card(SERVICE_ICONS.strategy, "Consulting &amp; Strategy", "Clear roadmaps and technical guidance to help you make the right decisions at every stage.")}
+          ${card(SERVICE_ICONS.dev, "Software Development", "Focused web apps, dashboards and internal tools built around the workflows your team actually uses.")}
+          ${card(SERVICE_ICONS.design, "Product Design &amp; UX", "Clear interfaces, prototypes and user flows before the build gets expensive.")}
+          ${card(SERVICE_ICONS.cloud, "Cloud &amp; DevOps", "Deployment, monitoring and automation for projects that need to be easier to run after launch.")}
+          ${card(SERVICE_ICONS.strategy, "Consulting &amp; Strategy", "Technical scoping, architecture reviews and practical roadmaps before you commit to a direction.")}
         </div>`;
-
-const LOGOS = ["Northwind", "Vertex", "Lumen", "Quanta", "Helios", "Aerolux", "Cobalt"];
-const trusted = () => `<section class="trusted" aria-label="Clients">
-          <p class="trusted-label">Trusted by forward-thinking teams</p>
-          <div class="marquee" aria-hidden="true">
-            <ul class="marquee-track">
-              ${LOGOS.concat(LOGOS).map((l) => `<li>${l}</li>`).join("")}
-            </ul>
-          </div>
-        </section>`;
 
 const ctaBand = (heading, text) => `<section class="section">
           <div class="cta" data-reveal>
@@ -279,12 +265,11 @@ const home = `        <section class="hero">
                 <a href="/contact" class="btn btn-primary btn-cta" data-magnetic>Start a project <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${I.arrow}</svg></a>
                 <a href="/services" class="btn btn-ghost" data-magnetic>Explore services</a>
               </div>
-              <dl class="hero-stats" data-reveal>
-                <div class="stat"><dt data-count="120" data-suffix="+">0</dt><dd>Projects delivered</dd></div>
-                <div class="stat"><dt data-count="40" data-suffix="+">0</dt><dd>Clients worldwide</dd></div>
-                <div class="stat"><dt data-count="9" data-suffix=" yrs">0</dt><dd>Industry experience</dd></div>
-                <div class="stat"><dt data-count="98" data-suffix="%">0</dt><dd>Client retention</dd></div>
-              </dl>
+              <ul class="hero-proof" data-reveal>
+                <li><strong>Scope first</strong><span>Clear requirements before design or development begins.</span></li>
+                <li><strong>Useful builds</strong><span>Dashboards, websites, automations and product interfaces.</span></li>
+                <li><strong>Launch support</strong><span>Deployment, handoff and practical improvements after release.</span></li>
+              </ul>
             </div>
             <div class="hero-visual" data-reveal aria-hidden="true">
               <div class="scene" id="scene">
@@ -302,20 +287,17 @@ const home = `        <section class="hero">
             </div>
           </div>
         </section>
-        <div class="container">
-          ${trusted()}
-        </div>
         <section class="section">
           <div class="container">
             <header class="section-head" data-reveal>
               <span class="eyebrow"><span class="eyebrow-dot"></span> What we do</span>
-              <h2>Everything you need under one roof</h2>
-              <p>From first concept to launch and beyond — a single partner across the whole journey.</p>
+              <h2>Focused help where digital projects usually get stuck</h2>
+              <p>Sharper scope, cleaner interfaces, dependable builds and enough cloud support to keep things running.</p>
             </header>
             <div class="grid grid-3">
-              ${card(SERVICE_ICONS.dev, "Software Development", "Reliable web and mobile applications built on a modern, scalable stack designed to grow with you.")}
-              ${card(SERVICE_ICONS.design, "Product Design &amp; UX", "Intuitive interfaces and thoughtful journeys that turn first-time visitors into loyal customers.")}
-              ${card(SERVICE_ICONS.cloud, "Cloud &amp; DevOps", "Resilient infrastructure and automated pipelines so your team can ship with confidence.")}
+              ${card(SERVICE_ICONS.dev, "Software Development", "Web apps, dashboards and workflow tools with maintainable frontends and APIs.")}
+              ${card(SERVICE_ICONS.design, "Product Design &amp; UX", "Wireframes, interface systems and user flows that make the build easier to reason about.")}
+              ${card(SERVICE_ICONS.cloud, "Cloud &amp; DevOps", "Deployment setup, basic observability and release workflows for small teams.")}
             </div>
             <div class="center-row" data-reveal>
               <a href="/services" class="btn btn-ghost">See all services <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${I.arrow}</svg></a>
@@ -323,25 +305,25 @@ const home = `        <section class="hero">
           </div>
         </section>
         <div class="container">
-          ${ctaBand("Ready to start your next project?", `Tell us what you're building and we'll get back to you within one business day.`)}
+          ${ctaBand("Ready to talk through a project?", `Send the rough context and the next decision you need to make.`)}
         </div>`;
 
 /* ---- Services ---- */
 const services = `        <div class="page container">
-          ${pageHead("What we do", "Services built around your goals", "End-to-end capabilities to take your idea from concept to a product people love.")}
+          ${pageHead("What we do", "Focused services for practical digital projects", "A narrower set of capabilities for teams that need clear scope, usable interfaces and dependable delivery.")}
           ${servicesGrid()}
           
           <div class="tech-matrix" data-reveal>
             <header class="section-head">
               <span class="eyebrow"><span class="eyebrow-dot"></span> Technologies</span>
-              <h2>Our Tech Stack</h2>
-              <p>We build with modern, production-grade tools and frameworks optimized for speed, scale, and maintainability.</p>
+              <h2>Tools we commonly work with</h2>
+              <p>Technology choices stay tied to the project: what it needs to do, who maintains it and where it will run.</p>
             </header>
-            <div class="tech-tabs">
-              <button class="tech-tab active" data-category="all">All Tech</button>
-              <button class="tech-tab" data-category="frontend">Frontend</button>
-              <button class="tech-tab" data-category="backend">Backend & DB</button>
-              <button class="tech-tab" data-category="cloud">Cloud & DevOps</button>
+            <div class="tech-tabs" role="group" aria-label="Filter technologies">
+              <button class="tech-tab active" data-category="all" aria-pressed="true">All Tech</button>
+              <button class="tech-tab" data-category="frontend" aria-pressed="false">Frontend</button>
+              <button class="tech-tab" data-category="backend" aria-pressed="false">Backend & DB</button>
+              <button class="tech-tab" data-category="cloud" aria-pressed="false">Cloud & DevOps</button>
             </div>
             <div class="tech-grid">
               <!-- Frontend -->
@@ -512,114 +494,50 @@ const why = `        <div class="page container">
         </div>`;
 
 /* ---- Work ---- */
-const quote = (init, body, name, role) => `<figure class="quote" data-reveal data-tilt data-spot>
-            <div class="quote-mark" aria-hidden="true">&ldquo;</div>
-            <blockquote>${body}</blockquote>
-            <figcaption><span class="avatar" aria-hidden="true">${init}</span><span><strong>${name}</strong><span>${role}</span></span></figcaption>
-          </figure>`;
+const workItem = (title, body, tags) => `<article class="case-card work-pattern" data-reveal>
+              <div class="case-info">
+                <div class="case-meta">
+                  ${tags.map((tag) => `<span class="case-tag">${tag}</span>`).join("")}
+                </div>
+                <h3>${title}</h3>
+                <p>${body}</p>
+              </div>
+            </article>`;
+
 const work = `        <div class="page container">
-          ${pageHead("Case Studies", "Our Featured Work", "Real results and client success stories from teams who partnered with Aravosh.")}
-          
+          ${pageHead("Work", "Project patterns we handle well", "A practical view of the kinds of work Aravosh can take on without pretending to show client results that are not ready to publish.")}
+
           <div class="case-grid">
-            <!-- Case 1 -->
-            <article class="case-card" data-reveal>
-              <div class="case-img-placeholder"></div>
-              <div class="case-info">
-                <div class="case-meta">
-                  <span class="case-tag">Next.js</span>
-                  <span class="case-tag">Go</span>
-                  <span class="case-tag">AWS</span>
-                </div>
-                <h3>Northwind SaaS Platform</h3>
-                <p>Rebuilding a legacy enterprise logistics portal into a high-performance web app with real-time tracking.</p>
-                <div class="case-metrics">
-                  <div class="metric-item">
-                    <span class="metric-val">+112%</span>
-                    <span class="metric-lbl">Conversion Rate</span>
-                  </div>
-                  <div class="metric-item">
-                    <span class="metric-val">-45%</span>
-                    <span class="metric-lbl">Page Load Time</span>
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            <!-- Case 2 -->
-            <article class="case-card" data-reveal>
-              <div class="case-img-placeholder"></div>
-              <div class="case-info">
-                <div class="case-meta">
-                  <span class="case-tag">React Native</span>
-                  <span class="case-tag">Node.js</span>
-                  <span class="case-tag">Redis</span>
-                </div>
-                <h3>Vertex Mobile App</h3>
-                <p>A cross-platform mobile fintech app enabling rapid cross-border remittances with low fees.</p>
-                <div class="case-metrics">
-                  <div class="metric-item">
-                    <span class="metric-val">100k+</span>
-                    <span class="metric-lbl">Active Users</span>
-                  </div>
-                  <div class="metric-item">
-                    <span class="metric-val">4.9 ★</span>
-                    <span class="metric-lbl">App Store Rating</span>
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            <!-- Case 3 -->
-            <article class="case-card" data-reveal>
-              <div class="case-img-placeholder"></div>
-              <div class="case-info">
-                <div class="case-meta">
-                  <span class="case-tag">Figma</span>
-                  <span class="case-tag">Design System</span>
-                  <span class="case-tag">Growth</span>
-                </div>
-                <h3>Lumen Brand System</h3>
-                <p>Complete visual rebranding and design system modernization, driving traffic and conversions.</p>
-                <div class="case-metrics">
-                  <div class="metric-item">
-                    <span class="metric-val">3x</span>
-                    <span class="metric-lbl">Traffic Growth</span>
-                  </div>
-                  <div class="metric-item">
-                    <span class="metric-val">+50%</span>
-                    <span class="metric-lbl">Brand Recall</span>
-                  </div>
-                </div>
-              </div>
-            </article>
+            ${workItem("Internal dashboard or admin tool", "Turn scattered spreadsheet, CRM or operations work into a focused web interface with the right permissions, data views and handoff notes.", ["Web app", "Workflow", "Admin UI"])}
+            ${workItem("Product MVP or feature build", "Scope the core flow, design the interface and build a launchable version that can be tested with real users before the roadmap grows.", ["MVP", "UX", "Frontend"])}
+            ${workItem("Cloud cleanup or deployment setup", "Move a fragile deploy process toward clearer environments, automated releases, basic monitoring and documentation your team can maintain.", ["DevOps", "Cloud", "Handoff"])}
           </div>
 
-          <div style="margin-top: 80px;">
-            ${pageHead("Client Feedback", "What clients say")}
-            <div class="grid grid-3">
-              ${quote("MP", "Aravosh rebuilt our platform end to end and our conversions doubled within a quarter. A genuinely exceptional team.", "Maya Patel", "CEO, Northwind")}
-              ${quote("JO", "They understood our vision instantly and delivered ahead of schedule. Communication was flawless throughout.", "James Okoro", "Founder, Vertex")}
-              ${quote("SL", "The design work transformed how customers perceive our brand. We couldn't be happier with the partnership.", "Sofia Lindqvist", "CMO, Lumen")}
+          <section class="section work-note" data-reveal>
+            <div class="section-head">
+              <span class="eyebrow"><span class="eyebrow-dot"></span> Evidence over polish</span>
+              <h2>Real case studies should be specific</h2>
+              <p>When client-approved work is available, this page should show the problem, constraints, screenshots, timeline, role, measurable outcome and a clear client attribution.</p>
             </div>
-          </div>
-          ${trusted()}
-          ${ctaBand("Become our next success story", "Tell us what you're building — we'd love to help.")}
+          </section>
+
+          ${ctaBand("Have a project we can look at?", "Send the rough context first. We can help shape the scope before anything becomes a formal engagement.")}
         </div>`;
 
 /* ---- Contact (with form) ---- */
 const contact = `        <div class="page container">
-          ${pageHead("Let's talk", "Tell us about your project", "Walk through our quick project discovery tool and get in touch with our team.")}
+          ${pageHead("Let's talk", "Tell us what you need built", "Share the rough scope, timeline and constraints. A short note is enough to start.")}
           <div class="contact-grid">
             <aside class="contact-info" data-reveal>
               <div class="info-card">
                 <h3>Get in touch</h3>
-                <p>Prefer direct email? Reach our team and we'll reply within one business day.</p>
+                <p>Prefer direct email? Send the project context and the next decision you need help with.</p>
                 <a href="mailto:${EMAIL}" class="email-link">${EMAIL}</a>
               </div>
               <ul class="info-list">
-                <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> A reply within one business day</li>
-                <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> A senior team member, not a bot</li>
-                <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> No obligation, no hard sell</li>
+                <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> Clear next steps after the first email</li>
+                <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> Scope before estimates</li>
+                <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> Practical advice, even if the project is early</li>
               </ul>
             </aside>
             
@@ -642,19 +560,19 @@ const contact = `        <div class="page container">
                     <div class="planner-panel active" data-step="1">
                       <h4>What type of project are we building?</h4>
                       <div class="planner-options">
-                        <button type="button" class="planner-option-btn" data-value="dev">
+                        <button type="button" class="planner-option-btn" data-value="dev" aria-pressed="false">
                           <span>Software Development</span>
                           <small>Web apps, mobile apps, SaaS systems</small>
                         </button>
-                        <button type="button" class="planner-option-btn" data-value="design">
+                        <button type="button" class="planner-option-btn" data-value="design" aria-pressed="false">
                           <span>Product Design &amp; UX</span>
                           <small>Wireframing, high-res UI design, prototyping</small>
                         </button>
-                        <button type="button" class="planner-option-btn" data-value="cloud">
+                        <button type="button" class="planner-option-btn" data-value="cloud" aria-pressed="false">
                           <span>Cloud &amp; DevOps</span>
                           <small>CI/CD pipelines, AWS infra setup, migrations</small>
                         </button>
-                        <button type="button" class="planner-option-btn" data-value="strategy">
+                        <button type="button" class="planner-option-btn" data-value="strategy" aria-pressed="false">
                           <span>Consulting &amp; Strategy</span>
                           <small>Tech guidance, roadmapping, scoping</small>
                         </button>
@@ -665,15 +583,15 @@ const contact = `        <div class="page container">
                     <div class="planner-panel" data-step="2">
                       <h4>What is the scale of the engagement?</h4>
                       <div class="planner-options">
-                        <button type="button" class="planner-option-btn" data-value="mvp">
+                        <button type="button" class="planner-option-btn" data-value="mvp" aria-pressed="false">
                           <span>MVP / Small Scale</span>
                           <small>Basic launch, single platform, essential features</small>
                         </button>
-                        <button type="button" class="planner-option-btn" data-value="medium">
-                          <span>Growth / Medium Scale</span>
-                          <small>Multiple integrations, customized dashboards</small>
+                        <button type="button" class="planner-option-btn" data-value="medium" aria-pressed="false">
+                          <span>Multi-feature Build</span>
+                          <small>Several workflows, integrations or dashboards</small>
                         </button>
-                        <button type="button" class="planner-option-btn" data-value="enterprise">
+                        <button type="button" class="planner-option-btn" data-value="enterprise" aria-pressed="false">
                           <span>Enterprise / Full Stack</span>
                           <small>Scalable systems, high security, advanced workflows</small>
                         </button>
@@ -684,15 +602,15 @@ const contact = `        <div class="page container">
                     <div class="planner-panel" data-step="3">
                       <h4>What is your target timeline?</h4>
                       <div class="planner-options">
-                        <button type="button" class="planner-option-btn" data-value="fast">
+                        <button type="button" class="planner-option-btn" data-value="fast" aria-pressed="false">
                           <span>Fast-Track</span>
                           <small>Urgent launch, less than 1 month</small>
                         </button>
-                        <button type="button" class="planner-option-btn" data-value="standard">
+                        <button type="button" class="planner-option-btn" data-value="standard" aria-pressed="false">
                           <span>Standard Delivery</span>
-                          <small>Typical cycle, 2-3 months</small>
+                          <small>Typical cycle, 2 to 3 months</small>
                         </button>
-                        <button type="button" class="planner-option-btn" data-value="flexible">
+                        <button type="button" class="planner-option-btn" data-value="flexible" aria-pressed="false">
                           <span>Flexible</span>
                           <small>Ongoing engagement, adaptive phases</small>
                         </button>
@@ -703,7 +621,7 @@ const contact = `        <div class="page container">
                     <div class="planner-panel" data-step="4">
                       <h4>Let's wrap up your request</h4>
                       <form id="contactForm" class="form" action="https://api.web3forms.com/submit" method="POST" novalidate>
-                        <input type="hidden" name="access_key" value="WEB3FORMS_ACCESS_KEY" />
+                        <input type="hidden" name="access_key" value="41492813-7c57-4220-a958-fddb3a9dc7a1" />
                         <input type="hidden" name="subject" value="New enquiry from the Aravosh website" />
                         <input type="hidden" name="from_name" value="Aravosh Website" />
                         <input type="hidden" id="plannerDetails" name="planner_details" value="" />
@@ -711,17 +629,17 @@ const contact = `        <div class="page container">
                         
                         <div class="field">
                           <label for="name">Name <span class="req" aria-hidden="true">*</span></label>
-                          <input id="name" name="name" type="text" autocomplete="name" required aria-required="true" aria-describedby="err-name" placeholder="Jane Doe" />
+                          <input id="name" name="name" type="text" autocomplete="name" required aria-required="true" aria-describedby="err-name" placeholder="Jane Doe…" />
                           <p class="field-error" id="err-name">Please enter your name.</p>
                         </div>
                         <div class="field">
                           <label for="email">Email <span class="req" aria-hidden="true">*</span></label>
-                          <input id="email" name="email" type="email" autocomplete="email" required aria-required="true" aria-describedby="err-email" placeholder="jane@company.com" />
+                          <input id="email" name="email" type="email" autocomplete="email" spellcheck="false" required aria-required="true" aria-describedby="err-email" placeholder="jane@company.com…" />
                           <p class="field-error" id="err-email">Please enter a valid email address.</p>
                         </div>
                         <div class="field">
                           <label for="message">Anything else we should know? <span class="req" aria-hidden="true">*</span></label>
-                          <textarea id="message" name="message" rows="3" required aria-required="true" aria-describedby="err-message" placeholder="Add any details, questions, or notes here."></textarea>
+                          <textarea id="message" name="message" rows="3" required aria-required="true" aria-describedby="err-message" placeholder="Current site, dashboard, MVP, migration…"></textarea>
                           <p class="field-error" id="err-message">Please add a short note about your project.</p>
                         </div>
                         <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
@@ -748,7 +666,7 @@ const contact = `        <div class="page container">
                         </div>
                       </div>
                     </div>
-                    <p class="summary-note">We'll review your answers and email a tailored proposal within one business day.</p>
+                    <p class="summary-note">Use this as a starting point. The first reply can clarify scope before any estimate is made.</p>
                   </div>
                 </div>
                 
@@ -822,12 +740,12 @@ const notfound = `        <section class="error-page">
 
 /* ===================== write files ===================== */
 const PAGES = [
-  { file: "index.html", slug: "index", active: "home", title: "Software, Design & Digital Growth", desc: "Aravosh is a technology and digital solutions company. We design, build and scale modern software, brand and growth for ambitious businesses.", main: home },
-  { file: "services.html", slug: "services", active: "services", title: "Services", desc: "Software development, product design, brand, growth, cloud and strategy — end-to-end digital services from Aravosh.", main: services },
+  { file: "index.html", slug: "index", active: "home", title: "Software, UX & Cloud Delivery", desc: "Aravosh helps teams scope, design, build and launch practical web products, dashboards and cloud-backed tools.", main: home },
+  { file: "services.html", slug: "services", active: "services", title: "Services", desc: "Software development, product design, cloud delivery and technical strategy from Aravosh.", main: services },
   { file: "about.html", slug: "about", active: "about", title: "About", desc: "Aravosh is a multidisciplinary team of engineers, designers and strategists invested in your success.", main: about },
   { file: "why.html", slug: "why", active: "why", title: "Why Us", desc: "Quality, predictable delivery, dedicated support and future-ready solutions — why clients choose Aravosh.", main: why },
-  { file: "work.html", slug: "work", active: "work", title: "Work", desc: "Real results and client stories from teams who partnered with Aravosh.", main: work },
-  { file: "contact.html", slug: "contact", active: "contact", title: "Contact", desc: "Tell us about your project. We reply within one business day at team@aravosh.com.", main: contact },
+  { file: "work.html", slug: "work", active: "work", title: "Work", desc: "Project patterns Aravosh handles well, with a practical standard for future case studies.", main: work },
+  { file: "contact.html", slug: "contact", active: "contact", title: "Contact", desc: "Tell Aravosh what you need built, scoped or cleaned up.", main: contact },
   { file: "privacy.html", slug: "privacy", active: "", title: "Privacy Policy", desc: "How Aravosh collects, uses and protects your information.", main: privacy },
   { file: "terms.html", slug: "terms", active: "", title: "Terms of Service", desc: "The terms that govern your use of the Aravosh website and services.", main: terms },
   { file: "404.html", slug: "404", active: "", title: "Page not found", desc: "The page you're looking for doesn't exist.", main: notfound, robots: "noindex" },
