@@ -97,11 +97,10 @@ const jsonLd = (slug, fullTitle, desc, url) => {
     url: SITE + "/",
     logo: { "@type": "ImageObject", url: SITE + "/assets/light-logo.jpeg" },
     image: SITE + "/assets/og-image.png",
-    description: "Aravosh is a technology partner for practical software, AI automation, product design, cloud delivery and technical strategy.",
-    slogan: "Practical software, designed and shipped with care.",
+    description: "Aravosh is an early-stage technology studio for practical software, AI automation, product design, cloud delivery and technical strategy.",
+    slogan: "Practical software, scoped honestly and built with care.",
     email: EMAIL,
-    foundingDate: "2017",
-    areaServed: "Worldwide",
+    areaServed: "Remote",
     knowsAbout: ["Software Development", "Web Development", "Product Design", "UX", "AI Automation", "AI Integration", "Retrieval-Augmented Generation", "RAG", "Cloud", "DevOps", "Technical Strategy"],
     sameAs: SOCIAL,
     contactPoint: { "@type": "ContactPoint", email: EMAIL, contactType: "customer service", availableLanguage: "English" },
@@ -441,35 +440,35 @@ const services = `        <div class="page container">
 
 /* ---- About ---- */
 const about = `        <div class="page container">
-          ${pageHead("About Aravosh", "A partner invested in your success")}
+          ${pageHead("About Aravosh", "An early-stage studio building useful digital systems")}
           <div class="about-inner">
             <div class="about-media" data-reveal>
               <div class="about-card">
-                <span class="about-chip">Established 2017</span>
-                <h3>Crafting digital excellence</h3>
-                <p>A multidisciplinary team of engineers, designers and strategists working as one.</p>
+                <span class="about-chip">Early-stage studio</span>
+                <h3>Small team, practical builds</h3>
+                <p>We are building our track record with focused websites, software tools, AI workflows and cloud-backed systems.</p>
                 <div class="about-card-stats">
-                  <div><strong>30+</strong><span>Specialists</span></div>
-                  <div><strong>4</strong><span>Continents served</span></div>
+                  <div><strong>2</strong><span>Pilot projects</span></div>
+                  <div><strong>1:1</strong><span>Direct collaboration</span></div>
                 </div>
               </div>
             </div>
             <div class="about-text" data-reveal>
-              <p>We're more than a vendor — we're an extension of your team. Aravosh blends deep technical expertise with a relentless focus on outcomes, helping organisations of every size turn complex challenges into elegant, dependable solutions.</p>
+              <p>Aravosh is a young technology studio, so we do not pretend to have a long agency track record. We keep the promise simpler: understand the problem, scope the work clearly and build something useful with careful communication.</p>
               <ul class="check-list">
-                <li>Transparent communication at every stage</li>
-                <li>Senior talent on every engagement</li>
-                <li>Long-term support, not just a hand-off</li>
+                <li>Scope and constraints clarified before the build starts</li>
+                <li>Founder-led attention on every project</li>
+                <li>Practical handoff notes instead of vague promises</li>
               </ul>
               <a href="/contact" class="btn btn-primary">Work with us <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${I.arrow}</svg></a>
             </div>
           </div>
-          ${ctaBand("Let's build something great together", "Reach out and tell us about your goals.")}
+          ${ctaBand("Have an early project to shape?", "Send the rough context. We can help make the next step clearer.")}
         </div>`;
 
 /* ---- Why ---- */
 const why = `        <div class="page container">
-          ${pageHead("Why Aravosh", "Built on principles that deliver", "The reasons clients choose us — and stay with us.")}
+          ${pageHead("Why Aravosh", "Built around honest scope and careful execution", "A small set of working principles for early projects that need clarity more than theatre.")}
           
           <div class="timeline-container" data-reveal>
             <div class="timeline-line">
@@ -480,8 +479,8 @@ const why = `        <div class="page container">
               <div class="timeline-badge"></div>
               <div class="timeline-content">
                 <span class="timeline-num">Phase 01</span>
-                <h3>Discovery & Strategy</h3>
-                <p>We work closely with your team to detail features, establish requirements, map architecture, and set business objectives.</p>
+                <h3>Discovery & Scope</h3>
+                <p>We start by understanding the actual workflow, constraints, users and decisions the project needs to support.</p>
               </div>
             </div>
             
@@ -489,8 +488,8 @@ const why = `        <div class="page container">
               <div class="timeline-badge"></div>
               <div class="timeline-content">
                 <span class="timeline-num">Phase 02</span>
-                <h3>UX/UI Design</h3>
-                <p>Crafting intuitive customer journeys, high-fidelity mockups, and interactive prototypes that validate user flows before coding.</p>
+                <h3>UX/UI Direction</h3>
+                <p>We map the main flows and interface states before development so the build has a clear target.</p>
               </div>
             </div>
             
@@ -498,8 +497,8 @@ const why = `        <div class="page container">
               <div class="timeline-badge"></div>
               <div class="timeline-content">
                 <span class="timeline-num">Phase 03</span>
-                <h3>Product Development</h3>
-                <p>Our engineering team builds clean, highly performant solutions using clean code standards and scalable, future-ready architectures.</p>
+                <h3>Focused Development</h3>
+                <p>We build the useful core first: websites, dashboards, AI workflows or internal tools that match the agreed scope.</p>
               </div>
             </div>
             
@@ -507,8 +506,8 @@ const why = `        <div class="page container">
               <div class="timeline-badge"></div>
               <div class="timeline-content">
                 <span class="timeline-num">Phase 04</span>
-                <h3>Quality Assurance</h3>
-                <p>Conducting comprehensive automated testing, load verification, and security audits to guarantee flawless production deployments.</p>
+                <h3>Review & Testing</h3>
+                <p>We check the important paths, fix rough edges and make sure the handoff is understandable before launch.</p>
               </div>
             </div>
             
@@ -516,13 +515,13 @@ const why = `        <div class="page container">
               <div class="timeline-badge"></div>
               <div class="timeline-content">
                 <span class="timeline-num">Phase 05</span>
-                <h3>DevOps, Launch & Scale</h3>
-                <p>Automating CI/CD pipelines, deploying to robust cloud systems, and setting up ongoing observability dashboards to support growth.</p>
+                <h3>Launch & Handoff</h3>
+                <p>We help deploy the project, document what matters and leave the next improvement path clear.</p>
               </div>
             </div>
           </div>
 
-          ${ctaBand("See the difference for yourself", "Start a conversation with our team today.")}
+          ${ctaBand("Want a realistic path forward?", "Tell us what you are trying to build and where the uncertainty is.")}
         </div>`;
 
 /* ---- Work ---- */
@@ -550,7 +549,7 @@ const work = `        <div class="page container">
             <div class="section-head">
               <span class="eyebrow"><span class="eyebrow-dot"></span> Evidence over polish</span>
               <h2>Real case studies should be specific</h2>
-              <p>When client-approved work is available, this page should show the problem, constraints, screenshots, timeline, role, measurable outcome and a clear client attribution.</p>
+              <p>When public work is ready to share, this page should show the problem, constraints, screenshots, timeline, role and a clear explanation of what was actually delivered.</p>
             </div>
           </section>
 
@@ -779,8 +778,8 @@ const notfound = `        <section class="error-page">
 const PAGES = [
   { file: "index.html", slug: "index", active: "home", title: "Software, AI Automation, UX & Cloud Delivery", desc: "Aravosh helps teams scope, design, build and launch practical web products, AI automations, dashboards and cloud-backed tools.", main: home },
   { file: "services.html", slug: "services", active: "services", title: "Services", desc: "Software development, AI automation and integration, product design, cloud delivery and technical strategy from Aravosh.", main: services },
-  { file: "about.html", slug: "about", active: "about", title: "About", desc: "Aravosh is a multidisciplinary team of engineers, designers and strategists invested in your success.", main: about },
-  { file: "why.html", slug: "why", active: "why", title: "Why Us", desc: "Quality, predictable delivery, dedicated support and future-ready solutions — why clients choose Aravosh.", main: why },
+  { file: "about.html", slug: "about", active: "about", title: "About", desc: "Aravosh is an early-stage technology studio building practical software, AI workflows and digital systems.", main: about },
+  { file: "why.html", slug: "why", active: "why", title: "Why Us", desc: "How Aravosh approaches early digital projects with honest scope, clear communication and careful execution.", main: why },
   { file: "work.html", slug: "work", active: "work", title: "Work", desc: "Project patterns Aravosh handles well, with a practical standard for future case studies.", main: work },
   { file: "contact.html", slug: "contact", active: "contact", title: "Contact", desc: "Tell Aravosh what you need built, automated, integrated, scoped or cleaned up.", main: contact },
   { file: "privacy.html", slug: "privacy", active: "", title: "Privacy Policy", desc: "How Aravosh collects, uses and protects your information.", main: privacy },
