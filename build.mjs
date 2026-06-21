@@ -448,7 +448,7 @@ const about = `        <div class="page container">
                 <h3>Small team, practical builds</h3>
                 <p>We are building our track record with focused websites, software tools, AI workflows and cloud-backed systems.</p>
                 <div class="about-card-stats">
-                  <div><strong>2</strong><span>Pilot projects</span></div>
+                  <div><strong>Focused</strong><span>Project delivery</span></div>
                   <div><strong>1:1</strong><span>Direct collaboration</span></div>
                 </div>
               </div>
