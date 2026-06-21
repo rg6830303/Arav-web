@@ -6,7 +6,7 @@ import { writeFileSync } from "node:fs";
 
 const SITE = "https://aravosh.com";
 const EMAIL = "team@aravosh.com";
-const ASSET_VERSION = "20260621-3";
+const ASSET_VERSION = "20260621-4";
 
 /* Replace these with your real profiles (or remove) — used for Google sameAs. */
 const SOCIAL = [
@@ -17,6 +17,7 @@ const SOCIAL = [
 const SERVICE_NAMES = [
   "Software Development",
   "Product Design & UX",
+  "AI Automation & Integration",
   "Cloud & DevOps",
   "Consulting & Strategy",
 ];
@@ -96,12 +97,12 @@ const jsonLd = (slug, fullTitle, desc, url) => {
     url: SITE + "/",
     logo: { "@type": "ImageObject", url: SITE + "/assets/light-logo.jpeg" },
     image: SITE + "/assets/og-image.png",
-    description: "Aravosh is a technology partner for practical software, product design, cloud delivery and technical strategy.",
+    description: "Aravosh is a technology partner for practical software, AI automation, product design, cloud delivery and technical strategy.",
     slogan: "Practical software, designed and shipped with care.",
     email: EMAIL,
     foundingDate: "2017",
     areaServed: "Worldwide",
-    knowsAbout: ["Software Development", "Web Development", "Product Design", "UX", "Cloud", "DevOps", "Technical Strategy"],
+    knowsAbout: ["Software Development", "Web Development", "Product Design", "UX", "AI Automation", "AI Integration", "Retrieval-Augmented Generation", "RAG", "Cloud", "DevOps", "Technical Strategy"],
     sameAs: SOCIAL,
     contactPoint: { "@type": "ContactPoint", email: EMAIL, contactType: "customer service", availableLanguage: "English" },
     hasOfferCatalog: {
@@ -115,7 +116,7 @@ const jsonLd = (slug, fullTitle, desc, url) => {
     "@id": SITE + "/#website",
     url: SITE + "/",
     name: "Aravosh",
-    description: "Technology and digital solutions for ambitious businesses.",
+    description: "Technology, AI automation and digital solutions for ambitious businesses.",
     publisher: { "@id": SITE + "/#org" },
     inLanguage: "en",
   };
@@ -144,7 +145,7 @@ const jsonLd = (slug, fullTitle, desc, url) => {
 
 const page = ({ slug, active, title, desc, main, robots }) => {
   const url = SITE + (slug === "index" ? "/" : "/" + slug);
-  const fullTitle = slug === "index" ? "Aravosh — Technology & Digital Solutions Company" : title + " — Aravosh";
+  const fullTitle = slug === "index" ? "Aravosh — Software, AI Automation & Digital Solutions" : title + " — Aravosh";
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -223,11 +224,15 @@ const SERVICE_ICONS = {
   growth: '<path d="M4 19V5M4 19h16M8 16l3.5-4 3 2.5L20 8"/>',
   cloud: '<path d="M7 18a4 4 0 010-8 5.5 5.5 0 0110.6-1.5A4 4 0 1117 18H7z"/>',
   strategy: '<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',
+  ai: '<path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="4"/><path d="M10.5 11.5h3M10.5 13.5h3"/>',
+  rag: '<path d="M4 5.5C4 4.7 4.7 4 5.5 4h13c.8 0 1.5.7 1.5 1.5v13c0 .8-.7 1.5-1.5 1.5h-13C4.7 20 4 19.3 4 18.5z"/><path d="M8 8h8M8 12h5M8 16h7"/>',
 };
 
 const servicesGrid = () => `<div class="grid grid-3">
           ${card(SERVICE_ICONS.dev, "Software Development", "Focused web apps, dashboards and internal tools built around the workflows your team actually uses.")}
           ${card(SERVICE_ICONS.design, "Product Design &amp; UX", "Clear interfaces, prototypes and user flows before the build gets expensive.")}
+          ${card(SERVICE_ICONS.ai, "AI Automation &amp; Integration", "AI-assisted workflows, internal copilots and practical integrations that reduce repetitive work without forcing a rebuild.")}
+          ${card(SERVICE_ICONS.rag, "RAG &amp; Knowledge Systems", "Retrieval-augmented tools that let teams search, summarize and use their own documents more effectively.")}
           ${card(SERVICE_ICONS.cloud, "Cloud &amp; DevOps", "Deployment, monitoring and automation for projects that need to be easier to run after launch.")}
           ${card(SERVICE_ICONS.strategy, "Consulting &amp; Strategy", "Technical scoping, architecture reviews and practical roadmaps before you commit to a direction.")}
         </div>`;
@@ -261,7 +266,7 @@ const home = `        <section class="hero">
             <div class="hero-copy">
               <span class="eyebrow" data-reveal><span class="eyebrow-dot"></span> <span id="greeting">Digital solutions, engineered with care</span></span>
               <h1 data-reveal>We build technology that <span class="text-grad">moves your business forward.</span></h1>
-              <p class="hero-sub" data-reveal>Aravosh partners with ambitious teams to design, build and scale modern digital products — from strategy and branding to software that performs.</p>
+              <p class="hero-sub" data-reveal>Aravosh partners with ambitious teams to design, build and scale modern digital products, AI-enabled workflows and software that performs.</p>
               <div class="hero-actions" data-reveal>
                 <a href="/contact" class="btn btn-primary btn-cta" data-magnetic>Start a project <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${I.arrow}</svg></a>
                 <a href="/services" class="btn btn-ghost" data-magnetic>Explore services</a>
@@ -288,11 +293,11 @@ const home = `        <section class="hero">
             <header class="section-head" data-reveal>
               <span class="eyebrow"><span class="eyebrow-dot"></span> What we do</span>
               <h2>Focused help where digital projects usually get stuck</h2>
-              <p>Sharper scope, cleaner interfaces, dependable builds and enough cloud support to keep things running.</p>
+              <p>Sharper scope, cleaner interfaces, dependable builds, practical AI automation and enough cloud support to keep things running.</p>
             </header>
             <div class="grid grid-3">
               ${card(SERVICE_ICONS.dev, "Software Development", "Web apps, dashboards and workflow tools with maintainable frontends and APIs.")}
-              ${card(SERVICE_ICONS.design, "Product Design &amp; UX", "Wireframes, interface systems and user flows that make the build easier to reason about.")}
+              ${card(SERVICE_ICONS.ai, "AI Automation &amp; Integration", "Internal copilots, AI-assisted processes and integrations that connect models to real business workflows.")}
               ${card(SERVICE_ICONS.cloud, "Cloud &amp; DevOps", "Deployment setup, basic observability and release workflows for small teams.")}
             </div>
             <div class="center-row" data-reveal>
@@ -306,7 +311,7 @@ const home = `        <section class="hero">
 
 /* ---- Services ---- */
 const services = `        <div class="page container">
-          ${pageHead("What we do", "Focused services for practical digital projects", "A narrower set of capabilities for teams that need clear scope, usable interfaces and dependable delivery.")}
+          ${pageHead("What we do", "Focused services for practical digital and AI projects", "A narrower set of capabilities for teams that need clear scope, usable interfaces, sensible AI integration and dependable delivery.")}
           ${servicesGrid()}
           
           <div class="tech-matrix" data-reveal>
@@ -319,6 +324,7 @@ const services = `        <div class="page container">
               <button class="tech-tab active" data-category="all" aria-pressed="true">All Tech</button>
               <button class="tech-tab" data-category="frontend" aria-pressed="false">Frontend</button>
               <button class="tech-tab" data-category="backend" aria-pressed="false">Backend & DB</button>
+              <button class="tech-tab" data-category="ai" aria-pressed="false">AI & RAG</button>
               <button class="tech-tab" data-category="cloud" aria-pressed="false">Cloud & DevOps</button>
             </div>
             <div class="tech-grid">
@@ -366,6 +372,36 @@ const services = `        <div class="page container">
                 </div>
                 <h4>PostgreSQL</h4>
                 <div class="tech-tooltip">Enterprise-grade relational database design and complex queries.</div>
+              </div>
+              
+              <!-- AI & RAG -->
+              <div class="tech-card" data-category="ai">
+                <div class="tech-icon-wrap">
+                  <svg viewBox="0 0 24 24">${SERVICE_ICONS.ai}</svg>
+                </div>
+                <h4>LLM Integrations</h4>
+                <div class="tech-tooltip">Model-backed features for support, operations, content workflows and internal tools.</div>
+              </div>
+              <div class="tech-card" data-category="ai">
+                <div class="tech-icon-wrap">
+                  <svg viewBox="0 0 24 24">${SERVICE_ICONS.rag}</svg>
+                </div>
+                <h4>RAG Pipelines</h4>
+                <div class="tech-tooltip">Retrieval workflows that connect AI responses to your documents, policies and knowledge base.</div>
+              </div>
+              <div class="tech-card" data-category="ai backend">
+                <div class="tech-icon-wrap">
+                  <svg viewBox="0 0 24 24"><path d="M4 6h16M7 10h10M9 14h6M12 18v3M8 21h8"/></svg>
+                </div>
+                <h4>Vector Search</h4>
+                <div class="tech-tooltip">Embeddings, indexing and retrieval patterns for AI search and document Q&amp;A.</div>
+              </div>
+              <div class="tech-card" data-category="ai">
+                <div class="tech-icon-wrap">
+                  <svg viewBox="0 0 24 24"><path d="M5 12h4l2-6 2 12 2-6h4"/></svg>
+                </div>
+                <h4>Workflow Automation</h4>
+                <div class="tech-tooltip">AI-assisted handoffs across forms, CRMs, emails, docs and internal review steps.</div>
               </div>
               
               <!-- Cloud & DevOps -->
@@ -506,6 +542,7 @@ const work = `        <div class="page container">
           <div class="case-grid">
             ${workItem("Internal dashboard or admin tool", "Turn scattered spreadsheet, CRM or operations work into a focused web interface with the right permissions, data views and handoff notes.", ["Web app", "Workflow", "Admin UI"])}
             ${workItem("Product MVP or feature build", "Scope the core flow, design the interface and build a launchable version that can be tested with real users before the roadmap grows.", ["MVP", "UX", "Frontend"])}
+            ${workItem("AI-assisted operations workflow", "Connect forms, documents, support notes or internal knowledge to an AI workflow that helps teams triage, summarize and act faster.", ["AI", "Automation", "RAG"])}
             ${workItem("Cloud cleanup or deployment setup", "Move a fragile deploy process toward clearer environments, automated releases, basic monitoring and documentation your team can maintain.", ["DevOps", "Cloud", "Handoff"])}
           </div>
 
@@ -567,6 +604,10 @@ const contact = `        <div class="page container">
                         <button type="button" class="planner-option-btn" data-value="cloud" aria-pressed="false">
                           <span>Cloud &amp; DevOps</span>
                           <small>CI/CD pipelines, AWS infra setup, migrations</small>
+                        </button>
+                        <button type="button" class="planner-option-btn" data-value="ai" aria-pressed="false">
+                          <span>AI Automation &amp; Integration</span>
+                          <small>Copilots, RAG tools, workflow automation</small>
                         </button>
                         <button type="button" class="planner-option-btn" data-value="strategy" aria-pressed="false">
                           <span>Consulting &amp; Strategy</span>
@@ -635,7 +676,7 @@ const contact = `        <div class="page container">
                         </div>
                         <div class="field">
                           <label for="message">Anything else we should know? <span class="req" aria-hidden="true">*</span></label>
-                          <textarea id="message" name="message" rows="3" required aria-required="true" aria-describedby="err-message" placeholder="Current site, dashboard, MVP, migration…"></textarea>
+                          <textarea id="message" name="message" rows="3" required aria-required="true" aria-describedby="err-message" placeholder="Current site, dashboard, AI workflow, migration…"></textarea>
                           <p class="field-error" id="err-message">Please add a short note about your project.</p>
                         </div>
                         <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
@@ -736,12 +777,12 @@ const notfound = `        <section class="error-page">
 
 /* ===================== write files ===================== */
 const PAGES = [
-  { file: "index.html", slug: "index", active: "home", title: "Software, UX & Cloud Delivery", desc: "Aravosh helps teams scope, design, build and launch practical web products, dashboards and cloud-backed tools.", main: home },
-  { file: "services.html", slug: "services", active: "services", title: "Services", desc: "Software development, product design, cloud delivery and technical strategy from Aravosh.", main: services },
+  { file: "index.html", slug: "index", active: "home", title: "Software, AI Automation, UX & Cloud Delivery", desc: "Aravosh helps teams scope, design, build and launch practical web products, AI automations, dashboards and cloud-backed tools.", main: home },
+  { file: "services.html", slug: "services", active: "services", title: "Services", desc: "Software development, AI automation and integration, product design, cloud delivery and technical strategy from Aravosh.", main: services },
   { file: "about.html", slug: "about", active: "about", title: "About", desc: "Aravosh is a multidisciplinary team of engineers, designers and strategists invested in your success.", main: about },
   { file: "why.html", slug: "why", active: "why", title: "Why Us", desc: "Quality, predictable delivery, dedicated support and future-ready solutions — why clients choose Aravosh.", main: why },
   { file: "work.html", slug: "work", active: "work", title: "Work", desc: "Project patterns Aravosh handles well, with a practical standard for future case studies.", main: work },
-  { file: "contact.html", slug: "contact", active: "contact", title: "Contact", desc: "Tell Aravosh what you need built, scoped or cleaned up.", main: contact },
+  { file: "contact.html", slug: "contact", active: "contact", title: "Contact", desc: "Tell Aravosh what you need built, automated, integrated, scoped or cleaned up.", main: contact },
   { file: "privacy.html", slug: "privacy", active: "", title: "Privacy Policy", desc: "How Aravosh collects, uses and protects your information.", main: privacy },
   { file: "terms.html", slug: "terms", active: "", title: "Terms of Service", desc: "The terms that govern your use of the Aravosh website and services.", main: terms },
   { file: "404.html", slug: "404", active: "", title: "Page not found", desc: "The page you're looking for doesn't exist.", main: notfound, robots: "noindex" },
