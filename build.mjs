@@ -6,6 +6,7 @@ import { writeFileSync } from "node:fs";
 
 const SITE = "https://aravosh.com";
 const EMAIL = "team@aravosh.com";
+const ASSET_VERSION = "20260621-3";
 
 /* Replace these with your real profiles (or remove) — used for Google sameAs. */
 const SOCIAL = [
@@ -153,7 +154,7 @@ const page = ({ slug, active, title, desc, main, robots }) => {
   <meta name="description" content="${desc}" />
   ${robots ? '<meta name="robots" content="' + robots + '" />' : '<meta name="robots" content="index, follow, max-image-preview:large" />'}
   <link rel="canonical" href="${url}" />
-  <meta name="theme-color" content="#f7fbff" />
+  <meta name="theme-color" content="#f8f9fe" />
   <meta name="color-scheme" content="light" />
   <meta name="google-site-verification" content="${GSC_VERIFY}" />
 
@@ -179,8 +180,8 @@ const page = ({ slug, active, title, desc, main, robots }) => {
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;450;500;600;700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css?v=${ASSET_VERSION}" />
 
   <script type="application/ld+json">
   ${jsonLd(slug, fullTitle, desc, url)}
@@ -265,11 +266,6 @@ const home = `        <section class="hero">
                 <a href="/contact" class="btn btn-primary btn-cta" data-magnetic>Start a project <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${I.arrow}</svg></a>
                 <a href="/services" class="btn btn-ghost" data-magnetic>Explore services</a>
               </div>
-              <ul class="hero-proof" data-reveal>
-                <li><strong>Scope first</strong><span>Clear requirements before design or development begins.</span></li>
-                <li><strong>Useful builds</strong><span>Dashboards, websites, automations and product interfaces.</span></li>
-                <li><strong>Launch support</strong><span>Deployment, handoff and practical improvements after release.</span></li>
-              </ul>
             </div>
             <div class="hero-visual" data-reveal aria-hidden="true">
               <div class="scene" id="scene">
