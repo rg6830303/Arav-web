@@ -19,9 +19,9 @@ Contact: team@aravosh.com.
 
 ## Pages
 
-- [Home](https://www.aravosh.com/): overview, highlights and FAQ.
-- [Services](https://www.aravosh.com/services): full service list and tech stack.
-- [About](https://www.aravosh.com/about): company background.
-- [Why Us](https://www.aravosh.com/why): engagement process and principles.
-- [Work](https://www.aravosh.com/work): the kinds of projects Aravosh takes on.
-- [Contact](https://www.aravosh.com/contact): project enquiry form and direct email.
+- [Home](https://aravosh.com/): overview, highlights and FAQ.
+- [Services](https://aravosh.com/services): full service list and tech stack.
+- [About](https://aravosh.com/about): company background.
+- [Why Us](https://aravosh.com/why): engagement process and principles.
+- [Work](https://aravosh.com/work): the kinds of projects Aravosh takes on.
+- [Contact](https://aravosh.com/contact): project enquiry form and direct email.
