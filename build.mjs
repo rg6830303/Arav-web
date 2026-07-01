@@ -111,6 +111,7 @@ const jsonLd = (slug, fullTitle, desc, url, faqs) => {
     logo: { "@type": "ImageObject", url: SITE + "/assets/light-logo.jpeg" },
     image: SITE + "/assets/og-image.png",
     description: "Aravosh is an early-stage technology studio for practical software, AI automation, product design, cloud delivery and technical strategy.",
+    disambiguatingDescription: "Aravosh is a technology studio brand, spelled A-R-A-V-O-S-H, and is not affiliated with any similarly named individual or consulting firm.",
     slogan: "Practical software, scoped honestly and built with care.",
     email: EMAIL,
     areaServed: "Remote",
