@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://aravosh.com/sitemap.xml
+Sitemap: https://www.aravosh.com/sitemap.xml
