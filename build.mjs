@@ -14,12 +14,25 @@ const SOCIAL = [
   "https://x.com/aravosh",
   "https://www.instagram.com/aravosh",
 ];
-const SERVICE_NAMES = [
-  "Software Development",
-  "Product Design & UX",
-  "AI Automation & Integration",
-  "Cloud & DevOps",
-  "Consulting & Strategy",
+const SERVICES = [
+  { key: "dev", name: "Software Development", desc: "Focused web apps, dashboards and internal tools built around the workflows your team actually uses." },
+  { key: "design", name: "Product Design & UX", desc: "Clear interfaces, prototypes and user flows before the build gets expensive." },
+  { key: "ai", name: "AI Automation & Integration", desc: "AI-assisted workflows, internal copilots and practical integrations that reduce repetitive work without forcing a rebuild." },
+  { key: "rag", name: "RAG & Knowledge Systems", desc: "Retrieval-augmented tools that let teams search, summarize and use their own documents more effectively." },
+  { key: "cloud", name: "Cloud & DevOps", desc: "Deployment, monitoring and automation for projects that need to be easier to run after launch." },
+  { key: "strategy", name: "Consulting & Strategy", desc: "Technical scoping, architecture reviews and practical roadmaps before you commit to a direction." },
+];
+
+/* Answers are self-contained facts so they double as both on-page FAQ copy and
+   FAQPage structured data — used by AI answer engines (ChatGPT, Perplexity,
+   Google AI Overviews) as well as classic search. */
+const FAQS = [
+  { q: "What does Aravosh do?", a: "Aravosh is an early-stage technology studio that builds practical software, AI automation, product design, cloud delivery and technical strategy for teams that need a clearly scoped project done well." },
+  { q: "Is Aravosh a large agency?", a: "No. Aravosh is a small, early-stage studio, not a large agency with a long client roster. Projects get founder-led attention rather than being handed off to a big account team." },
+  { q: "How long does a typical project take?", a: "It depends on scope: a small MVP can launch in under a month, a standard build typically runs two to three months, and larger engagements are scoped as ongoing, phased work." },
+  { q: "How is pricing structured?", a: "There's no fixed price list. After an initial conversation about scope, timeline and constraints, we follow up with a clear, tailored estimate rather than a generic quote." },
+  { q: "Can Aravosh help with AI automation or RAG projects?", a: "Yes. We build AI-assisted workflows, internal copilots and retrieval-augmented (RAG) tools that connect models to your documents, CRMs and internal processes." },
+  { q: "What technologies do you build with?", a: "Our core stack includes Next.js/React and TypeScript on the frontend, Node.js and Python/FastAPI on the backend, PostgreSQL, vector search and LLM integrations for AI work, and AWS with Docker, Kubernetes and Terraform for cloud and DevOps." },
 ];
 /* Paste your Search Console token to verify the domain (Settings → Ownership). */
 const GSC_VERIFY = "GOOGLE_SITE_VERIFICATION_TOKEN";
@@ -88,7 +101,7 @@ const footer = () => `
         </nav>
       </footer>`;
 
-const jsonLd = (slug, fullTitle, desc, url) => {
+const jsonLd = (slug, fullTitle, desc, url, faqs) => {
   const org = {
     "@type": ["Organization", "ProfessionalService"],
     "@id": SITE + "/#org",
@@ -107,7 +120,16 @@ const jsonLd = (slug, fullTitle, desc, url) => {
     hasOfferCatalog: {
       "@type": "OfferCatalog",
       name: "Technology services",
-      itemListElement: SERVICE_NAMES.map((n) => ({ "@type": "Offer", itemOffered: { "@type": "Service", name: n } })),
+      itemListElement: SERVICES.map((s) => ({
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          "@id": SITE + "/services#" + s.key,
+          name: s.name,
+          description: s.desc,
+          provider: { "@id": SITE + "/#org" },
+        },
+      })),
     },
   };
   const website = {
@@ -130,6 +152,17 @@ const jsonLd = (slug, fullTitle, desc, url) => {
     inLanguage: "en",
   };
   const graph = [org, website, webpage];
+  if (faqs && faqs.length) {
+    graph.push({
+      "@type": "FAQPage",
+      "@id": url + "#faq",
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    });
+  }
   if (slug !== "index" && slug !== "404") {
     graph.push({
       "@type": "BreadcrumbList",
@@ -142,7 +175,7 @@ const jsonLd = (slug, fullTitle, desc, url) => {
   return JSON.stringify({ "@context": "https://schema.org", "@graph": graph });
 };
 
-const page = ({ slug, active, title, desc, main, robots }) => {
+const page = ({ slug, active, title, desc, main, robots, faqs }) => {
   const url = SITE + (slug === "index" ? "/" : "/" + slug);
   const fullTitle = slug === "index" ? "Aravosh — Software, AI Automation & Digital Solutions" : title + " — Aravosh";
   return `<!DOCTYPE html>
@@ -184,7 +217,7 @@ const page = ({ slug, active, title, desc, main, robots }) => {
   <link rel="stylesheet" href="/styles.css?v=${ASSET_VERSION}" />
 
   <script type="application/ld+json">
-  ${jsonLd(slug, fullTitle, desc, url)}
+  ${jsonLd(slug, fullTitle, desc, url, faqs)}
   </script>
 </head>
 <body>
@@ -227,13 +260,27 @@ const SERVICE_ICONS = {
   rag: '<path d="M4 5.5C4 4.7 4.7 4 5.5 4h13c.8 0 1.5.7 1.5 1.5v13c0 .8-.7 1.5-1.5 1.5h-13C4.7 20 4 19.3 4 18.5z"/><path d="M8 8h8M8 12h5M8 16h7"/>',
 };
 
+const escAmp = (s) => s.replace(/&/g, "&amp;");
+const serviceCard = (s) => card(SERVICE_ICONS[s.key], escAmp(s.name), s.desc);
+
+const faqSection = () => `<section class="section faq-section">
+          <div class="container">
+            <header class="section-head" data-reveal>
+              <span class="eyebrow"><span class="eyebrow-dot"></span> FAQ</span>
+              <h2>Questions, answered</h2>
+              <p>Everything you need to know before starting a project with Aravosh.</p>
+            </header>
+            <div class="faq-list" data-reveal>
+              ${FAQS.map((f) => `<details class="faq-item">
+                <summary>${f.q}</summary>
+                <p>${f.a}</p>
+              </details>`).join("\n              ")}
+            </div>
+          </div>
+        </section>`;
+
 const servicesGrid = () => `<div class="grid grid-3">
-          ${card(SERVICE_ICONS.dev, "Software Development", "Focused web apps, dashboards and internal tools built around the workflows your team actually uses.")}
-          ${card(SERVICE_ICONS.design, "Product Design &amp; UX", "Clear interfaces, prototypes and user flows before the build gets expensive.")}
-          ${card(SERVICE_ICONS.ai, "AI Automation &amp; Integration", "AI-assisted workflows, internal copilots and practical integrations that reduce repetitive work without forcing a rebuild.")}
-          ${card(SERVICE_ICONS.rag, "RAG &amp; Knowledge Systems", "Retrieval-augmented tools that let teams search, summarize and use their own documents more effectively.")}
-          ${card(SERVICE_ICONS.cloud, "Cloud &amp; DevOps", "Deployment, monitoring and automation for projects that need to be easier to run after launch.")}
-          ${card(SERVICE_ICONS.strategy, "Consulting &amp; Strategy", "Technical scoping, architecture reviews and practical roadmaps before you commit to a direction.")}
+          ${SERVICES.map(serviceCard).join("\n          ")}
         </div>`;
 
 const ctaBand = (heading, text) => `<section class="section">
@@ -295,15 +342,14 @@ const home = `        <section class="hero">
               <p>Sharper scope, cleaner interfaces, dependable builds, practical AI automation and enough cloud support to keep things running.</p>
             </header>
             <div class="grid grid-3">
-              ${card(SERVICE_ICONS.dev, "Software Development", "Web apps, dashboards and workflow tools with maintainable frontends and APIs.")}
-              ${card(SERVICE_ICONS.ai, "AI Automation &amp; Integration", "Internal copilots, AI-assisted processes and integrations that connect models to real business workflows.")}
-              ${card(SERVICE_ICONS.cloud, "Cloud &amp; DevOps", "Deployment setup, basic observability and release workflows for small teams.")}
+              ${SERVICES.filter((s) => ["dev", "ai", "cloud"].includes(s.key)).map(serviceCard).join("\n              ")}
             </div>
             <div class="center-row" data-reveal>
               <a href="/services" class="btn btn-ghost">See all services <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${I.arrow}</svg></a>
             </div>
           </div>
         </section>
+        ${faqSection()}
         <div class="container">
           ${ctaBand("Ready to talk through a project?", `Send the rough context and the next decision you need to make.`)}
         </div>`;
@@ -776,7 +822,7 @@ const notfound = `        <section class="error-page">
 
 /* ===================== write files ===================== */
 const PAGES = [
-  { file: "index.html", slug: "index", active: "home", title: "Software, AI Automation, UX & Cloud Delivery", desc: "Aravosh helps teams scope, design, build and launch practical web products, AI automations, dashboards and cloud-backed tools.", main: home },
+  { file: "index.html", slug: "index", active: "home", title: "Software, AI Automation, UX & Cloud Delivery", desc: "Aravosh helps teams scope, design, build and launch practical web products, AI automations, dashboards and cloud-backed tools.", main: home, faqs: FAQS },
   { file: "services.html", slug: "services", active: "services", title: "Services", desc: "Software development, AI automation and integration, product design, cloud delivery and technical strategy from Aravosh.", main: services },
   { file: "about.html", slug: "about", active: "about", title: "About", desc: "Aravosh is an early-stage technology studio building practical software, AI workflows and digital systems.", main: about },
   { file: "why.html", slug: "why", active: "why", title: "Why Us", desc: "How Aravosh approaches early digital projects with honest scope, clear communication and careful execution.", main: why },

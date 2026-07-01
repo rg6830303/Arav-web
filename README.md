@@ -64,6 +64,25 @@ are all included.
 > changes, update the `SITE` constant in `build.mjs`, run `node build.mjs`,
 > and update `robots.txt` / `sitemap.xml`.
 
+## SEO / GEO / AEO
+
+Implemented so far:
+
+- Unique title, description, canonical URL, Open Graph and Twitter tags per page (`build.mjs`).
+- `Organization` / `ProfessionalService`, `WebSite`, `WebPage` and `BreadcrumbList` JSON-LD on every page, each `Service` in the offer catalog carrying its own `@id` and description (`jsonLd()` in `build.mjs`).
+- A homepage FAQ section (`FAQS` in `build.mjs`) backed by matching `FAQPage` JSON-LD — the same copy answers both users and AI answer engines (ChatGPT, Perplexity, Google AI Overviews).
+- `llms.txt` at the site root — a short, factual summary of the business and key pages for AI crawlers/agents (the emerging llms.txt convention).
+- `sitemap.xml` with `lastmod` dates.
+
+Still open (manual, outside this repo's build):
+
+- Add a real Google Search Console verification token: replace `GOOGLE_SITE_VERIFICATION_TOKEN` in `build.mjs`, run `node build.mjs`, commit.
+- The social links in the `SOCIAL` array in `build.mjs` (used for the `sameAs` field) are placeholders — update them once the LinkedIn/X/Instagram pages exist.
+
+Keeping it current: when services, FAQs or pages change, edit the `SERVICES`/`FAQS`
+arrays (or add new `PAGES` entries) in `build.mjs`, re-run `node build.mjs`, and update
+`llms.txt` and `sitemap.xml` to match.
+
 ## Local preview
 
 ```bash
