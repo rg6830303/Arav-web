@@ -17,7 +17,7 @@ const SOCIAL = [
 const SERVICES = [
   { key: "dev", name: "Software Development", desc: "Focused web apps, dashboards and internal tools built around the workflows your team actually uses." },
   { key: "design", name: "Product Design & UX", desc: "Clear interfaces, prototypes and user flows before the build gets expensive." },
-  { key: "ai", name: "AI Automation & Integration", desc: "AI-assisted workflows, internal copilots and practical integrations that reduce repetitive work without forcing a rebuild." },
+  { key: "ai", name: "AI Automation & Integration", desc: "AI-assisted workflows, internal copilots, multi-agent systems and practical integrations that reduce repetitive work without forcing a rebuild." },
   { key: "rag", name: "RAG & Knowledge Systems", desc: "Retrieval-augmented tools that let teams search, summarize and use their own documents more effectively." },
   { key: "cloud", name: "Cloud & DevOps", desc: "Deployment, monitoring and automation for projects that need to be easier to run after launch." },
   { key: "strategy", name: "Consulting & Strategy", desc: "Technical scoping, architecture reviews and practical roadmaps before you commit to a direction." },
@@ -32,6 +32,7 @@ const FAQS = [
   { q: "How long does a typical project take?", a: "It depends on scope: a small MVP can launch in under a month, a standard build typically runs two to three months, and larger engagements are scoped as ongoing, phased work." },
   { q: "How is pricing structured?", a: "There's no fixed price list. After an initial conversation about scope, timeline and constraints, we follow up with a clear, tailored estimate rather than a generic quote." },
   { q: "Can Aravosh help with AI automation or RAG projects?", a: "Yes. We build AI-assisted workflows, internal copilots and retrieval-augmented (RAG) tools that connect models to your documents, CRMs and internal processes." },
+  { q: "Does Aravosh build multi-agent AI systems?", a: "Yes. We design and build multi-agent systems — coordinated AI agents that plan, hand off tasks and use tools together — for workflows like research, support triage and multi-step operations automation." },
   { q: "What technologies do you build with?", a: "Our core stack includes Next.js/React and TypeScript on the frontend, Node.js and Python/FastAPI on the backend, PostgreSQL, vector search and LLM integrations for AI work, and AWS with Docker, Kubernetes and Terraform for cloud and DevOps." },
 ];
 /* Paste your Search Console token to verify the domain (Settings → Ownership). */
@@ -115,7 +116,7 @@ const jsonLd = (slug, fullTitle, desc, url, faqs) => {
     slogan: "Practical software, scoped honestly and built with care.",
     email: EMAIL,
     areaServed: "Remote",
-    knowsAbout: ["Software Development", "Web Development", "Product Design", "UX", "AI Automation", "AI Integration", "Retrieval-Augmented Generation", "RAG", "Cloud", "DevOps", "Technical Strategy"],
+    knowsAbout: ["Software Development", "Web Development", "Product Design", "UX", "AI Automation", "AI Integration", "Multi-Agent Systems", "AI Agents", "Agent Orchestration", "Retrieval-Augmented Generation", "RAG", "Cloud", "DevOps", "Technical Strategy"],
     sameAs: SOCIAL,
     contactPoint: { "@type": "ContactPoint", email: EMAIL, contactType: "customer service", availableLanguage: "English" },
     hasOfferCatalog: {
@@ -261,6 +262,7 @@ const SERVICE_ICONS = {
   strategy: '<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',
   ai: '<path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="4"/><path d="M10.5 11.5h3M10.5 13.5h3"/>',
   rag: '<path d="M4 5.5C4 4.7 4.7 4 5.5 4h13c.8 0 1.5.7 1.5 1.5v13c0 .8-.7 1.5-1.5 1.5h-13C4.7 20 4 19.3 4 18.5z"/><path d="M8 8h8M8 12h5M8 16h7"/>',
+  agents: '<circle cx="6" cy="6" r="2.6"/><circle cx="18" cy="6" r="2.6"/><circle cx="12" cy="18" r="2.6"/><path d="M8.3 7.4L10.4 15M15.7 7.4L13.6 15M8.6 6H15.4"/>',
 };
 
 const escAmp = (s) => s.replace(/&/g, "&amp;");
@@ -437,6 +439,13 @@ const services = `        <div class="page container">
                 <h4>RAG Pipelines</h4>
                 <div class="tech-tooltip">Retrieval workflows that connect AI responses to your documents, policies and knowledge base.</div>
               </div>
+              <div class="tech-card" data-category="ai">
+                <div class="tech-icon-wrap">
+                  <svg viewBox="0 0 24 24">${SERVICE_ICONS.agents}</svg>
+                </div>
+                <h4>Multi-Agent Systems</h4>
+                <div class="tech-tooltip">Coordinated AI agents that plan, hand off tasks and use tools together to complete multi-step work.</div>
+              </div>
               <div class="tech-card" data-category="ai backend">
                 <div class="tech-icon-wrap">
                   <svg viewBox="0 0 24 24"><path d="M4 6h16M7 10h10M9 14h6M12 18v3M8 21h8"/></svg>
@@ -590,7 +599,7 @@ const work = `        <div class="page container">
           <div class="case-grid">
             ${workItem("Internal dashboard or admin tool", "Turn scattered spreadsheet, CRM or operations work into a focused web interface with the right permissions, data views and handoff notes.", ["Web app", "Workflow", "Admin UI"])}
             ${workItem("Product MVP or feature build", "Scope the core flow, design the interface and build a launchable version that can be tested with real users before the roadmap grows.", ["MVP", "UX", "Frontend"])}
-            ${workItem("AI-assisted operations workflow", "Connect forms, documents, support notes or internal knowledge to an AI workflow that helps teams triage, summarize and act faster.", ["AI", "Automation", "RAG"])}
+            ${workItem("AI-assisted operations workflow", "Connect forms, documents, support notes or internal knowledge to an AI workflow — including coordinated multi-agent systems — that helps teams triage, summarize and act faster.", ["AI", "Multi-Agent", "Automation", "RAG"])}
             ${workItem("Cloud cleanup or deployment setup", "Move a fragile deploy process toward clearer environments, automated releases, basic monitoring and documentation your team can maintain.", ["DevOps", "Cloud", "Handoff"])}
           </div>
 
@@ -655,7 +664,7 @@ const contact = `        <div class="page container">
                         </button>
                         <button type="button" class="planner-option-btn" data-value="ai" aria-pressed="false">
                           <span>AI Automation &amp; Integration</span>
-                          <small>Copilots, RAG tools, workflow automation</small>
+                          <small>Copilots, RAG tools, multi-agent systems, workflow automation</small>
                         </button>
                         <button type="button" class="planner-option-btn" data-value="strategy" aria-pressed="false">
                           <span>Consulting &amp; Strategy</span>
@@ -825,8 +834,8 @@ const notfound = `        <section class="error-page">
 
 /* ===================== write files ===================== */
 const PAGES = [
-  { file: "index.html", slug: "index", active: "home", title: "Software, AI Automation, UX & Cloud Delivery", desc: "Aravosh helps teams scope, design, build and launch practical web products, AI automations, dashboards and cloud-backed tools.", main: home, faqs: FAQS },
-  { file: "services.html", slug: "services", active: "services", title: "Services", desc: "Software development, AI automation and integration, product design, cloud delivery and technical strategy from Aravosh.", main: services },
+  { file: "index.html", slug: "index", active: "home", title: "Software, AI Automation, UX & Cloud Delivery", desc: "Aravosh helps teams scope, design, build and launch practical web products, AI automations, multi-agent systems, dashboards and cloud-backed tools.", main: home, faqs: FAQS },
+  { file: "services.html", slug: "services", active: "services", title: "Services", desc: "Software development, AI automation, multi-agent systems, product design, cloud delivery and technical strategy from Aravosh.", main: services },
   { file: "about.html", slug: "about", active: "about", title: "About", desc: "Aravosh is an early-stage technology studio building practical software, AI workflows and digital systems.", main: about },
   { file: "why.html", slug: "why", active: "why", title: "Why Us", desc: "How Aravosh approaches early digital projects with honest scope, clear communication and careful execution.", main: why },
   { file: "work.html", slug: "work", active: "work", title: "Work", desc: "Project patterns Aravosh handles well, with a practical standard for future case studies.", main: work },

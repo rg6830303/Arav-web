@@ -12,7 +12,7 @@ Contact: team@aravosh.com.
 
 - Software Development — focused web apps, dashboards and internal tools.
 - Product Design & UX — interfaces, prototypes and user flows before the build gets expensive.
-- AI Automation & Integration — AI-assisted workflows, internal copilots and practical integrations.
+- AI Automation & Integration — AI-assisted workflows, internal copilots, multi-agent systems and practical integrations.
 - RAG & Knowledge Systems — retrieval-augmented tools for searching and using internal documents.
 - Cloud & DevOps — deployment, monitoring and automation.
 - Consulting & Strategy — technical scoping, architecture reviews and roadmaps.
