@@ -1,0 +1,26 @@
+# Aravosh
+
+> Aravosh is a technology and digital solutions company. We design, build and
+> scale modern software, brand and growth programs for ambitious businesses —
+> from web and mobile apps to cloud infrastructure and marketing.
+
+Founded 2017. Worldwide reach. Contact: team@aravosh.com. We reply to enquiries
+within one business day.
+
+## Services
+
+- Software Development — web and mobile applications on a modern, scalable stack.
+- Product Design & UX — interfaces and user journeys that convert visitors into customers.
+- Brand & Identity — visual identity and messaging across every channel.
+- Growth & Marketing — data-driven campaigns and SEO.
+- Cloud & DevOps — infrastructure, automated pipelines and monitoring.
+- Consulting & Strategy — roadmaps and technical guidance.
+
+## Pages
+
+- [Home](https://aravosh.com/): overview, highlights and FAQ.
+- [Services](https://aravosh.com/services): full service list and tech stack.
+- [About](https://aravosh.com/about): company background.
+- [Why Us](https://aravosh.com/why): engagement process and principles.
+- [Work](https://aravosh.com/work): case studies and client feedback.
+- [Contact](https://aravosh.com/contact): project enquiry form and direct email.

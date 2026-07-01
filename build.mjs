@@ -13,13 +13,25 @@ const SOCIAL = [
   "https://x.com/aravosh",
   "https://www.instagram.com/aravosh",
 ];
-const SERVICE_NAMES = [
-  "Software Development",
-  "Product Design & UX",
-  "Brand & Identity",
-  "Growth & Marketing",
-  "Cloud & DevOps",
-  "Consulting & Strategy",
+const SERVICES = [
+  { key: "dev", name: "Software Development", desc: "Reliable web and mobile applications built on a modern, scalable stack designed to grow with you." },
+  { key: "design", name: "Product Design & UX", desc: "Intuitive interfaces and thoughtful user journeys that turn first-time visitors into loyal customers." },
+  { key: "brand", name: "Brand & Identity", desc: "Distinctive visual identities and messaging that make your business memorable across every channel." },
+  { key: "growth", name: "Growth & Marketing", desc: "Data-driven campaigns and SEO that put your product in front of the right audience at the right time." },
+  { key: "cloud", name: "Cloud & DevOps", desc: "Resilient infrastructure, automated pipelines and monitoring so your team can ship with confidence." },
+  { key: "strategy", name: "Consulting & Strategy", desc: "Clear roadmaps and technical guidance to help you make the right decisions at every stage." },
+];
+
+/* Answers are self-contained facts so they double as both on-page FAQ copy and
+   FAQPage structured data — used by AI answer engines (ChatGPT, Perplexity,
+   Google AI Overviews) as well as classic search. */
+const FAQS = [
+  { q: "What does Aravosh do?", a: "Aravosh is a technology and digital solutions company that designs, builds and scales software, brand and growth programs for ambitious businesses — from web and mobile apps to cloud infrastructure and marketing." },
+  { q: "What size of company or industry do you work with?", a: "We work with startups through to established enterprises across industries worldwide, typically partnering with teams that need a senior, end-to-end technology partner rather than a single specialist." },
+  { q: "How long does a typical project take?", a: "Timelines vary with scope: a fast-track MVP can launch in under a month, a standard engagement typically runs two to three months, and larger enterprise builds are scoped as ongoing, phased engagements." },
+  { q: "How is pricing structured?", a: "Every engagement is scoped individually based on the work involved. After a discovery conversation we send a tailored proposal, so there's no fixed price list or hidden fees." },
+  { q: "Do you provide support after launch?", a: "Yes. We offer ongoing support, monitoring and iteration after launch rather than a one-off hand-off, so your product keeps improving as your business grows." },
+  { q: "What technologies do you build with?", a: "Our core stack includes Next.js and React with TypeScript on the frontend, Node.js and Python/FastAPI on the backend, PostgreSQL, and AWS with Docker, Kubernetes and Terraform for cloud and DevOps." },
 ];
 /* Paste your Search Console token to verify the domain (Settings → Ownership). */
 const GSC_VERIFY = "GOOGLE_SITE_VERIFICATION_TOKEN";
@@ -88,7 +100,7 @@ const footer = () => `
         </nav>
       </footer>`;
 
-const jsonLd = (slug, fullTitle, desc, url) => {
+const jsonLd = (slug, fullTitle, desc, url, faqs) => {
   const org = {
     "@type": ["Organization", "ProfessionalService"],
     "@id": SITE + "/#org",
@@ -108,7 +120,16 @@ const jsonLd = (slug, fullTitle, desc, url) => {
     hasOfferCatalog: {
       "@type": "OfferCatalog",
       name: "Technology services",
-      itemListElement: SERVICE_NAMES.map((n) => ({ "@type": "Offer", itemOffered: { "@type": "Service", name: n } })),
+      itemListElement: SERVICES.map((s) => ({
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          "@id": SITE + "/services#" + s.key,
+          name: s.name,
+          description: s.desc,
+          provider: { "@id": SITE + "/#org" },
+        },
+      })),
     },
   };
   const website = {
@@ -131,6 +152,17 @@ const jsonLd = (slug, fullTitle, desc, url) => {
     inLanguage: "en",
   };
   const graph = [org, website, webpage];
+  if (faqs && faqs.length) {
+    graph.push({
+      "@type": "FAQPage",
+      "@id": url + "#faq",
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    });
+  }
   if (slug !== "index" && slug !== "404") {
     graph.push({
       "@type": "BreadcrumbList",
@@ -143,7 +175,7 @@ const jsonLd = (slug, fullTitle, desc, url) => {
   return JSON.stringify({ "@context": "https://schema.org", "@graph": graph });
 };
 
-const page = ({ slug, active, title, desc, main, robots }) => {
+const page = ({ slug, active, title, desc, main, robots, faqs }) => {
   const url = SITE + (slug === "index" ? "/" : "/" + slug);
   const fullTitle = slug === "index" ? "Aravosh — Technology & Digital Solutions Company" : title + " — Aravosh";
   return `<!DOCTYPE html>
@@ -185,7 +217,7 @@ const page = ({ slug, active, title, desc, main, robots }) => {
   <link rel="stylesheet" href="/styles.css" />
 
   <script type="application/ld+json">
-  ${jsonLd(slug, fullTitle, desc, url)}
+  ${jsonLd(slug, fullTitle, desc, url, faqs)}
   </script>
 </head>
 <body>
@@ -226,13 +258,27 @@ const SERVICE_ICONS = {
   strategy: '<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',
 };
 
+const escAmp = (s) => s.replace(/&/g, "&amp;");
+const serviceCard = (s) => card(SERVICE_ICONS[s.key], escAmp(s.name), s.desc);
+
+const faqSection = () => `<section class="section faq-section">
+          <div class="container">
+            <header class="section-head" data-reveal>
+              <span class="eyebrow"><span class="eyebrow-dot"></span> FAQ</span>
+              <h2>Questions, answered</h2>
+              <p>Everything you need to know before starting a project with Aravosh.</p>
+            </header>
+            <div class="faq-list" data-reveal>
+              ${FAQS.map((f) => `<details class="faq-item">
+                <summary>${f.q}</summary>
+                <p>${f.a}</p>
+              </details>`).join("\n              ")}
+            </div>
+          </div>
+        </section>`;
+
 const servicesGrid = () => `<div class="grid grid-3">
-          ${card(SERVICE_ICONS.dev, "Software Development", "Reliable web and mobile applications built on a modern, scalable stack designed to grow with you.")}
-          ${card(SERVICE_ICONS.design, "Product Design &amp; UX", "Intuitive interfaces and thoughtful user journeys that turn first-time visitors into loyal customers.")}
-          ${card(SERVICE_ICONS.brand, "Brand &amp; Identity", "Distinctive visual identities and messaging that make your business memorable across every channel.")}
-          ${card(SERVICE_ICONS.growth, "Growth &amp; Marketing", "Data-driven campaigns and SEO that put your product in front of the right audience at the right time.")}
-          ${card(SERVICE_ICONS.cloud, "Cloud &amp; DevOps", "Resilient infrastructure, automated pipelines and monitoring so your team can ship with confidence.")}
-          ${card(SERVICE_ICONS.strategy, "Consulting &amp; Strategy", "Clear roadmaps and technical guidance to help you make the right decisions at every stage.")}
+          ${SERVICES.map(serviceCard).join("\n          ")}
         </div>`;
 
 const LOGOS = ["Northwind", "Vertex", "Lumen", "Quanta", "Helios", "Aerolux", "Cobalt"];
@@ -313,15 +359,14 @@ const home = `        <section class="hero">
               <p>From first concept to launch and beyond — a single partner across the whole journey.</p>
             </header>
             <div class="grid grid-3">
-              ${card(SERVICE_ICONS.dev, "Software Development", "Reliable web and mobile applications built on a modern, scalable stack designed to grow with you.")}
-              ${card(SERVICE_ICONS.design, "Product Design &amp; UX", "Intuitive interfaces and thoughtful journeys that turn first-time visitors into loyal customers.")}
-              ${card(SERVICE_ICONS.cloud, "Cloud &amp; DevOps", "Resilient infrastructure and automated pipelines so your team can ship with confidence.")}
+              ${SERVICES.filter((s) => ["dev", "design", "cloud"].includes(s.key)).map(serviceCard).join("\n              ")}
             </div>
             <div class="center-row" data-reveal>
               <a href="/services" class="btn btn-ghost">See all services <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${I.arrow}</svg></a>
             </div>
           </div>
         </section>
+        ${faqSection()}
         <div class="container">
           ${ctaBand("Ready to start your next project?", `Tell us what you're building and we'll get back to you within one business day.`)}
         </div>`;
@@ -822,7 +867,7 @@ const notfound = `        <section class="error-page">
 
 /* ===================== write files ===================== */
 const PAGES = [
-  { file: "index.html", slug: "index", active: "home", title: "Software, Design & Digital Growth", desc: "Aravosh is a technology and digital solutions company. We design, build and scale modern software, brand and growth for ambitious businesses.", main: home },
+  { file: "index.html", slug: "index", active: "home", title: "Software, Design & Digital Growth", desc: "Aravosh is a technology and digital solutions company. We design, build and scale modern software, brand and growth for ambitious businesses.", main: home, faqs: FAQS },
   { file: "services.html", slug: "services", active: "services", title: "Services", desc: "Software development, product design, brand, growth, cloud and strategy — end-to-end digital services from Aravosh.", main: services },
   { file: "about.html", slug: "about", active: "about", title: "About", desc: "Aravosh is a multidisciplinary team of engineers, designers and strategists invested in your success.", main: about },
   { file: "why.html", slug: "why", active: "why", title: "Why Us", desc: "Quality, predictable delivery, dedicated support and future-ready solutions — why clients choose Aravosh.", main: why },
