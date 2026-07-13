@@ -14,11 +14,13 @@ const SOCIAL = [
   "https://x.com/aravosh",
   "https://www.instagram.com/aravosh",
 ];
+/* Ordered by actual business priority: AI agents/orchestration first, then
+   internal tooling & workflow integrations, then web/software development. */
 const SERVICES = [
-  { key: "dev", name: "Software Development", desc: "Focused web apps, dashboards and internal tools built around the workflows your team actually uses." },
-  { key: "design", name: "Product Design & UX", desc: "Clear interfaces, prototypes and user flows before the build gets expensive." },
   { key: "ai", name: "AI Automation & Integration", desc: "AI-assisted workflows, internal copilots, multi-agent systems and practical integrations that reduce repetitive work without forcing a rebuild." },
   { key: "rag", name: "RAG & Knowledge Systems", desc: "Retrieval-augmented tools that let teams search, summarize and use their own documents more effectively." },
+  { key: "dev", name: "Software Development", desc: "Focused web apps, dashboards and internal tools built around the workflows your team actually uses." },
+  { key: "design", name: "Product Design & UX", desc: "Clear interfaces, prototypes and user flows before the build gets expensive." },
   { key: "cloud", name: "Cloud & DevOps", desc: "Deployment, monitoring and automation for projects that need to be easier to run after launch." },
   { key: "strategy", name: "Consulting & Strategy", desc: "Technical scoping, architecture reviews and practical roadmaps before you commit to a direction." },
 ];
@@ -226,7 +228,6 @@ const page = ({ slug, active, title, desc, main, robots, faqs }) => {
 </head>
 <body>
   <div class="scroll-progress" id="progress" aria-hidden="true"></div>
-  <div class="grain" aria-hidden="true"></div>
   <a href="#main" class="skip-link">Skip to content</a>
   <div class="app">
 ${sidebar(active)}
@@ -247,12 +248,6 @@ ${footer()}
 
 /* ===================== page content ===================== */
 
-const card = (icon, title, body) => `<article class="card" data-reveal data-tilt data-spot>
-            <span class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true">${icon}</svg></span>
-            <h3>${title}</h3>
-            <p>${body}</p>
-          </article>`;
-
 const SERVICE_ICONS = {
   dev: '<path d="M8 9l-4 3 4 3M16 9l4 3-4 3M13.5 6l-3 12"/>',
   design: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>',
@@ -266,16 +261,29 @@ const SERVICE_ICONS = {
 };
 
 const escAmp = (s) => s.replace(/&/g, "&amp;");
-const serviceCard = (s) => card(SERVICE_ICONS[s.key], escAmp(s.name), s.desc);
+
+/* Ranked list row — replaces the old icon-circle card grid. Rank number makes
+   the real priority order (AI agents first) visible instead of implying every
+   service carries equal weight. */
+const serviceRow = (s, rank) => `<div class="service-row">
+            <span class="service-rank" aria-hidden="true">${String(rank).padStart(2, "0")}</span>
+            <div>
+              <h3><svg viewBox="0 0 24 24" aria-hidden="true">${SERVICE_ICONS[s.key]}</svg> ${escAmp(s.name)}</h3>
+              <p>${s.desc}</p>
+            </div>
+          </div>`;
+
+const serviceList = (items) => `<div class="service-list">
+          ${items.map((s, i) => serviceRow(s, i + 1)).join("\n          ")}
+        </div>`;
 
 const faqSection = () => `<section class="section faq-section">
           <div class="container">
-            <header class="section-head" data-reveal>
-              <span class="eyebrow"><span class="eyebrow-dot"></span> FAQ</span>
+            <header class="section-head">
               <h2>Questions, answered</h2>
               <p>Everything you need to know before starting a project with Aravosh.</p>
             </header>
-            <div class="faq-list" data-reveal>
+            <div class="faq-list">
               ${FAQS.map((f) => `<details class="faq-item">
                 <summary>${f.q}</summary>
                 <p>${f.a}</p>
@@ -284,14 +292,8 @@ const faqSection = () => `<section class="section faq-section">
           </div>
         </section>`;
 
-const servicesGrid = () => `<div class="grid grid-3">
-          ${SERVICES.map(serviceCard).join("\n          ")}
-        </div>`;
-
 const ctaBand = (heading, text) => `<section class="section">
-          <div class="cta" data-reveal>
-            <div class="cta-glow" aria-hidden="true"></div>
-            <span class="eyebrow"><span class="eyebrow-dot"></span> Let's talk</span>
+          <div class="cta">
             <h2>${heading}</h2>
             <p>${text}</p>
             <a href="/contact" class="btn btn-primary btn-cta">Start a project
@@ -299,7 +301,7 @@ const ctaBand = (heading, text) => `<section class="section">
           </div>
         </section>`;
 
-const pageHead = (eyebrow, h1, sub) => `<header class="page-head" data-reveal>
+const pageHead = (eyebrow, h1, sub) => `<header class="page-head">
           <span class="eyebrow"><span class="eyebrow-dot"></span> ${eyebrow}</span>
           <h1>${h1}</h1>
           ${sub ? `<p>${sub}</p>` : ""}
@@ -307,49 +309,35 @@ const pageHead = (eyebrow, h1, sub) => `<header class="page-head" data-reveal>
 
 /* ---- Home ---- */
 const home = `        <section class="hero">
-          <div class="hero-bg" aria-hidden="true">
-            <div class="aurora"></div>
-            <div class="hero-grid" data-parallax="0.02"></div>
-            <div class="hero-glow" data-parallax="0.05"></div>
-            <div class="hero-spotlight" id="heroSpot"></div>
-          </div>
           <div class="container hero-inner hero-split">
             <div class="hero-copy">
-              <span class="eyebrow" data-reveal><span class="eyebrow-dot"></span> <span id="greeting">Digital solutions, engineered with care</span></span>
-              <h1 data-reveal>We build technology that <span class="text-grad">moves your business forward.</span></h1>
-              <p class="hero-sub" data-reveal>Aravosh partners with ambitious teams to design, build and scale modern digital products, AI-enabled workflows and software that performs.</p>
-              <div class="hero-actions" data-reveal>
-                <a href="/contact" class="btn btn-primary btn-cta" data-magnetic>Start a project <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${I.arrow}</svg></a>
-                <a href="/services" class="btn btn-ghost" data-magnetic>Explore services</a>
+              <h1>AI agents and internal tools that actually ship.</h1>
+              <p class="hero-sub">Aravosh is a small, founder-led studio. We build multi-agent AI systems first, internal tooling and workflow integrations second, and the web software around them third — scoped clearly before any estimate.</p>
+              <div class="hero-actions">
+                <a href="/contact" class="btn btn-primary btn-cta">Start a project <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${I.arrow}</svg></a>
+                <a href="/services" class="btn btn-ghost">Explore services</a>
               </div>
             </div>
-            <div class="hero-visual" data-reveal aria-hidden="true">
-              <div class="scene" id="scene">
-                <canvas class="orb-canvas" id="orbCanvas"></canvas>
-                <div class="orb-glow"></div>
-                <div class="scene-3d">
-                  <div class="glass-card glass-main">
-                    <span class="glass-logo">A</span>
-                    <span class="glass-bars"><i></i><i></i><i></i></span>
-                  </div>
-                  <div class="glass-card glass-chip chip-a"><svg viewBox="0 0 24 24">${SERVICE_ICONS.dev}</svg></div>
-                  <div class="glass-card glass-chip chip-c"><svg viewBox="0 0 24 24">${SERVICE_ICONS.cloud}</svg></div>
+            <div class="priority-panel" aria-label="What Aravosh works on, in priority order">
+              <div class="priority-panel-head">What we lead with</div>
+              ${SERVICES.slice(0, 3).map((s, i) => `<div class="priority-row">
+                <span class="priority-rank">0${i + 1}</span>
+                <div>
+                  <h3>${escAmp(s.name)}</h3>
+                  <p>${s.desc}</p>
                 </div>
-              </div>
+              </div>`).join("\n              ")}
             </div>
           </div>
         </section>
         <section class="section">
           <div class="container">
-            <header class="section-head" data-reveal>
-              <span class="eyebrow"><span class="eyebrow-dot"></span> What we do</span>
+            <header class="section-head">
               <h2>Focused help where digital projects usually get stuck</h2>
-              <p>Sharper scope, cleaner interfaces, dependable builds, practical AI automation and enough cloud support to keep things running.</p>
+              <p>Sharper scope, dependable AI systems, and enough cloud support to keep things running.</p>
             </header>
-            <div class="grid grid-3">
-              ${SERVICES.filter((s) => ["dev", "ai", "cloud"].includes(s.key)).map(serviceCard).join("\n              ")}
-            </div>
-            <div class="center-row" data-reveal>
+            ${serviceList(SERVICES.slice(0, 3))}
+            <div class="center-row">
               <a href="/services" class="btn btn-ghost">See all services <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${I.arrow}</svg></a>
             </div>
           </div>
@@ -362,9 +350,9 @@ const home = `        <section class="hero">
 /* ---- Services ---- */
 const services = `        <div class="page container">
           ${pageHead("What we do", "Focused services for practical digital and AI projects", "A narrower set of capabilities for teams that need clear scope, usable interfaces, sensible AI integration and dependable delivery.")}
-          ${servicesGrid()}
-          
-          <div class="tech-matrix" data-reveal>
+          ${serviceList(SERVICES)}
+
+          <div class="tech-matrix">
             <header class="section-head">
               <span class="eyebrow"><span class="eyebrow-dot"></span> Technologies</span>
               <h2>Tools we commonly work with</h2>
@@ -500,7 +488,7 @@ const services = `        <div class="page container">
 const about = `        <div class="page container">
           ${pageHead("About Aravosh", "An early-stage studio building useful digital systems")}
           <div class="about-inner">
-            <div class="about-media" data-reveal>
+            <div class="about-media">
               <div class="about-card">
                 <span class="about-chip">Early-stage studio</span>
                 <h3>Small team, practical builds</h3>
@@ -511,7 +499,7 @@ const about = `        <div class="page container">
                 </div>
               </div>
             </div>
-            <div class="about-text" data-reveal>
+            <div class="about-text">
               <p>Aravosh is a young technology studio, so we do not pretend to have a long agency track record. We keep the promise simpler: understand the problem, scope the work clearly and build something useful with careful communication.</p>
               <ul class="check-list">
                 <li>Scope and constraints clarified before the build starts</li>
@@ -528,7 +516,7 @@ const about = `        <div class="page container">
 const why = `        <div class="page container">
           ${pageHead("Why Aravosh", "Built around honest scope and careful execution", "A small set of working principles for early projects that need clarity more than theatre.")}
           
-          <div class="timeline-container" data-reveal>
+          <div class="timeline-container">
             <div class="timeline-line">
               <div class="timeline-line-filled"></div>
             </div>
@@ -583,7 +571,7 @@ const why = `        <div class="page container">
         </div>`;
 
 /* ---- Work ---- */
-const workItem = (title, body, tags) => `<article class="case-card work-pattern" data-reveal>
+const workItem = (title, body, tags) => `<article class="case-card work-pattern">
               <div class="case-info">
                 <div class="case-meta">
                   ${tags.map((tag) => `<span class="case-tag">${tag}</span>`).join("")}
@@ -603,7 +591,7 @@ const work = `        <div class="page container">
             ${workItem("Cloud cleanup or deployment setup", "Move a fragile deploy process toward clearer environments, automated releases, basic monitoring and documentation your team can maintain.", ["DevOps", "Cloud", "Handoff"])}
           </div>
 
-          <section class="section work-note" data-reveal>
+          <section class="section work-note">
             <div class="section-head">
               <span class="eyebrow"><span class="eyebrow-dot"></span> Evidence over polish</span>
               <h2>Real case studies should be specific</h2>
@@ -618,7 +606,7 @@ const work = `        <div class="page container">
 const contact = `        <div class="page container">
           ${pageHead("Let's talk", "Tell us what you need built", "Share the rough scope, timeline and constraints. A short note is enough to start.")}
           <div class="contact-grid">
-            <aside class="contact-info" data-reveal>
+            <aside class="contact-info">
               <div class="info-card">
                 <h3>Get in touch</h3>
                 <p>Prefer direct email? Send the project context and the next decision you need help with.</p>
@@ -631,7 +619,7 @@ const contact = `        <div class="page container">
               </ul>
             </aside>
             
-            <div class="contact-form-wrap" data-reveal>
+            <div class="contact-form-wrap">
               <!-- Interactive Planner Stepper -->
               <div class="planner-card" id="projectPlanner">
                 <div class="planner-header">
@@ -763,7 +751,8 @@ const contact = `        <div class="page container">
                     <p class="summary-note">Use this as a starting point. The first reply can clarify scope before any estimate is made.</p>
                   </div>
                 </div>
-                
+                <p class="planner-step-error" id="plannerStepError" role="alert"></p>
+
                 <div class="planner-footer">
                   <button type="button" class="btn btn-ghost" id="plannerBack">Back</button>
                   <div class="planner-nav">
@@ -820,9 +809,8 @@ const terms = legal("Terms of Service", "15 June 2026", `            <p>These Te
 
 /* ---- 404 ---- */
 const notfound = `        <section class="error-page">
-          <div class="hero-bg" aria-hidden="true"><div class="hero-grid"></div><div class="hero-glow"></div></div>
           <div class="error-inner">
-            <div class="error-code text-grad">404</div>
+            <div class="error-code">404</div>
             <h1>This page wandered off.</h1>
             <p>The page you're looking for doesn't exist or has moved. Let's get you back on track.</p>
             <div class="hero-actions" style="justify-content:center">

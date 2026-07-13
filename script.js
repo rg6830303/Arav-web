@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  /* ---- Sidebar drawer (mobile) ---- */
+  /* ---- Sidebar drawer (mobile), with focus management ---- */
   var toggle = document.getElementById("navToggle");
   var sidebar = document.getElementById("sidebar");
   var backdrop = document.getElementById("backdrop");
@@ -16,13 +16,33 @@
       toggle.setAttribute("aria-expanded", String(open));
       toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
       document.body.style.overflow = open ? "hidden" : "";
+      if (open) {
+        var firstLink = sidebar.querySelector("a, button");
+        if (firstLink) firstLink.focus();
+      } else {
+        toggle.focus();
+      }
     };
     toggle.addEventListener("click", function () {
       setOpen(!sidebar.classList.contains("open"));
     });
     if (backdrop) backdrop.addEventListener("click", function () { setOpen(false); });
     document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape" && sidebar.classList.contains("open")) setOpen(false);
+    });
+    // Keep focus inside the drawer while it's open on mobile
+    sidebar.addEventListener("keydown", function (e) {
+      if (e.key !== "Tab" || !sidebar.classList.contains("open")) return;
+      var focusable = Array.prototype.slice.call(
+        sidebar.querySelectorAll("a[href], button:not([disabled])")
+      );
+      if (!focusable.length) return;
+      var first = focusable[0], last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault(); last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault(); first.focus();
+      }
     });
     // Reset when resizing up to desktop
     window.addEventListener("resize", function () {
@@ -36,30 +56,6 @@
     var onScroll = function () { header.classList.toggle("scrolled", window.scrollY > 8); };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-  }
-
-  /* ---- Scroll reveal (position based, never strands content) ---- */
-  var reveals = Array.prototype.slice.call(document.querySelectorAll("[data-reveal]"));
-  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (!reveals.length || reduceMotion) {
-    reveals.forEach(function (el) { el.classList.add("is-visible"); });
-  } else {
-    var ticking = false;
-    var reveal = function () {
-      ticking = false;
-      var trigger = window.innerHeight * 0.9;
-      for (var i = reveals.length - 1; i >= 0; i--) {
-        if (reveals[i].getBoundingClientRect().top < trigger) {
-          reveals[i].classList.add("is-visible");
-          reveals.splice(i, 1);
-        }
-      }
-    };
-    var schedule = function () { if (!ticking) { ticking = true; window.requestAnimationFrame(reveal); } };
-    reveal();
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule, { passive: true });
-    window.addEventListener("load", schedule);
   }
 
   /* ---- Contact form (Web3Forms) ---- */
@@ -158,42 +154,6 @@
     });
   }
 
-  /* ---- Personalized greeting ---- */
-  var greet = document.getElementById("greeting");
-  if (greet) {
-    var h = new Date().getHours();
-    var part = h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening";
-    greet.textContent = part + " — let's build something great";
-  }
-
-  /* ---- Count-up stats ---- */
-  var counters = document.querySelectorAll("[data-count]");
-  if (counters.length) {
-    var runCount = function (el) {
-      var target = parseFloat(el.getAttribute("data-count")) || 0;
-      var suffix = el.getAttribute("data-suffix") || "";
-      if (reduceMotion) { el.textContent = target + suffix; return; }
-      var start = performance.now(), dur = 1400;
-      var tick = function (now) {
-        var t = Math.min((now - start) / dur, 1);
-        var eased = 1 - Math.pow(1 - t, 3);
-        el.textContent = Math.round(target * eased) + suffix;
-        if (t < 1) requestAnimationFrame(tick);
-      };
-      requestAnimationFrame(tick);
-    };
-    if ("IntersectionObserver" in window) {
-      var cio = new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) {
-          if (e.isIntersecting) { runCount(e.target); cio.unobserve(e.target); }
-        });
-      }, { threshold: 0.4 });
-      counters.forEach(function (el) { cio.observe(el); });
-    } else {
-      counters.forEach(runCount);
-    }
-  }
-
   /* ---- Scroll progress bar ---- */
   var progress = document.getElementById("progress");
   if (progress) {
@@ -204,143 +164,6 @@
     updateProgress();
     window.addEventListener("scroll", updateProgress, { passive: true });
     window.addEventListener("resize", updateProgress, { passive: true });
-  }
-
-  if (!reduceMotion) {
-    /* ---- 3D pointer tilt ---- */
-    document.querySelectorAll("[data-tilt]").forEach(function (el) {
-      var max = 9;
-      el.addEventListener("pointermove", function (e) {
-        var r = el.getBoundingClientRect();
-        var px = (e.clientX - r.left) / r.width;
-        var py = (e.clientY - r.top) / r.height;
-        el.style.transform =
-          "perspective(900px) rotateY(" + (px - 0.5) * 2 * max + "deg) rotateX(" +
-          (0.5 - py) * 2 * max + "deg) translateZ(6px)";
-        if (el.hasAttribute("data-spot")) {
-          el.style.setProperty("--mx", px * 100 + "%");
-          el.style.setProperty("--my", py * 100 + "%");
-        }
-      });
-      el.addEventListener("pointerleave", function () { el.style.transform = ""; });
-    });
-
-    /* ---- 3D scene + glow parallax + hero spotlight ---- */
-    var scene = document.getElementById("scene");
-    var parallax = document.querySelectorAll("[data-parallax]");
-    var heroEl = document.querySelector(".hero");
-    var heroSpot = document.getElementById("heroSpot");
-    var s3d = scene ? scene.querySelector(".scene-3d") : null;
-    window.addEventListener("pointermove", function (e) {
-      var nx = e.clientX / window.innerWidth - 0.5;
-      var ny = e.clientY / window.innerHeight - 0.5;
-      if (s3d) {
-        s3d.style.setProperty("--rx", nx * 16 + "deg");
-        s3d.style.setProperty("--ry", -ny * 16 + "deg");
-      }
-      parallax.forEach(function (p) {
-        var d = parseFloat(p.getAttribute("data-parallax")) || 0.03;
-        p.style.transform = "translate(" + nx * d * 100 + "px," + ny * d * 100 + "px)";
-      });
-      if (heroEl && heroSpot) {
-        var r = heroEl.getBoundingClientRect();
-        heroSpot.style.setProperty("--cx", e.clientX - r.left + "px");
-        heroSpot.style.setProperty("--cy", e.clientY - r.top + "px");
-      }
-    }, { passive: true });
-
-    /* ---- Magnetic buttons ---- */
-    document.querySelectorAll("[data-magnetic]").forEach(function (el) {
-      el.addEventListener("pointermove", function (e) {
-        var r = el.getBoundingClientRect();
-        el.style.transform = "translate(" + (e.clientX - r.left - r.width / 2) * 0.18 +
-          "px," + (e.clientY - r.top - r.height / 2) * 0.28 + "px)";
-      });
-      el.addEventListener("pointerleave", function () { el.style.transform = ""; });
-    });
-
-    /* ---- 3D particle sphere ---- */
-    var orb = document.getElementById("orbCanvas");
-    if (orb && orb.getContext) {
-      var octx = orb.getContext("2d");
-      var DPR = Math.min(window.devicePixelRatio || 1, 2);
-      var ow, oh, R, N = 320, sph = [], raf = null, t = 0, tgX = 0, tgY = 0, rotX = -0.35, rotY = 0;
-
-      var build = function () {
-        var host = orb.parentElement;
-        ow = host.offsetWidth; oh = host.offsetHeight;
-        orb.width = ow * DPR; orb.height = oh * DPR;
-        orb.style.width = ow + "px"; orb.style.height = oh + "px";
-        octx.setTransform(DPR, 0, 0, DPR, 0, 0);
-        R = Math.min(ow, oh) * 0.40;
-        sph = [];
-        var golden = Math.PI * (3 - Math.sqrt(5));
-        for (var i = 0; i < N; i++) {
-          var y = 1 - (i / (N - 1)) * 2;
-          var rad = Math.sqrt(1 - y * y);
-          var th = golden * i;
-          sph.push({ x: Math.cos(th) * rad, y: y, z: Math.sin(th) * rad });
-        }
-      };
-
-      // mouse influence on rotation target
-      orb.parentElement.addEventListener("pointermove", function (e) {
-        var r = orb.getBoundingClientRect();
-        tgY = ((e.clientX - r.left) / r.width - 0.5) * 1.2;
-        tgX = ((e.clientY - r.top) / r.height - 0.5) * -1.0;
-      });
-
-      var draw = function () {
-        t += 0.0022;
-        rotY += (tgY - rotY) * 0.05 + 0.004;
-        rotX += (tgX - 0.35 - rotX) * 0.05;
-        octx.clearRect(0, 0, ow, oh);
-        var cx = ow / 2, cy = oh / 2;
-        var cosY = Math.cos(rotY), sinY = Math.sin(rotY), cosX = Math.cos(rotX), sinX = Math.sin(rotX);
-        var proj = [];
-        for (var i = 0; i < sph.length; i++) {
-          var p = sph[i];
-          var x1 = p.x * cosY - p.z * sinY;
-          var z1 = p.x * sinY + p.z * cosY;
-          var y1 = p.y * cosX - z1 * sinX;
-          var z2 = p.y * sinX + z1 * cosX;
-          var depth = (z2 + 1) / 2; // 0..1
-          proj.push({ sx: cx + x1 * R, sy: cy + y1 * R, d: depth });
-        }
-        // connections (subtle), only near + front
-        for (var a = 0; a < proj.length; a += 1) {
-          for (var bn = a + 1; bn < a + 5 && bn < proj.length; bn++) {
-            var pa = proj[a], pb = proj[bn];
-            var dx = pa.sx - pb.sx, dy = pa.sy - pb.sy;
-            if (dx * dx + dy * dy < 1600) {
-              octx.strokeStyle = "rgba(23,214,198," + 0.10 * ((pa.d + pb.d) / 2) + ")";
-              octx.lineWidth = 1;
-              octx.beginPath(); octx.moveTo(pa.sx, pa.sy); octx.lineTo(pb.sx, pb.sy); octx.stroke();
-            }
-          }
-        }
-        // points, painter's order
-        proj.sort(function (m, n) { return m.d - n.d; });
-        for (var k = 0; k < proj.length; k++) {
-          var q = proj[k];
-          var rr = 0.6 + q.d * 2.2;
-          var mix = q.d;
-          var col = "rgba(" + Math.round(23 + mix * 85) + "," + Math.round(214 - mix * 75) + "," + Math.round(198 + mix * 57) + "," + (0.25 + q.d * 0.75) + ")";
-          octx.fillStyle = col;
-          octx.beginPath(); octx.arc(q.sx, q.sy, rr, 0, Math.PI * 2); octx.fill();
-        }
-        raf = requestAnimationFrame(draw);
-      };
-
-      build(); draw();
-      window.addEventListener("resize", build);
-      if ("IntersectionObserver" in window) {
-        new IntersectionObserver(function (e) {
-          if (e[0].isIntersecting) { if (!raf) draw(); }
-          else if (raf) { cancelAnimationFrame(raf); raf = null; }
-        }).observe(orb);
-      }
-    }
   }
 
   /* ---- Footer year ---- */
@@ -373,7 +196,7 @@
     });
   }
 
-  /* ---- Process Scroll-Triggered Timeline ---- */
+  /* ---- Process scroll-triggered timeline (communicates progress through phases) ---- */
   var timelineContainer = document.querySelector(".timeline-container");
   var timelineItems = document.querySelectorAll(".timeline-item");
   var timelineLineFilled = document.querySelector(".timeline-line-filled");
@@ -381,15 +204,12 @@
     var updateTimeline = function () {
       var containerRect = timelineContainer.getBoundingClientRect();
       var viewportHeight = window.innerHeight;
-      
-      // Calculate how far down the timeline container we have scrolled (relative to center of screen)
       var triggerPoint = viewportHeight * 0.65;
       var relativeScroll = triggerPoint - containerRect.top;
       var progressPercent = (relativeScroll / containerRect.height) * 100;
       progressPercent = Math.max(0, Math.min(100, progressPercent));
       timelineLineFilled.style.height = progressPercent + "%";
 
-      // Activate nodes as they cross the trigger line
       timelineItems.forEach(function (item) {
         var itemRect = item.getBoundingClientRect();
         if (itemRect.top < triggerPoint) {
@@ -404,35 +224,42 @@
     window.addEventListener("resize", updateTimeline, { passive: true });
   }
 
-  /* ---- Interactive Project Planner & Cost Estimator ---- */
+  /* ---- Interactive Project Planner ---- */
   var planner = document.getElementById("projectPlanner");
   if (planner) {
     var currentStep = 1;
     var totalSteps = 4;
-    
-    // Selections
+
     var selectedService = "";
     var selectedScale = "";
     var selectedTimeline = "";
-    
-    // UI elements
+
     var panels = planner.querySelectorAll(".planner-panel");
     var dots = planner.querySelectorAll(".planner-step-dot");
-    
+
     var btnBack = document.getElementById("plannerBack");
     var btnNext = document.getElementById("plannerNext");
     var btnSubmit = document.getElementById("plannerSubmit");
-    
-    // Summary values
+    var stepError = document.getElementById("plannerStepError");
+
     var sumService = document.getElementById("sumService");
     var sumScale = document.getElementById("sumScale");
     var sumTimeline = document.getElementById("sumTimeline");
 
-    // Form pre-fill input
     var plannerDetailsInput = document.getElementById("plannerDetails");
     var contactMessageInput = document.getElementById("message");
 
-    // Option cards selection
+    var showStepError = function (message) {
+      if (!stepError) return;
+      stepError.textContent = message;
+      stepError.classList.add("show");
+    };
+    var clearStepError = function () {
+      if (!stepError) return;
+      stepError.textContent = "";
+      stepError.classList.remove("show");
+    };
+
     var optionButtons = planner.querySelectorAll(".planner-option-btn");
     optionButtons.forEach(function (btn) {
       btn.addEventListener("click", function () {
@@ -440,7 +267,6 @@
         var value = btn.getAttribute("data-value");
         var display = btn.querySelector("span").textContent;
 
-        // Deselect others in this step panel
         var siblingButtons = btn.parentElement.querySelectorAll(".planner-option-btn");
         siblingButtons.forEach(function (b) {
           b.classList.remove("selected");
@@ -459,13 +285,13 @@
           selectedTimeline = value;
           sumTimeline.textContent = display;
         }
-        
-        calculateBudget();
+
+        clearStepError();
+        syncPlannerDetails();
       });
     });
 
-    var calculateBudget = function () {
-      // Save planner choices into the hidden form input for the Web3Forms payload
+    var syncPlannerDetails = function () {
       if (plannerDetailsInput) {
         plannerDetailsInput.value =
           "Planner Summary:\n" +
@@ -476,33 +302,19 @@
     };
 
     var updateStepUI = function () {
-      // Toggle panels
       panels.forEach(function (panel) {
         var stepNum = parseInt(panel.getAttribute("data-step"));
-        if (stepNum === currentStep) {
-          panel.classList.add("active");
-        } else {
-          panel.classList.remove("active");
-        }
+        panel.classList.toggle("active", stepNum === currentStep);
       });
 
-      // Update dots
       dots.forEach(function (dot) {
         var dotNum = parseInt(dot.getAttribute("data-dot"));
         dot.className = "planner-step-dot";
-        if (dotNum === currentStep) {
-          dot.classList.add("active");
-        } else if (dotNum < currentStep) {
-          dot.classList.add("completed");
-        }
+        if (dotNum === currentStep) dot.classList.add("active");
+        else if (dotNum < currentStep) dot.classList.add("completed");
       });
 
-      // Show/hide navigation buttons
-      if (currentStep === 1) {
-        btnBack.style.visibility = "hidden";
-      } else {
-        btnBack.style.visibility = "visible";
-      }
+      btnBack.style.visibility = currentStep === 1 ? "hidden" : "visible";
 
       if (currentStep === totalSteps) {
         btnNext.style.display = "none";
@@ -515,15 +327,15 @@
 
     var validateStep = function () {
       if (currentStep === 1 && !selectedService) {
-        alert("Please select a project type to continue.");
+        showStepError("Please select a project type to continue.");
         return false;
       }
       if (currentStep === 2 && !selectedScale) {
-        alert("Please select the scale of your project.");
+        showStepError("Please select the scale of your project.");
         return false;
       }
       if (currentStep === 3 && !selectedTimeline) {
-        alert("Please select your project timeline.");
+        showStepError("Please select your project timeline.");
         return false;
       }
       return true;
@@ -531,6 +343,7 @@
 
     btnNext.addEventListener("click", function () {
       if (validateStep()) {
+        clearStepError();
         currentStep++;
         updateStepUI();
       }
@@ -538,16 +351,15 @@
 
     btnBack.addEventListener("click", function () {
       if (currentStep > 1) {
+        clearStepError();
         currentStep--;
         updateStepUI();
       }
     });
 
-    // Sync planner details into message box when contact page submit occurs
     var contactForm = document.getElementById("contactForm");
     if (contactForm && contactMessageInput && plannerDetailsInput) {
       contactForm.addEventListener("submit", function () {
-        // Append planner details to the user's message
         if (plannerDetailsInput.value) {
           var origMsg = contactMessageInput.value;
           var divider = "\n\n=================================\n";
