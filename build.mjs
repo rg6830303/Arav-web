@@ -591,14 +591,6 @@ const work = `        <div class="page container">
             ${workItem("Cloud cleanup or deployment setup", "Move a fragile deploy process toward clearer environments, automated releases, basic monitoring and documentation your team can maintain.", ["DevOps", "Cloud", "Handoff"])}
           </div>
 
-          <section class="section work-note">
-            <div class="section-head">
-              <span class="eyebrow"><span class="eyebrow-dot"></span> Evidence over polish</span>
-              <h2>Real case studies should be specific</h2>
-              <p>When public work is ready to share, this page should show the problem, constraints, screenshots, timeline, role and a clear explanation of what was actually delivered.</p>
-            </div>
-          </section>
-
           ${ctaBand("Have a project we can look at?", "Send the rough context first. We can help shape the scope before anything becomes a formal engagement.")}
         </div>`;
 
