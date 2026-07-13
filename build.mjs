@@ -34,7 +34,7 @@ const FAQS = [
   { q: "How long does a typical project take?", a: "It depends on scope: a small MVP can launch in under a month, a standard build typically runs two to three months, and larger engagements are scoped as ongoing, phased work." },
   { q: "How is pricing structured?", a: "There's no fixed price list. After an initial conversation about scope, timeline and constraints, we follow up with a clear, tailored estimate rather than a generic quote." },
   { q: "Can Aravosh help with AI automation or RAG projects?", a: "Yes. We build AI-assisted workflows, internal copilots and retrieval-augmented (RAG) tools that connect models to your documents, CRMs and internal processes." },
-  { q: "Does Aravosh build multi-agent AI systems?", a: "Yes. We design and build multi-agent systems — coordinated AI agents that plan, hand off tasks and use tools together — for workflows like research, support triage and multi-step operations automation." },
+  { q: "Does Aravosh build multi-agent AI systems?", a: "Yes. We design and build multi-agent systems (coordinated AI agents that plan, hand off tasks and use tools together) for workflows like research, support triage and multi-step operations automation." },
   { q: "What technologies do you build with?", a: "Our core stack includes Next.js/React and TypeScript on the frontend, Node.js and Python/FastAPI on the backend, PostgreSQL, vector search and LLM integrations for AI work, and AWS with Docker, Kubernetes and Terraform for cloud and DevOps." },
 ];
 /* Paste your Search Console token to verify the domain (Settings → Ownership). */
@@ -64,7 +64,7 @@ const NAV = [
 const sidebar = (active) => `
     <aside class="sidebar" id="sidebar" aria-label="Primary">
       <div class="sidebar-head">
-        <a href="/" class="brand" aria-label="Aravosh — home">
+        <a href="/" class="brand" aria-label="Aravosh, home">
           <img src="/assets/light-logo.jpeg" alt="Aravosh" class="brand-logo" width="1500" height="390" />
         </a>
       </div>
@@ -88,7 +88,7 @@ const topbar = () => `
         <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-controls="sidebar" aria-expanded="false">
           <span></span><span></span><span></span>
         </button>
-        <a href="/" class="brand brand-mobile" aria-label="Aravosh — home">
+        <a href="/" class="brand brand-mobile" aria-label="Aravosh, home">
           <img src="/assets/light-logo.jpeg" alt="Aravosh" class="brand-logo" width="1500" height="390" />
         </a>
         <a href="/contact" class="btn btn-primary topbar-cta">Get in touch</a>
@@ -172,7 +172,7 @@ const jsonLd = (slug, fullTitle, desc, url, faqs) => {
       "@type": "BreadcrumbList",
       itemListElement: [
         { "@type": "ListItem", position: 1, name: "Home", item: SITE + "/" },
-        { "@type": "ListItem", position: 2, name: fullTitle.replace(" — Aravosh", ""), item: url },
+        { "@type": "ListItem", position: 2, name: fullTitle.replace(" | Aravosh", ""), item: url },
       ],
     });
   }
@@ -181,7 +181,7 @@ const jsonLd = (slug, fullTitle, desc, url, faqs) => {
 
 const page = ({ slug, active, title, desc, main, robots, faqs }) => {
   const url = SITE + (slug === "index" ? "/" : "/" + slug);
-  const fullTitle = slug === "index" ? "Aravosh — Software, AI Automation & Digital Solutions" : title + " — Aravosh";
+  const fullTitle = slug === "index" ? "Aravosh | Software, AI Automation & Digital Solutions" : title + " | Aravosh";
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -209,7 +209,7 @@ const page = ({ slug, active, title, desc, main, robots, faqs }) => {
   <meta property="og:description" content="${desc}" />
   <meta property="og:url" content="${url}" />
   <meta property="og:image" content="${SITE}/assets/og-image.png" />
-  <meta property="og:image:alt" content="Aravosh — technology and digital solutions" />
+  <meta property="og:image:alt" content="Aravosh: technology and digital solutions" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -277,6 +277,59 @@ const serviceList = (items) => `<div class="service-list">
           ${items.map((s, i) => serviceRow(s, i + 1)).join("\n          ")}
         </div>`;
 
+/* Static, labeled flowchart of how a request moves through the system —
+   reuses the existing icon set rather than introducing new iconography, and
+   carries real information (an aria-hidden diagram + a real prose caption)
+   instead of decoration. No motion, one accent color, no gradients. */
+const agentDiagram = () => `<figure class="priority-panel agent-diagram">
+            <div class="priority-panel-head">How our agents coordinate</div>
+            <div class="agent-diagram-body">
+              <svg viewBox="0 0 400 320" aria-hidden="true">
+                <defs>
+                  <marker id="diagramArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M0,0 L10,5 L0,10 z" fill="var(--accent)" />
+                  </marker>
+                  <marker id="diagramArrowSoft" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M0,0 L10,5 L0,10 z" fill="var(--accent)" opacity="0.5" />
+                  </marker>
+                </defs>
+
+                <path d="M200,48 L200,68" class="diagram-edge" marker-end="url(#diagramArrow)" />
+                <path d="M172,118 L82,152" class="diagram-edge" marker-end="url(#diagramArrow)" />
+                <path d="M200,118 L200,152" class="diagram-edge" marker-end="url(#diagramArrow)" />
+                <path d="M228,118 L318,152" class="diagram-edge" marker-end="url(#diagramArrow)" />
+                <path d="M82,212 L178,248" class="diagram-edge" marker-end="url(#diagramArrow)" />
+                <path d="M200,212 L200,248" class="diagram-edge" marker-end="url(#diagramArrow)" />
+                <path d="M318,212 L222,248" class="diagram-edge" marker-end="url(#diagramArrow)" />
+                <polyline points="286,272 388,272 388,93 282,93" class="diagram-edge-feedback" marker-end="url(#diagramArrowSoft)" />
+                <text x="337" y="285" class="diagram-tag" text-anchor="middle">iterate if needed</text>
+
+                <rect x="155" y="16" width="90" height="32" rx="16" class="diagram-node diagram-node-request" />
+                <text x="200" y="36" class="diagram-label" text-anchor="middle">Request</text>
+
+                <rect x="115" y="68" width="170" height="50" rx="10" class="diagram-node diagram-node-primary" />
+                <svg x="130" y="82" width="22" height="22" viewBox="0 0 24 24" class="diagram-icon">${SERVICE_ICONS.agents}</svg>
+                <text x="210" y="98" class="diagram-label" text-anchor="middle">Coordinator</text>
+
+                <rect x="24" y="152" width="116" height="60" rx="10" class="diagram-node" />
+                <svg x="73" y="164" width="18" height="18" viewBox="0 0 24 24" class="diagram-icon">${SERVICE_ICONS.strategy}</svg>
+                <text x="82" y="200" class="diagram-label" text-anchor="middle">Plan</text>
+
+                <rect x="142" y="152" width="116" height="60" rx="10" class="diagram-node" />
+                <svg x="191" y="164" width="18" height="18" viewBox="0 0 24 24" class="diagram-icon">${SERVICE_ICONS.rag}</svg>
+                <text x="200" y="200" class="diagram-label" text-anchor="middle">Retrieve</text>
+
+                <rect x="260" y="152" width="116" height="60" rx="10" class="diagram-node" />
+                <svg x="309" y="164" width="18" height="18" viewBox="0 0 24 24" class="diagram-icon">${SERVICE_ICONS.ai}</svg>
+                <text x="318" y="200" class="diagram-label" text-anchor="middle">Act</text>
+
+                <rect x="110" y="248" width="180" height="50" rx="10" class="diagram-node diagram-node-verify" />
+                <text x="200" y="278" class="diagram-label" text-anchor="middle">Verify &amp; respond</text>
+              </svg>
+            </div>
+            <figcaption class="agent-diagram-caption">A coordinator agent breaks a task into steps, hands work to planning, retrieval and tool-using agents, and verifies the result before it ships.</figcaption>
+          </figure>`;
+
 const faqSection = () => `<section class="section faq-section">
           <div class="container">
             <header class="section-head">
@@ -312,7 +365,7 @@ const home = `        <section class="hero">
           <div class="container hero-inner hero-split">
             <div class="hero-copy">
               <h1>AI agents and internal tools that actually ship.</h1>
-              <p class="hero-sub">Aravosh is a small, founder-led studio. We build multi-agent AI systems first, internal tooling and workflow integrations second, and the web software around them third — scoped clearly before any estimate.</p>
+              <p class="hero-sub">Aravosh is a small, founder-led studio. We build multi-agent AI systems first, internal tooling and workflow integrations second, and the web software around them third. Every project is scoped clearly before any estimate.</p>
               <div class="hero-actions">
                 <a href="/contact" class="btn btn-primary btn-cta">Start a project <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${I.arrow}</svg></a>
                 <a href="/services" class="btn btn-ghost">Explore services</a>
@@ -336,7 +389,10 @@ const home = `        <section class="hero">
               <h2>Focused help where digital projects usually get stuck</h2>
               <p>Sharper scope, dependable AI systems, and enough cloud support to keep things running.</p>
             </header>
-            ${serviceList(SERVICES.slice(0, 3))}
+            <div class="service-split">
+              ${serviceList(SERVICES.slice(0, 3))}
+              ${agentDiagram()}
+            </div>
             <div class="center-row">
               <a href="/services" class="btn btn-ghost">See all services <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${I.arrow}</svg></a>
             </div>
@@ -350,7 +406,10 @@ const home = `        <section class="hero">
 /* ---- Services ---- */
 const services = `        <div class="page container">
           ${pageHead("What we do", "Focused services for practical digital and AI projects", "A narrower set of capabilities for teams that need clear scope, usable interfaces, sensible AI integration and dependable delivery.")}
-          ${serviceList(SERVICES)}
+          <div class="service-split">
+            ${serviceList(SERVICES)}
+            ${agentDiagram()}
+          </div>
 
           <div class="tech-matrix">
             <header class="section-head">
@@ -587,7 +646,7 @@ const work = `        <div class="page container">
           <div class="case-grid">
             ${workItem("Internal dashboard or admin tool", "Turn scattered spreadsheet, CRM or operations work into a focused web interface with the right permissions, data views and handoff notes.", ["Web app", "Workflow", "Admin UI"])}
             ${workItem("Product MVP or feature build", "Scope the core flow, design the interface and build a launchable version that can be tested with real users before the roadmap grows.", ["MVP", "UX", "Frontend"])}
-            ${workItem("AI-assisted operations workflow", "Connect forms, documents, support notes or internal knowledge to an AI workflow — including coordinated multi-agent systems — that helps teams triage, summarize and act faster.", ["AI", "Multi-Agent", "Automation", "RAG"])}
+            ${workItem("AI-assisted operations workflow", "Connect forms, documents, support notes or internal knowledge to an AI workflow (including coordinated multi-agent systems) that helps teams triage, summarize and act faster.", ["AI", "Multi-Agent", "Automation", "RAG"])}
             ${workItem("Cloud cleanup or deployment setup", "Move a fragile deploy process toward clearer environments, automated releases, basic monitoring and documentation your team can maintain.", ["DevOps", "Cloud", "Handoff"])}
           </div>
 
@@ -787,7 +846,7 @@ const terms = legal("Terms of Service", "15 June 2026", `            <p>These Te
             <h2>Use of the site</h2>
             <p>You agree to use the site only for lawful purposes and in a way that does not infringe the rights of, or restrict the use of, this site by any third party.</p>
             <h2>Intellectual property</h2>
-            <p>Unless stated otherwise, all content on this site — including text, graphics, logos and the Aravosh name and marks — is the property of Aravosh and is protected by applicable intellectual property laws. You may not reproduce it without our written permission.</p>
+            <p>Unless stated otherwise, all content on this site, including text, graphics, logos and the Aravosh name and marks, is the property of Aravosh and is protected by applicable intellectual property laws. You may not reproduce it without our written permission.</p>
             <h2>Services</h2>
             <p>Any engagement for professional services is subject to a separate written agreement. These Terms govern only your use of this website.</p>
             <h2>Disclaimer</h2>

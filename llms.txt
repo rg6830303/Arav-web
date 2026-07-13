@@ -3,19 +3,19 @@
 > Aravosh is an early-stage technology studio that builds practical software,
 > AI automation, product design, cloud delivery and technical strategy for
 > teams that need a clearly scoped project done well. It is a small studio,
-> not a large agency — projects get founder-led attention rather than being
+> not a large agency. Projects get founder-led attention rather than being
 > handed off to a big account team.
 
 Contact: team@aravosh.com.
 
 ## Services
 
-- Software Development — focused web apps, dashboards and internal tools.
-- Product Design & UX — interfaces, prototypes and user flows before the build gets expensive.
-- AI Automation & Integration — AI-assisted workflows, internal copilots, multi-agent systems and practical integrations.
-- RAG & Knowledge Systems — retrieval-augmented tools for searching and using internal documents.
-- Cloud & DevOps — deployment, monitoring and automation.
-- Consulting & Strategy — technical scoping, architecture reviews and roadmaps.
+- Software Development: focused web apps, dashboards and internal tools.
+- Product Design & UX: interfaces, prototypes and user flows before the build gets expensive.
+- AI Automation & Integration: AI-assisted workflows, internal copilots, multi-agent systems and practical integrations.
+- RAG & Knowledge Systems: retrieval-augmented tools for searching and using internal documents.
+- Cloud & DevOps: deployment, monitoring and automation.
+- Consulting & Strategy: technical scoping, architecture reviews and roadmaps.
 
 ## Pages
 

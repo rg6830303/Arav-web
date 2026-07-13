@@ -36,6 +36,7 @@
   --font-heading: "Plus Jakarta Sans", sans-serif;
   --font-body: "Inter", sans-serif;
   --font-label: "Public Sans", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
   /* Geometry */
   --r-sm: 8px;
@@ -162,7 +163,7 @@ ul { list-style: none; }
 }
 .priority-row:last-child { border-bottom: none; }
 .priority-rank {
-  font-family: var(--font-heading); font-weight: 700; font-size: 0.95rem;
+  font-family: var(--font-mono); font-weight: 600; font-size: 0.9rem;
   color: var(--accent); flex-shrink: 0; width: 1.6em;
 }
 .priority-row h3 { font-size: 1.02rem; margin-bottom: 4px; }
@@ -181,15 +182,48 @@ ul { list-style: none; }
    Service list (replaces icon-card grid — one ranked list,
    reused on home and services pages)
    ========================================================= */
-.service-list { display: flex; flex-direction: column; max-width: 820px; border-top: 1px solid var(--border-soft); }
+.service-list { display: flex; flex-direction: column; border-top: 1px solid var(--border-soft); }
 .service-row {
   display: grid; grid-template-columns: 2.4em minmax(0, 1fr); gap: 18px;
   padding: 22px 0; border-bottom: 1px solid var(--border-soft);
 }
-.service-rank { font-family: var(--font-heading); font-weight: 700; color: var(--accent); font-size: 0.95rem; padding-top: 2px; }
+.service-rank { font-family: var(--font-mono); font-weight: 600; color: var(--accent); font-size: 0.9rem; padding-top: 2px; }
 .service-row h3 { font-size: 1.14rem; margin-bottom: 6px; display: flex; align-items: center; gap: 9px; }
 .service-row h3 svg { width: 19px; height: 19px; fill: none; stroke: var(--accent); stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
 .service-row p { color: var(--muted); font-size: 0.98rem; max-width: 62ch; }
+
+/* Service list + reference diagram, side by side (mirrors .hero-split) */
+.service-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+  gap: 48px;
+  align-items: start;
+  margin-top: 8px;
+}
+
+/* =========================================================
+   Agent coordination diagram — static, labeled, one accent color
+   ========================================================= */
+.agent-diagram { padding: 0; }
+.agent-diagram-body { padding: 20px 22px; }
+.agent-diagram-body > svg { width: 100%; height: auto; display: block; }
+.agent-diagram-caption {
+  margin: 0; padding: 14px 22px 20px; border-top: 1px solid var(--border-soft);
+  font-size: 0.82rem; color: var(--muted); line-height: 1.55;
+}
+.diagram-node { fill: var(--surface); stroke: var(--border); stroke-width: 1; }
+.diagram-node-request { fill: rgba(var(--accent-rgb), 0.04); }
+.diagram-node-primary { fill: rgba(var(--accent-rgb), 0.12); stroke: var(--accent); stroke-width: 1.5; }
+.diagram-node-verify { fill: rgba(var(--accent-rgb), 0.08); stroke-width: 1.25; }
+.diagram-edge { fill: none; stroke: var(--accent); stroke-width: 1.5; opacity: 0.7; }
+.diagram-edge-feedback { fill: none; stroke: var(--accent); stroke-width: 1.25; opacity: 0.4; stroke-dasharray: 4 3; }
+.diagram-icon { fill: none; stroke: var(--accent); stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+.diagram-label { font-family: var(--font-body), sans-serif; font-size: 15px; font-weight: 600; fill: var(--text); }
+.diagram-tag { font-family: var(--font-mono); font-size: 9px; fill: var(--muted); }
+@media (min-width: 980px) { .agent-diagram { position: sticky; top: 32px; } }
+@media (min-width: 901px) and (max-width: 979px) { .agent-diagram { position: sticky; top: 90px; } }
+@media (max-width: 900px) { .service-split { grid-template-columns: 1fr; gap: 32px; } }
+@media (max-width: 640px) { .diagram-tag { display: none; } }
 
 /* =========================================================
    FAQ
@@ -519,7 +553,7 @@ ul { list-style: none; }
 .case-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
 .case-tag {
   background: var(--surface-2); color: var(--muted);
-  font-size: 0.72rem; font-weight: 600; padding: 4px 10px; border-radius: var(--r-pill);
+  font-family: var(--font-mono); font-size: 0.68rem; font-weight: 600; padding: 4px 10px; border-radius: var(--r-pill);
   border: 1px solid var(--border-soft);
 }
 .case-info h3 { font-size: 1.15rem; margin-bottom: 8px; }
@@ -531,7 +565,7 @@ ul { list-style: none; }
 .tech-tab {
   background: var(--surface); color: var(--muted);
   border: 1px solid var(--border); padding: 9px 18px; border-radius: var(--r-pill);
-  font-size: 0.88rem; font-weight: 600; cursor: pointer; min-height: 40px;
+  font-family: var(--font-mono); font-size: 0.83rem; font-weight: 600; cursor: pointer; min-height: 40px;
   transition: color 0.2s var(--ease), border-color 0.2s var(--ease), background 0.2s var(--ease);
 }
 .tech-tab:hover, .tech-tab.active { color: var(--accent); border-color: var(--accent); background: rgba(var(--accent-rgb), 0.05); }
@@ -583,8 +617,8 @@ ul { list-style: none; }
 }
 .timeline-item.active .timeline-content { border-color: var(--border); }
 .timeline-num {
-  font-family: var(--font-heading); font-size: 0.78rem; font-weight: 700;
-  color: var(--accent); letter-spacing: 0.05em; margin-bottom: 6px; display: block;
+  font-family: var(--font-mono); font-size: 0.74rem; font-weight: 600;
+  color: var(--accent); letter-spacing: 0.03em; margin-bottom: 6px; display: block;
 }
 .timeline-content h3 { font-size: 1.1rem; margin-bottom: 8px; }
 .timeline-content p { color: var(--muted); font-size: 0.92rem; line-height: 1.55; }
